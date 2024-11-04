@@ -1,4 +1,5 @@
 package use_case.add_input_file;
 
-public class AddInputFileInputBoundary {
+public interface AddInputFileInputBoundary {
+    void execute(AddInputFileData inputFileData);
 }
