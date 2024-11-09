@@ -17,7 +17,8 @@ public class FFmpegServiceTest {
         String ffmpegPath = "C:/PATH_programs/ffmpeg.exe";
         String ffprobePath = "C:/PATH_programs/ffprobe.exe";
         AbstractConfigLoader loader = new DirectConfigLoader(ffmpegPath, ffprobePath);
-        FFmpegService ffmpegService = new FFmpegService(loader.getFFmpegPath(), loader.getFFprobePath());
+        FFmpegService ffmpegService = new FFmpegService();
+        ffmpegService.initialize(loader.getFFmpegPath(), loader.getFFprobePath());
 
         Assert.assertNotNull(ffmpegService);
         Assert.assertNotNull(ffmpegService.getFfmpeg());

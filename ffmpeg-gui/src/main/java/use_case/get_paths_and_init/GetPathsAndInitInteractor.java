@@ -10,6 +10,7 @@ import java.io.IOException;
 public class GetPathsAndInitInteractor implements GetPathsAndInitInputBoundary{
 
     private final GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary;
+    private final FFmpegService ffmpegService;
 
     /**
      * Given an input object containing paths to ffmpeg and ffprobe executables,
@@ -23,8 +24,8 @@ public class GetPathsAndInitInteractor implements GetPathsAndInitInputBoundary{
         final String ffprobePath = input.getFfprobePath();
 
         try {
-            FFmpegService ffmpegService = new FFmpegService(ffmpegPath, ffprobePath);
-            final GetPathsAndInitOutputData outputData = new GetPathsAndInitOutputData(ffmpegService, false);
+            this.ffmpegService.initialize(ffmpegPath, ffprobePath);
+            final GetPathsAndInitOutputData outputData = new GetPathsAndInitOutputData(false);
             this.getPathsAndInitOutputBoundary.prepareSuccessView(outputData);
         } catch (IOException e) {
             this.getPathsAndInitOutputBoundary.prepareFailView("Invalid file type");

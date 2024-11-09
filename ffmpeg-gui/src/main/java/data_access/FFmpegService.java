@@ -2,17 +2,20 @@ package data_access;
 
 import exceptions.InvalidExecutableException;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFprobe;
 
 import java.io.IOException;
 
+@NoArgsConstructor
 @Getter
 public class FFmpegService {
-    private final FFmpeg ffmpeg;
-    private final FFprobe ffprobe;
+    private FFmpeg ffmpeg;
+    private FFprobe ffprobe;
 
-    public FFmpegService(String ffmpegPath, String ffprobePath) throws IOException, InvalidExecutableException {
+
+    public void initialize(String ffmpegPath, String ffprobePath) throws IOException, InvalidExecutableException {
         this.ffmpeg = new FFmpeg(ffmpegPath);
         this.ffprobe = new FFprobe(ffprobePath);
         if (!ffmpeg.isFFmpeg() || !ffprobe.isFFprobe()){

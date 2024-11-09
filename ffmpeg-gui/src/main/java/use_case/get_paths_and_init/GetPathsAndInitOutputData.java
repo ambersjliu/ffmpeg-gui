@@ -8,6 +8,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class GetPathsAndInitOutputData {
-    private FFmpegService ffmpegService;
     private final boolean useCaseFailed;
 }
