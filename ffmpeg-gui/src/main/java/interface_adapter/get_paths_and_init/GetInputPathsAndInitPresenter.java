@@ -31,7 +31,7 @@ public class GetInputPathsAndInitPresenter implements GetPathsAndInitOutputBound
 
     @Override
     public void prepareFailView(String errorMessage) {
-        final GetInputPathsAndInitState getInputPathsAndInitState = GetInputPahtsAndInitViewModel.getState();
+        final GetInputPathsAndInitState getInputPathsAndInitState = GetInputPathsAndInitViewModel.getState();
         getInputPathsAndInitState.setPathError(errorMessage);
         getInputPathsAndInitState.firePropertyChanged();
 
