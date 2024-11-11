@@ -1,6 +1,6 @@
 package interface_adapter.get_paths_and_init;
 
-public class GetInputPahtsAndInitState {
+public class GetInputPathsAndInitState {
     private String ffmpegPath;
     private String ffprobePath;
     private String pathError;
