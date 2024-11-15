@@ -6,5 +6,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class AddInputFileData {
     @Getter
-     private final String fileName;
+     private final String filePath;
 }
