@@ -8,6 +8,9 @@ public class GetInputPathsAndInitViewModel extends ViewModel<GetInputPathsAndIni
 
     public static final String FFMPEG_LABEL = "Find FFmpeg on your computer";
     public static final String FFPROBE_LABEL = "Find FFprobe on your computer";
+    public static final String BROWSE_TEXT = "Browse";
+
+    public static final String NEXT_TEXT = "Next";
 
     public GetInputPathsAndInitViewModel() {
         super("Getter view");
