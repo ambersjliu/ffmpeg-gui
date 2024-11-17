@@ -3,6 +3,7 @@ package app;
 import data_access.FFmpegService;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.add_input_file.AddInputFileViewModel;
+import interface_adapter.get_paths_and_init.GetInputPathsAndInitController;
 import interface_adapter.get_paths_and_init.GetInputPathsAndInitPresenter;
 import interface_adapter.get_paths_and_init.GetInputPathsAndInitViewModel;
 import use_case.get_paths_and_init.GetPathsAndInitInputBoundary;
@@ -45,7 +46,8 @@ public class AppBuilder {
         final GetPathsAndInitInputBoundary getPathsAndInitInputBoundary =
                 new GetPathsAndInitInteractor(getPathsAndInitOutputBoundary, ffmpegService);
 
-        cardPanel.add(getInputPathsAndInitView, getInputPathsAndInitView.getViewName());
+        final GetInputPathsAndInitController getInputPathsAndInitController = new GetInputPathsAndInitController(getPathsAndInitInputBoundary);
+        getInputPathsAndInitView.setGetInputPathsAndInitController(getInputPathsAndInitController);
         return this;
     }
 
