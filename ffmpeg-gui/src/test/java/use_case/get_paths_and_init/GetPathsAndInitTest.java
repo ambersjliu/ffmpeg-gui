@@ -70,8 +70,8 @@ public class GetPathsAndInitTest {
     @SneakyThrows
     public void failureInvalidExecutableTest(){
         // Put invalid paths to executables here
-        String path1 = "C:\\Logic 2010\\Logic 2010.exe";
-        String path2 = "C:\\Logic 2010\\Logic 2010.exe";
+        String path1 = "C:\\Users\\yinmi\\AppData\\Local\\Microsoft\\WindowsApps\\Spotify.exe";
+        String path2 = "C:\\Users\\yinmi\\AppData\\Local\\Discord\\app-1.0.9170\\Discord.exe";
         GetPathsAndInitData inputData = new GetPathsAndInitData(path1, path2);
         GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary = new GetPathsAndInitOutputBoundary(){
 

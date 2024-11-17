@@ -11,13 +11,14 @@ import java.io.IOException;
 
 public class App {
     public static void main(String[] args) throws IOException {
+        System.out.println(System.getenv("FFMPEG"));
         final AppBuilder appBuilder = new AppBuilder();
         final JFrame frame = appBuilder
                 .addGetPathsAndInitView()
                 .addGetPathsAndInitUseCase()
                 .build();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel panel = new JPanel(new BorderLayout());
+//        JPanel panel = new JPanel(new BorderLayout());
 //        GetInputPathsAndInitViewModel getInputPathsAndInitViewModel = new GetInputPathsAndInitViewModel();
 //        GetInputPathsAndInitView getInputPathsAndInitView = new GetInputPathsAndInitView(getInputPathsAndInitViewModel);
 //        AddInputFileViewModel addInputFileViewModel = new AddInputFileViewModel();

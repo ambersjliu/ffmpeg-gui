@@ -24,6 +24,9 @@ public class GetPathsAndInitInteractor implements GetPathsAndInitInputBoundary{
         final String ffprobePath = input.getFfprobePath();
 
         try {
+            if (!ffmpegPath.contains("ffmpeg.exe") || !ffprobePath.contains("ffprobe.exe")) {
+                throw new InvalidExecutableException();
+            }
             this.ffmpegService.initialize(ffmpegPath, ffprobePath);
             final GetPathsAndInitOutputData outputData = new GetPathsAndInitOutputData(false);
             this.getPathsAndInitOutputBoundary.prepareSuccessView(outputData);
