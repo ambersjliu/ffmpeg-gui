@@ -2,6 +2,7 @@ package view;
 
 import interface_adapter.get_paths_and_init.GetInputPathsAndInitState;
 import interface_adapter.get_paths_and_init.GetInputPathsAndInitViewModel;
+import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,8 @@ import java.beans.PropertyChangeListener;
 
 public class GetInputPathsAndInitView extends JPanel implements ActionListener, PropertyChangeListener {
 
+
+    @Getter
     private final String viewName = "GetInputPathsAndInitView";
 
     private final GetInputPathsAndInitViewModel getInputPathsAndInitViewModel;
