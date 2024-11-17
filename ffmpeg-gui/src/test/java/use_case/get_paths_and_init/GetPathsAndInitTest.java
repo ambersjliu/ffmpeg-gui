@@ -18,8 +18,8 @@ public class GetPathsAndInitTest {
     @SneakyThrows
     public void successTest(){
         // Put the correct paths to your ffmpeg and ffprobe here
-        String ffmpegPath = "C:/example/ffmpeg.exe";
-        String ffprobePath = "C:/example/ffprobe.exe";
+        String ffmpegPath = "C:/chocolatey/bin/ffmpeg.exe";
+        String ffprobePath = "C:/chocolatey/bin/ffprobe.exe";
         GetPathsAndInitData inputData = new GetPathsAndInitData(ffmpegPath, ffprobePath);
         GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary = new GetPathsAndInitOutputBoundary(){
             @Override
