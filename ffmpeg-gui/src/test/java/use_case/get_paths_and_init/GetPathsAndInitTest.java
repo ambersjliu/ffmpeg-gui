@@ -83,7 +83,7 @@ public class GetPathsAndInitTest {
             @Override
             public void prepareFailView(String errorMessage) {
                 // check that we got the correct reason for failing
-                Assert.assertEquals("Invalid executable", errorMessage);
+                Assert.assertEquals("Invalid file type", errorMessage);
             }
         };
 

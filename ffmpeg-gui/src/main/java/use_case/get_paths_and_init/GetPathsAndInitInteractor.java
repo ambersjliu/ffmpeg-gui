@@ -25,15 +25,13 @@ public class GetPathsAndInitInteractor implements GetPathsAndInitInputBoundary{
 
         try {
             if (ffmpegPath.lastIndexOf("ffmpeg") < ffmpegPath.length() - 15 || ffprobePath.lastIndexOf("ffprobe") < ffprobePath.length() - 15) {
-                throw new InvalidExecutableException();
+                throw new IOException();
             }
             this.ffmpegService.initialize(ffmpegPath, ffprobePath);
             final GetPathsAndInitOutputData outputData = new GetPathsAndInitOutputData(false);
             this.getPathsAndInitOutputBoundary.prepareSuccessView(outputData);
         } catch (IOException e) {
             this.getPathsAndInitOutputBoundary.prepareFailView("Invalid file type");
-        } catch (InvalidExecutableException e) {
-            this.getPathsAndInitOutputBoundary.prepareFailView("Invalid executable");
         }
     }
 }
