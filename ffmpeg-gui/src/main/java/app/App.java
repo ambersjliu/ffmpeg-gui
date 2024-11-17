@@ -11,18 +11,19 @@ import java.io.IOException;
 
 public class App {
     public static void main(String[] args) throws IOException {
-        final AppBuilder appBuilder = new AppBuilder()
+        final AppBuilder appBuilder = new AppBuilder();
+        final JFrame frame = appBuilder
                 .addGetPathsAndInitView()
-                .addGetPathsAndInitUseCase();
-        JFrame frame = new JFrame();
+                .addGetPathsAndInitUseCase()
+                .build();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel(new BorderLayout());
-        GetInputPathsAndInitViewModel getInputPathsAndInitViewModel = new GetInputPathsAndInitViewModel();
-        GetInputPathsAndInitView getInputPathsAndInitView = new GetInputPathsAndInitView(getInputPathsAndInitViewModel);
+//        GetInputPathsAndInitViewModel getInputPathsAndInitViewModel = new GetInputPathsAndInitViewModel();
+//        GetInputPathsAndInitView getInputPathsAndInitView = new GetInputPathsAndInitView(getInputPathsAndInitViewModel);
 //        AddInputFileViewModel addInputFileViewModel = new AddInputFileViewModel();
 //        AddInputFileView addInputFileView = new AddInputFileView(addInputFileViewModel);
-        panel.add(getInputPathsAndInitView, BorderLayout.CENTER);
-        frame.add(panel, BorderLayout.CENTER);
+//        panel.add(getInputPathsAndInitView, BorderLayout.CENTER);
+//        frame.add(panel, BorderLayout.CENTER);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

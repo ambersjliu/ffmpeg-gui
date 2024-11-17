@@ -18,8 +18,8 @@ public class GetPathsAndInitTest {
     @SneakyThrows
     public void successTest(){
         // Put the correct paths to your ffmpeg and ffprobe here
-        String ffmpegPath = "C:/chocolatey/bin/ffmpeg.exe";
-        String ffprobePath = "C:/chocolatey/bin/ffprobe.exe";
+        String ffmpegPath = "C:/ProgramData/chocolatey/bin/ffmpeg.exe";
+        String ffprobePath = "C:/ProgramData/chocolatey/bin/ffprobe.exe";
         GetPathsAndInitData inputData = new GetPathsAndInitData(ffmpegPath, ffprobePath);
         GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary = new GetPathsAndInitOutputBoundary(){
             @Override
@@ -45,8 +45,8 @@ public class GetPathsAndInitTest {
     @SneakyThrows
     public void failureInvalidFileTest(){
         // Put paths to an incorrect file and a correct file (or both incorrect lol)
-        String path1 = "C:/example/ffmpeg.exe";
-        String path2 = "C:/example/random.txt";
+        String path1 = "C:/ProgramData/chocolatey/bin/ffmpeg.exe";
+        String path2 = "C:/Users/yinmi/OneDrive/Desktop/test.txt";
         GetPathsAndInitData inputData = new GetPathsAndInitData(path1, path2);
         GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary = new GetPathsAndInitOutputBoundary(){
 
@@ -70,8 +70,8 @@ public class GetPathsAndInitTest {
     @SneakyThrows
     public void failureInvalidExecutableTest(){
         // Put invalid paths to executables here
-        String path1 = "C:/example";
-        String path2 = "C:/example";
+        String path1 = "C:\\Logic 2010\\Logic 2010.exe";
+        String path2 = "C:\\Logic 2010\\Logic 2010.exe";
         GetPathsAndInitData inputData = new GetPathsAndInitData(path1, path2);
         GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary = new GetPathsAndInitOutputBoundary(){
 
