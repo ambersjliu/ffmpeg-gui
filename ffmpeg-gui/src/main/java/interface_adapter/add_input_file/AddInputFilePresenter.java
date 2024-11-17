@@ -2,8 +2,9 @@ package interface_adapter.add_input_file;
 
 import interface_adapter.ViewManagerModel;
 import lombok.AllArgsConstructor;
+import use_case.add_input_file.AddInputFileOutputAudioData;
 import use_case.add_input_file.AddInputFileOutputBoundary;
-import use_case.add_input_file.AddInputFileOutputData;
+import use_case.add_input_file.AddInputFileOutputVideoData;
 
 @AllArgsConstructor
 public class AddInputFilePresenter implements AddInputFileOutputBoundary {
@@ -13,8 +14,13 @@ public class AddInputFilePresenter implements AddInputFileOutputBoundary {
     private final ViewManagerModel viewManagerModel;
 
     @Override
-    public void prepareSuccessView(AddInputFileOutputData outputData) {
-        // todo: set the state of the conversionview to take in the FFmpegFormat data
+    public void prepareAudioSuccessView(AddInputFileOutputAudioData outputData) {
+
+    }
+
+    @Override
+    public void prepareVideoSuccessView(AddInputFileOutputVideoData outputVideoData){
+
     }
 
     @Override

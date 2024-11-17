@@ -1,6 +1,8 @@
 package use_case.add_input_file;
 
 import data_access.FFmpegService;
+import entity.VideoAttributes;
+import entity.VideoJob;
 import interface_adapter.add_input_file.AddInputFilePresenter;
 import lombok.AllArgsConstructor;
 import net.bramp.ffmpeg.FFmpeg;
@@ -24,13 +26,23 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary{
             try{
                 FFmpegProbeResult result = this.ffmpegService.getFfprobe().probe(inputFileData.getFilePath());
                 FFmpegFormat format = result.getFormat();
-                FFmpegStream stream = result.getStreams().get(0);
-                //todo i actually have to make the entity object now
+
                 AddInputFileOutputData outputData = new AddInputFileOutputData(format, false);
                 this.addInputFileOutputBoundary.prepareSuccessView(outputData);
             }catch(IOException e){
                 this.addInputFileOutputBoundary.prepareFailView("Invalid file");
             }
         }
+    }
+
+    private boolean isVideoFile(FFmpegProbeResult probeResult){
+        boolean res = false;
+        for(FFmpegStream stream : probeResult.getStreams()){
+            if (stream.codec_type == FFmpegStream.CodecType.VIDEO) {
+                res = true;
+                break;
+            }
+        }
+        return res;
     }
 }
