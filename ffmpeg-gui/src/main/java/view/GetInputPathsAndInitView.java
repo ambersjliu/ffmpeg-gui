@@ -31,6 +31,7 @@ public class GetInputPathsAndInitView extends JPanel implements ActionListener, 
     private final JLabel hyperlinkLabel = new JLabel();
     private final JButton ffmpegButton;
     private final JButton ffprobeButton;
+    private final JLabel pathErrorfield = new JLabel();
 
     private final FileChooserDialog fileChooserDialog = new FileChooserDialog();
 
@@ -108,18 +109,23 @@ public class GetInputPathsAndInitView extends JPanel implements ActionListener, 
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+        pathErrorfield.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         this.add(title);
         this.add(intructionPanel);
         this.add(ffmpegBrowse);
         this.add(ffprobeBrowse);
+        this.add(pathErrorfield);
         this.add(nextButton);
     }
 
     public void actionPerformed(ActionEvent evt) {
-    }//TODO
+
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        final GetInputPathsAndInitState currentState = getInputPathsAndInitViewModel.getState();
+        pathErrorfield.setText(currentState.getPathError());
     }
 }

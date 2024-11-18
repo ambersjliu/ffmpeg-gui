@@ -31,7 +31,7 @@ public class GetPathsAndInitInteractor implements GetPathsAndInitInputBoundary{
             final GetPathsAndInitOutputData outputData = new GetPathsAndInitOutputData(false);
             this.getPathsAndInitOutputBoundary.prepareSuccessView(outputData);
         } catch (IOException e) {
-            this.getPathsAndInitOutputBoundary.prepareFailView("Invalid file type");
+            this.getPathsAndInitOutputBoundary.prepareFailView("Invalid Path to ffmpeg or ffprobe! Please enter the correct path.");
         }
     }
 }
