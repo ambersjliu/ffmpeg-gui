@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public class AddInputFileData {
+public class AddInputFileInputData {
     @Getter
      private final String filePath;
 }

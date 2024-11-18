@@ -3,27 +3,31 @@ package use_case.add_input_file;
 import data_access.FFmpegService;
 import exceptions.InvalidExecutableException;
 import lombok.SneakyThrows;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import utils.ResourcePathUtil;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class AddInputFileTest {
-    String validPath;
-    String invalidPath;
+    String validVideoPath;
+    String validAudioPath;
+    String invalidVideoPath;
+    String invalidAudioPath;
     FFmpegService ffmpegService;
 
-    @Before
+    @BeforeEach
     @SneakyThrows
     public void setup() throws URISyntaxException, IOException, InvalidExecutableException {
         final String ffmpegPath = "C:/PATH_programs/ffmpeg.exe";
         final String ffprobePath = "C:/PATH_programs/ffprobe.exe";
-        invalidPath = ResourcePathUtil.getResourceFilePath("test_invalid.py");
-        validPath = ResourcePathUtil.getResourceFilePath("test_video.webm");
+        invalidVideoPath = ResourcePathUtil.getResourceFilePath("test_invalid.py");
+        invalidAudioPath = invalidVideoPath;
+        validVideoPath = ResourcePathUtil.getResourceFilePath("test_video.webm");
+        validVideoPath = ResourcePathUtil.getResourceFilePath("test_video.mp4");
         ffmpegService = new FFmpegService();
         ffmpegService.initialize(ffmpegPath, ffprobePath);
     }
@@ -35,10 +39,14 @@ public class AddInputFileTest {
     @Test
     @SneakyThrows
     public void pathTest(){
-        Assert.assertNotNull(validPath);
-        Assert.assertNotNull(invalidPath);
-        System.out.println("Valid Path: " + validPath);
-        System.out.println("Invalid Path: " + invalidPath);
+        Assertions.assertNotNull(validAudioPath);
+        Assertions.assertNotNull(invalidAudioPath);
+        System.out.println("Valid Audio Path: " + validAudioPath);
+        System.out.println("Invalid Audio Path: " + invalidAudioPath);
+        Assertions.assertNotNull(invalidVideoPath);
+        Assertions.assertNotNull(validVideoPath);
+        System.out.println("Valid Video Path: " + validVideoPath);
+        System.out.println("Invalid Video Path: " + invalidVideoPath);
     }
 
     /**
@@ -46,10 +54,11 @@ public class AddInputFileTest {
      */
     @Test
     public void ffmpegServiceTest(){
-        Assert.assertNotNull(ffmpegService);
-        Assert.assertNotNull(ffmpegService.getFfmpeg());
-        Assert.assertNotNull(ffmpegService.getFfprobe());
+        Assertions.assertNotNull(ffmpegService);
+        Assertions.assertNotNull(ffmpegService.getFfmpeg());
+        Assertions.assertNotNull(ffmpegService.getFfprobe());
     }
+
 
 // TODO: ALL THE TESTS NEED TO BE REWRITTEN TO REFLECT THE TWO DIFFERENT VIEWS WE'RE SHOWING IN OUTPUTBOUNDARY
 
