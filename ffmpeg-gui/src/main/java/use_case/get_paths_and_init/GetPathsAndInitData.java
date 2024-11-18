@@ -8,5 +8,4 @@ import lombok.Getter;
 public class GetPathsAndInitData {
     private final String ffmpegPath;
     private final String ffprobePath;
-
 }

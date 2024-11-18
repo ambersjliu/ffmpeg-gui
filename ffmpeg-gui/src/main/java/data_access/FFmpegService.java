@@ -17,7 +17,7 @@ public class FFmpegService {
     private FFprobe ffprobe;
 
 
-    public void initialize(String ffmpegPath, String ffprobePath) throws IOException, InvalidExecutableException {
+    public void initialize(String ffmpegPath, String ffprobePath) throws IOException {
         this.ffmpeg = new FFmpeg(ffmpegPath);
         this.ffprobe = new FFprobe(ffprobePath);
     }
