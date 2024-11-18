@@ -25,12 +25,15 @@ public class GetPathsAndInitInteractor implements GetPathsAndInitInputBoundary{
 
         try {
             this.ffmpegService.initialize(ffmpegPath, ffprobePath);
+            this.ffmpegService.validateBinaries();
             final GetPathsAndInitOutputData outputData = new GetPathsAndInitOutputData(false);
             this.getPathsAndInitOutputBoundary.prepareSuccessView(outputData);
         } catch (IOException e) {
             this.getPathsAndInitOutputBoundary.prepareFailView("Invalid file type");
         } catch (InvalidExecutableException e) {
             this.getPathsAndInitOutputBoundary.prepareFailView("Invalid executable");
+        }catch (Exception e){
+            this.getPathsAndInitOutputBoundary.prepareFailView("Unexpected error happened");
         }
     }
 }

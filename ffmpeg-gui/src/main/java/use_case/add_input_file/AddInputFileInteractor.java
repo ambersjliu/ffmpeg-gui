@@ -27,8 +27,12 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary{
                 FFmpegProbeResult result = this.ffmpegService.getFfprobe().probe(inputFileData.getFilePath());
                 FFmpegFormat format = result.getFormat();
 
-                AddInputFileOutputData outputData = new AddInputFileOutputData(format, false);
-                this.addInputFileOutputBoundary.prepareSuccessView(outputData);
+                // Todo:
+                // If the file is a video file
+                // Put the video stream and the first audio stream + format and file name into a
+                // video output data
+                // Otherwise just put the audio stream
+
             }catch(IOException e){
                 this.addInputFileOutputBoundary.prepareFailView("Invalid file");
             }
