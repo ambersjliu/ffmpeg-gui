@@ -14,13 +14,15 @@ public class GetInputPathsAndInitPresenter implements GetPathsAndInitOutputBound
 
     public GetInputPathsAndInitPresenter(ViewManagerModel viewManagerModel,
                                          AddInputFileViewModel addInputFileViewModel,
-                                         GetInputPathsAndInitViewModel getInputPathsAndInitViewModel){
+                                         GetInputPathsAndInitViewModel getInputPathsAndInitViewModel) {
         this.addInputFileViewModel = addInputFileViewModel;
         this.getInputPathsAndInitViewModel = getInputPathsAndInitViewModel;
         this.viewManagerModel = viewManagerModel;
     }
+
     @Override
     public void prepareSuccessView(GetPathsAndInitOutputData outputData) {
+        System.out.printf("Success\n");
         final AddInputFileState addInputFileState = addInputFileViewModel.getState();
         this.addInputFileViewModel.setState(addInputFileState);
         this.addInputFileViewModel.firePropertyChanged();
@@ -31,9 +33,13 @@ public class GetInputPathsAndInitPresenter implements GetPathsAndInitOutputBound
 
     @Override
     public void prepareFailView(String errorMessage) {
-        final GetInputPathsAndInitState getInputPathsAndInitState = GetInputPathsAndInitViewModel.getState();
+        final GetInputPathsAndInitState getInputPathsAndInitState = getInputPathsAndInitViewModel.getState();
         getInputPathsAndInitState.setPathError(errorMessage);
-        getInputPathsAndInitState.firePropertyChanged();
+        System.out.printf("Failure\n" +
+                errorMessage +
+                "\nffmpeg: " + getInputPathsAndInitState.getFfmpegPath() +
+                "\nffprobe: " + getInputPathsAndInitState.getFfprobePath() + '\n');
+        getInputPathsAndInitViewModel.firePropertyChanged();
 
     }
 }
