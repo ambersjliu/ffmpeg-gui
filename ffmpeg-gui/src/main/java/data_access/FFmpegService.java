@@ -3,6 +3,7 @@ package data_access;
 import exceptions.InvalidExecutableException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFprobe;
 
@@ -10,6 +11,7 @@ import java.io.IOException;
 
 @NoArgsConstructor
 @Getter
+@Setter
 public class FFmpegService {
     private FFmpeg ffmpeg;
     private FFprobe ffprobe;
@@ -18,9 +20,11 @@ public class FFmpegService {
     public void initialize(String ffmpegPath, String ffprobePath) throws IOException {
         this.ffmpeg = new FFmpeg(ffmpegPath);
         this.ffprobe = new FFprobe(ffprobePath);
-        System.out.println(FFmpeg.DEFAULT_PATH);
-        if (!ffmpeg.isFFmpeg() || !ffprobe.isFFprobe()){
-            throw new IOException();
+    }
+
+    public void validateBinaries() throws IOException, InvalidExecutableException {
+        if (!ffmpeg.isFFmpeg() || !ffprobe.isFFprobe()) {
+            throw new InvalidExecutableException();
         }
     }
 
