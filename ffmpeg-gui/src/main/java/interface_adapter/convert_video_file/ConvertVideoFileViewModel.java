@@ -6,5 +6,6 @@ public class ConvertVideoFileViewModel extends ViewModel<ConvertVideoFileState> 
 
     public ConvertVideoFileViewModel() {
         super("convert video file");
+        setState(new ConvertVideoFileState());
     }
 }
