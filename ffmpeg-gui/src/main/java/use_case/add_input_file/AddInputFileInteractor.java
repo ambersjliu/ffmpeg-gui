@@ -11,41 +11,41 @@ import java.io.IOException;
 @AllArgsConstructor
 public class AddInputFileInteractor implements AddInputFileInputBoundary {
     private final FFmpegService ffmpegService;
-    private final AddInputFileDataAccessInterface addInputFileDataAccessInterface;
     private final AddInputFileOutputBoundary addInputFileOutputBoundary;
 
     @Override
     public void execute(AddInputFileInputData inputFileData) {
         if (inputFileData.getFilePath() == null || inputFileData.getFilePath().trim().isEmpty()) {
             this.addInputFileOutputBoundary.prepareFailView("Please add a file");
-        } else {
-            try {
-                FFmpegProbeResult result = this.ffmpegService.getFfprobe().probe(inputFileData.getFilePath());
-                FFmpegFormat format = result.getFormat();
-
-                if (isVideoFile(result)) {
-                    final AddInputFileOutputVideoData addInputFileOutputVideoData = new AddInputFileOutputVideoData(
-                            getVideoStream(result), getAudioStream(result), format, inputFileData.getFilePath()
-                    );
-
-                    this.addInputFileOutputBoundary.prepareVideoSuccessView(addInputFileOutputVideoData);
-                } else if (isAudioFile(result)) {
-                    final AddInputFileOutputAudioData addInputFileOutputAudioData = new AddInputFileOutputAudioData(
-                            getAudioStream(result), format, inputFileData.getFilePath()
-                    );
-
-                    this.addInputFileOutputBoundary.prepareAudioSuccessView(addInputFileOutputAudioData);
-                } else  {
-                    throw new IOException();
-                }
-
-            } catch (IOException e) {
-                this.addInputFileOutputBoundary.prepareFailView("Invalid file");
-            }
+            return;
         }
+        try {
+            FFmpegProbeResult result = this.ffmpegService.probe(inputFileData.getFilePath());
+            FFmpegFormat format = result.getFormat();
+
+            if (isVideoFile(result)) {
+                final AddInputFileOutputVideoData addInputFileOutputVideoData = new AddInputFileOutputVideoData(
+                        getVideoStream(result), getAudioStream(result), format, inputFileData.getFilePath()
+                );
+
+                this.addInputFileOutputBoundary.prepareVideoSuccessView(addInputFileOutputVideoData);
+            } else if (isAudioFile(result)) {
+                final AddInputFileOutputAudioData addInputFileOutputAudioData = new AddInputFileOutputAudioData(
+                        getAudioStream(result), format, inputFileData.getFilePath()
+                );
+
+                this.addInputFileOutputBoundary.prepareAudioSuccessView(addInputFileOutputAudioData);
+            } else {
+                throw new IOException();
+            }
+
+        } catch (IOException e) {
+            this.addInputFileOutputBoundary.prepareFailView("Invalid file");
+        }
+
     }
 
-    private FFmpegStream getAudioStream(FFmpegProbeResult probeResult) {
+    protected FFmpegStream getAudioStream(FFmpegProbeResult probeResult) {
         for (FFmpegStream stream : probeResult.getStreams()) {
             if (stream.codec_type == FFmpegStream.CodecType.AUDIO) {
                 return stream;
@@ -54,7 +54,7 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
         return null;
     }
 
-    private FFmpegStream getVideoStream(FFmpegProbeResult probeResult) {
+    protected FFmpegStream getVideoStream(FFmpegProbeResult probeResult) {
         for (FFmpegStream stream : probeResult.getStreams()) {
             if (stream.codec_type == FFmpegStream.CodecType.VIDEO) {
                 return stream;
@@ -63,7 +63,7 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
         return null;
     }
 
-    private boolean isVideoFile(FFmpegProbeResult probeResult) {
+    protected boolean isVideoFile(FFmpegProbeResult probeResult) {
         boolean res = false;
         for (FFmpegStream stream : probeResult.getStreams()) {
             if (stream.codec_type == FFmpegStream.CodecType.VIDEO) {
@@ -74,7 +74,7 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
         return res;
     }
 
-    private boolean isAudioFile(FFmpegProbeResult probeResult) {
+    protected boolean isAudioFile(FFmpegProbeResult probeResult) {
         boolean res = false;
         for (FFmpegStream stream : probeResult.getStreams()) {
             if (stream.codec_type == FFmpegStream.CodecType.AUDIO) {

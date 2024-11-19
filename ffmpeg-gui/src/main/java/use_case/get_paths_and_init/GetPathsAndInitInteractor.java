@@ -23,6 +23,11 @@ public class GetPathsAndInitInteractor implements GetPathsAndInitInputBoundary{
         final String ffmpegPath = input.getFfmpegPath();
         final String ffprobePath = input.getFfprobePath();
 
+        if(ffmpegPath == null || ffprobePath == null || ffmpegPath.trim().isEmpty() || ffprobePath.trim().isEmpty()) {
+            this.getPathsAndInitOutputBoundary.prepareFailView("Please add both paths!");
+            return;
+        }
+
         try {
             if (ffmpegPath.lastIndexOf("ffmpeg") < ffmpegPath.length() - 15 || ffprobePath.lastIndexOf("ffprobe") < ffprobePath.length() - 15) {
                 throw new IOException();
