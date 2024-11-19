@@ -31,6 +31,10 @@ public class GetInputPathsAndInitView extends JPanel implements ActionListener, 
     private final JLabel hyperlinkLabel = new JLabel();
     private final JButton ffmpegButton;
     private final JButton ffprobeButton;
+
+    private final JLabel ffprobePathField = new JLabel();
+    private final JLabel ffmpegPathField = new JLabel();
+
     private final JLabel pathErrorfield = new JLabel();
 
     private final FileChooserDialog fileChooserDialog = new FileChooserDialog();
@@ -62,23 +66,22 @@ public class GetInputPathsAndInitView extends JPanel implements ActionListener, 
         nextButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ffmpegButton.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (e.getSource() == ffmpegButton) {
-                            final GetInputPathsAndInitState currentState = getInputPathsAndInitViewModel.getState();
-                            currentState.setFfmpegPath(fileChooserDialog.takeFilePath());
-                        }
+                e -> {
+                    if (e.getSource() == ffmpegButton) {
+                        final GetInputPathsAndInitState currentState = getInputPathsAndInitViewModel.getState();
+                        currentState.setFfmpegPath(fileChooserDialog.takeFilePath());
+                        getInputPathsAndInitViewModel.firePropertyChanged();
                     }
                 }
-            );
+        );
 
         ffprobeButton.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (e.getSource() == ffprobeButton) {
-                            final GetInputPathsAndInitState currentState = getInputPathsAndInitViewModel.getState();
-                            currentState.setFfprobePath(fileChooserDialog.takeFilePath());
-                        }
+                e -> {
+                    if (e.getSource() == ffprobeButton) {
+                        final GetInputPathsAndInitState currentState = getInputPathsAndInitViewModel.getState();
+                        currentState.setFfprobePath(fileChooserDialog.takeFilePath());
+                        getInputPathsAndInitViewModel.firePropertyChanged();
+
                     }
                 });
 
@@ -94,12 +97,9 @@ public class GetInputPathsAndInitView extends JPanel implements ActionListener, 
                     }
                 });
         nextButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        final GetInputPathsAndInitState currentState = getInputPathsAndInitViewModel.getState();
-                        getInputPathsAndInitController.execute(currentState.getFfmpegPath(), currentState.getFfprobePath());
-                    }
+                e -> {
+                    final GetInputPathsAndInitState currentState = getInputPathsAndInitViewModel.getState();
+                    getInputPathsAndInitController.execute(currentState.getFfmpegPath(), currentState.getFfprobePath());
                 }
         );
 
@@ -114,7 +114,9 @@ public class GetInputPathsAndInitView extends JPanel implements ActionListener, 
         this.add(title);
         this.add(intructionPanel);
         this.add(ffmpegBrowse);
+        this.add(ffmpegPathField);
         this.add(ffprobeBrowse);
+        this.add(ffprobePathField);
         this.add(pathErrorfield);
         this.add(nextButton);
     }
@@ -127,5 +129,7 @@ public class GetInputPathsAndInitView extends JPanel implements ActionListener, 
     public void propertyChange(PropertyChangeEvent evt) {
         final GetInputPathsAndInitState currentState = getInputPathsAndInitViewModel.getState();
         pathErrorfield.setText(currentState.getPathError());
+        ffmpegPathField.setText(currentState.getFfmpegPath());
+        ffprobePathField.setText(currentState.getFfprobePath());
     }
 }

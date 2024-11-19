@@ -1,92 +1,123 @@
 package use_case.get_paths_and_init;
 
 import data_access.FFmpegService;
+import exceptions.InvalidExecutableException;
 import lombok.SneakyThrows;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
+
+@ExtendWith(MockitoExtension.class)
 public class GetPathsAndInitTest {
+    @Mock
     FFmpegService ffmpegService;
-
-    @Before
-    public void setup(){
-        ffmpegService = new FFmpegService();
-    }
 
     @Test
     @SneakyThrows
     public void successTest(){
-        // Put the correct paths to your ffmpeg and ffprobe here
-        String ffmpegPath = "C:/ProgramData/chocolatey/bin/ffmpeg.exe";
-        String ffprobePath = "C:/ProgramData/chocolatey/bin/ffprobe.exe";
-        GetPathsAndInitData inputData = new GetPathsAndInitData(ffmpegPath, ffprobePath);
+        GetPathsAndInitData inputData = new GetPathsAndInitData(".", ".");
         GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary = new GetPathsAndInitOutputBoundary(){
             @Override
             @SneakyThrows
             public void prepareSuccessView(GetPathsAndInitOutputData outputData) {
-                Assert.assertFalse(outputData.isUseCaseFailed());
+                Assertions.assertFalse(outputData.isUseCaseFailed());
             }
 
             @Override
             public void prepareFailView(String errorMessage) {
-                Assert.fail("Not supposed to fail");
+                Assertions.fail("Not supposed to fail");
             }
         };
-
-        GetPathsAndInitInputBoundary interactor = new GetPathsAndInitInteractor(getPathsAndInitOutputBoundary, ffmpegService);
-        interactor.execute(inputData);
-        Assert.assertNotNull(ffmpegService);
-        Assert.assertNotNull(ffmpegService.getFfmpeg());
-        Assert.assertNotNull(ffmpegService.getFfprobe());
-    }
-
-    @Test
-    @SneakyThrows
-    public void failureInvalidFileTest(){
-        // Put paths to an incorrect file and a correct file (or both incorrect lol)
-        String path1 = "C:/ProgramData/chocolatey/bin/ffmpeg.exe";
-        String path2 = "C:/Users/yinmi/OneDrive/Desktop/test.txt";
-        GetPathsAndInitData inputData = new GetPathsAndInitData(path1, path2);
-        GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary = new GetPathsAndInitOutputBoundary(){
-
-            @Override
-            public void prepareSuccessView(GetPathsAndInitOutputData outputData) {
-                Assert.fail("Should not succeed");
-            }
-
-            @Override
-            public void prepareFailView(String errorMessage) {
-                // check that we got the correct reason for failing
-                Assert.assertEquals("Invalid file type", errorMessage);
-            }
-        };
-
+        Mockito.doNothing().when(ffmpegService).validateBinaries();
         GetPathsAndInitInputBoundary interactor = new GetPathsAndInitInteractor(getPathsAndInitOutputBoundary, ffmpegService);
         interactor.execute(inputData);
     }
 
     @Test
     @SneakyThrows
-    public void failureInvalidExecutableTest(){
-        // Put invalid paths to executables here
-        String path1 = "C:\\Users\\yinmi\\AppData\\Local\\Microsoft\\WindowsApps\\Spotify.exe";
-        String path2 = "C:\\Users\\yinmi\\AppData\\Local\\Discord\\app-1.0.9170\\Discord.exe";
-        GetPathsAndInitData inputData = new GetPathsAndInitData(path1, path2);
+    public void failureIOExceptionShouldPrepareFailView(){
+        GetPathsAndInitData inputData = new GetPathsAndInitData(".", ".");
         GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary = new GetPathsAndInitOutputBoundary(){
 
             @Override
             public void prepareSuccessView(GetPathsAndInitOutputData outputData) {
-                Assert.fail("Should not succeed");
+                Assertions.fail("Should not succeed");
             }
 
             @Override
             public void prepareFailView(String errorMessage) {
                 // check that we got the correct reason for failing
-                Assert.assertEquals("Invalid file type", errorMessage);
+                Assertions.assertEquals("Invalid file type", errorMessage);
             }
         };
+        Mockito.doThrow(new IOException()).when(ffmpegService).validateBinaries();
+        GetPathsAndInitInputBoundary interactor = new GetPathsAndInitInteractor(getPathsAndInitOutputBoundary, ffmpegService);
+        interactor.execute(inputData);
+    }
 
+    @Test
+    @SneakyThrows
+    public void failureInvalidExecutableExceptionAtInitializationTest(){
+        GetPathsAndInitData inputData = new GetPathsAndInitData(".",".");
+        GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary = new GetPathsAndInitOutputBoundary(){
+
+            @Override
+            public void prepareSuccessView(GetPathsAndInitOutputData outputData) {
+                Assertions.fail("Should not succeed");
+            }
+
+            @Override
+            public void prepareFailView(String errorMessage) {
+                // check that we got the correct reason for failing
+                Assertions.assertEquals("Invalid executable", errorMessage);
+            }
+        };
+        Mockito.doThrow(new InvalidExecutableException()).when(ffmpegService).validateBinaries();
+        GetPathsAndInitInputBoundary interactor = new GetPathsAndInitInteractor(getPathsAndInitOutputBoundary, ffmpegService);
+        interactor.execute(inputData);
+    }
+
+    @Test
+    @SneakyThrows
+    public void failureEmptyPaths(){
+        GetPathsAndInitData inputData = new GetPathsAndInitData("","");
+        GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary = new GetPathsAndInitOutputBoundary(){
+
+            @Override
+            public void prepareSuccessView(GetPathsAndInitOutputData outputData) {
+
+            }
+
+            @Override
+            public void prepareFailView(String errorMessage) {
+                Assertions.assertEquals("Please add both paths!", errorMessage);
+            }
+        };
+        GetPathsAndInitInputBoundary interactor = new GetPathsAndInitInteractor(getPathsAndInitOutputBoundary, ffmpegService);
+        interactor.execute(inputData);
+    }
+
+    @Test
+    @SneakyThrows
+    public void failureNullPaths(){
+        GetPathsAndInitData inputData = new GetPathsAndInitData(null,null);
+        GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary = new GetPathsAndInitOutputBoundary(){
+
+            @Override
+            public void prepareSuccessView(GetPathsAndInitOutputData outputData) {
+
+            }
+
+            @Override
+            public void prepareFailView(String errorMessage) {
+                Assertions.assertEquals("Please add both paths!", errorMessage);
+            }
+        };
         GetPathsAndInitInputBoundary interactor = new GetPathsAndInitInteractor(getPathsAndInitOutputBoundary, ffmpegService);
         interactor.execute(inputData);
     }
