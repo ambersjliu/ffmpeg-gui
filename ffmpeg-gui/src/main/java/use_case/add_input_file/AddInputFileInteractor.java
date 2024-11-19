@@ -45,7 +45,7 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
 
     }
 
-    protected FFmpegStream getAudioStream(FFmpegProbeResult probeResult) {
+    private FFmpegStream getAudioStream(FFmpegProbeResult probeResult) {
         for (FFmpegStream stream : probeResult.getStreams()) {
             if (stream.codec_type == FFmpegStream.CodecType.AUDIO) {
                 return stream;
@@ -54,7 +54,7 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
         return null;
     }
 
-    protected FFmpegStream getVideoStream(FFmpegProbeResult probeResult) {
+    private FFmpegStream getVideoStream(FFmpegProbeResult probeResult) {
         for (FFmpegStream stream : probeResult.getStreams()) {
             if (stream.codec_type == FFmpegStream.CodecType.VIDEO) {
                 return stream;
@@ -63,7 +63,7 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
         return null;
     }
 
-    protected boolean isVideoFile(FFmpegProbeResult probeResult) {
+    private boolean isVideoFile(FFmpegProbeResult probeResult) {
         boolean res = false;
         for (FFmpegStream stream : probeResult.getStreams()) {
             if (stream.codec_type == FFmpegStream.CodecType.VIDEO) {
@@ -74,7 +74,7 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
         return res;
     }
 
-    protected boolean isAudioFile(FFmpegProbeResult probeResult) {
+    private boolean isAudioFile(FFmpegProbeResult probeResult) {
         boolean res = false;
         for (FFmpegStream stream : probeResult.getStreams()) {
             if (stream.codec_type == FFmpegStream.CodecType.AUDIO) {
