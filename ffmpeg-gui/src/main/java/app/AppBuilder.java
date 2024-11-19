@@ -2,10 +2,15 @@ package app;
 
 import data_access.FFmpegService;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.add_input_file.AddInputFileController;
+import interface_adapter.add_input_file.AddInputFilePresenter;
 import interface_adapter.add_input_file.AddInputFileViewModel;
 import interface_adapter.get_paths_and_init.GetInputPathsAndInitController;
 import interface_adapter.get_paths_and_init.GetInputPathsAndInitPresenter;
 import interface_adapter.get_paths_and_init.GetInputPathsAndInitViewModel;
+import use_case.add_input_file.AddInputFileInputBoundary;
+import use_case.add_input_file.AddInputFileInteractor;
+import use_case.add_input_file.AddInputFileOutputBoundary;
 import use_case.get_paths_and_init.GetPathsAndInitInputBoundary;
 import use_case.get_paths_and_init.GetPathsAndInitInteractor;
 import use_case.get_paths_and_init.GetPathsAndInitOutputBoundary;
@@ -39,6 +44,13 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addInputFileView(){
+        addInputFileViewModel = new AddInputFileViewModel();
+        addInputFileView = new AddInputFileView(addInputFileViewModel);
+        cardPanel.add(addInputFileView, addInputFileView.getViewName());
+        return this;
+    }
+
     public AppBuilder addGetPathsAndInitUseCase(){
         final GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary =
                 new GetInputPathsAndInitPresenter(viewManagerModel, addInputFileViewModel, getInputPathsAndInitViewModel); // should have viewmodel as param
@@ -48,6 +60,18 @@ public class AppBuilder {
 
         final GetInputPathsAndInitController getInputPathsAndInitController = new GetInputPathsAndInitController(getPathsAndInitInputBoundary);
         getInputPathsAndInitView.setGetInputPathsAndInitController(getInputPathsAndInitController);
+        return this;
+    }
+
+    public AppBuilder addInputFileUseCase(){
+        final AddInputFileOutputBoundary addInputFileOutputBoundary =
+                new AddInputFilePresenter(addInputFileViewModel, viewManagerModel);
+
+        final AddInputFileInputBoundary addInputFileInputBoundary =
+                new AddInputFileInteractor(ffmpegService, addInputFileOutputBoundary);
+
+        final AddInputFileController addInputFileController = new AddInputFileController(addInputFileInputBoundary);
+        addInputFileView.setController(addInputFileController);
         return this;
     }
 
