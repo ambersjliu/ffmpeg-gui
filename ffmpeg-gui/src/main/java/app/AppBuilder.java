@@ -16,6 +16,7 @@ import use_case.get_paths_and_init.GetPathsAndInitInteractor;
 import use_case.get_paths_and_init.GetPathsAndInitOutputBoundary;
 import view.AddInputFileView;
 import view.GetInputPathsAndInitView;
+import view.ViewManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +28,7 @@ public class AppBuilder {
     private final FFmpegService ffmpegService = new FFmpegService();
 
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
+    private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
     private AddInputFileViewModel addInputFileViewModel;
     private AddInputFileView addInputFileView;
@@ -77,6 +79,8 @@ public class AppBuilder {
 
     public JFrame build(){
         final JFrame application = new JFrame("Setting ffmpeg file path");
+        application.setSize(AppConstants.WIDTH, AppConstants.HEIGHT);
+        application.setResizable(AppConstants.RESIZABLE);
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         application.add(cardPanel);
