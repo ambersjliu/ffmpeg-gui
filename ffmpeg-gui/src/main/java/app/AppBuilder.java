@@ -5,6 +5,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.add_input_file.AddInputFileController;
 import interface_adapter.add_input_file.AddInputFilePresenter;
 import interface_adapter.add_input_file.AddInputFileViewModel;
+import interface_adapter.convert_video_file.ConvertVideoFileViewModel;
 import interface_adapter.get_paths_and_init.GetInputPathsAndInitController;
 import interface_adapter.get_paths_and_init.GetInputPathsAndInitPresenter;
 import interface_adapter.get_paths_and_init.GetInputPathsAndInitViewModel;
@@ -32,8 +33,11 @@ public class AppBuilder {
 
     private AddInputFileViewModel addInputFileViewModel;
     private AddInputFileView addInputFileView;
+
     private GetInputPathsAndInitView getInputPathsAndInitView;
     private GetInputPathsAndInitViewModel getInputPathsAndInitViewModel;
+
+    private ConvertVideoFileViewModel convertVideoFileViewModel;
 
     public AppBuilder(){
         cardPanel.setLayout(cardLayout);
@@ -55,7 +59,7 @@ public class AppBuilder {
 
     public AppBuilder addGetPathsAndInitUseCase(){
         final GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary =
-                new GetInputPathsAndInitPresenter(viewManagerModel, addInputFileViewModel, getInputPathsAndInitViewModel); // should have viewmodel as param
+                new GetInputPathsAndInitPresenter(viewManagerModel, addInputFileViewModel, getInputPathsAndInitViewModel);
 
         final GetPathsAndInitInputBoundary getPathsAndInitInputBoundary =
                 new GetPathsAndInitInteractor(getPathsAndInitOutputBoundary, ffmpegService);
@@ -67,7 +71,7 @@ public class AppBuilder {
 
     public AppBuilder addInputFileUseCase(){
         final AddInputFileOutputBoundary addInputFileOutputBoundary =
-                new AddInputFilePresenter(addInputFileViewModel, viewManagerModel);
+                new AddInputFilePresenter(addInputFileViewModel, convertVideoFileViewModel, viewManagerModel);
 
         final AddInputFileInputBoundary addInputFileInputBoundary =
                 new AddInputFileInteractor(ffmpegService, addInputFileOutputBoundary);
