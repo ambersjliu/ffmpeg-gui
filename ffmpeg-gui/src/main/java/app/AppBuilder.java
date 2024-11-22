@@ -5,6 +5,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.add_input_file.AddInputFileController;
 import interface_adapter.add_input_file.AddInputFilePresenter;
 import interface_adapter.add_input_file.AddInputFileViewModel;
+import interface_adapter.convert_video_file.ConvertVideoFilePresenter;
 import interface_adapter.convert_video_file.ConvertVideoFileViewModel;
 import interface_adapter.get_paths_and_init.GetInputPathsAndInitController;
 import interface_adapter.get_paths_and_init.GetInputPathsAndInitPresenter;
@@ -12,15 +13,18 @@ import interface_adapter.get_paths_and_init.GetInputPathsAndInitViewModel;
 import use_case.add_input_file.AddInputFileInputBoundary;
 import use_case.add_input_file.AddInputFileInteractor;
 import use_case.add_input_file.AddInputFileOutputBoundary;
+import use_case.convert_video.ConvertVideoFileOutputBoundary;
 import use_case.get_paths_and_init.GetPathsAndInitInputBoundary;
 import use_case.get_paths_and_init.GetPathsAndInitInteractor;
 import use_case.get_paths_and_init.GetPathsAndInitOutputBoundary;
 import view.AddInputFileView;
+import view.ConvertVideoFileView;
 import view.GetInputPathsAndInitView;
 import view.ViewManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -38,6 +42,7 @@ public class AppBuilder {
     private GetInputPathsAndInitViewModel getInputPathsAndInitViewModel;
 
     private ConvertVideoFileViewModel convertVideoFileViewModel;
+    private ConvertVideoFileView convertVideoFileView;
 
     public AppBuilder(){
         cardPanel.setLayout(cardLayout);
@@ -54,6 +59,13 @@ public class AppBuilder {
         addInputFileViewModel = new AddInputFileViewModel();
         addInputFileView = new AddInputFileView(addInputFileViewModel);
         cardPanel.add(addInputFileView, addInputFileView.getViewName());
+        return this;
+    }
+
+    public AppBuilder convertVideoFileView() throws IOException {
+        convertVideoFileViewModel = new ConvertVideoFileViewModel();
+        convertVideoFileView = new ConvertVideoFileView(convertVideoFileViewModel);
+        cardPanel.add(convertVideoFileView, convertVideoFileView.getViewName());
         return this;
     }
 

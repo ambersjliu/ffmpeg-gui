@@ -7,7 +7,6 @@ import lombok.Setter;
 import net.bramp.ffmpeg.probe.FFmpegStream;
 
 @Getter
-@Builder
 public class VideoAttributes {
     private int width;
     private int height;
