@@ -22,7 +22,7 @@ public class GetInputPathsAndInitView extends JPanel implements ActionListener, 
 
 
     @Getter
-    private final String viewName = "GetInputPathsAndInitView";
+    private final String viewName = "get paths and init";
 
     private final GetInputPathsAndInitViewModel getInputPathsAndInitViewModel;
     @Setter

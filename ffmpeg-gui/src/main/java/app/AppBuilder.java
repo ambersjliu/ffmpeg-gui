@@ -89,7 +89,7 @@ public class AppBuilder {
                 new AddInputFileInteractor(ffmpegService, addInputFileOutputBoundary);
 
         final AddInputFileController addInputFileController = new AddInputFileController(addInputFileInputBoundary);
-        addInputFileView.setController(addInputFileController);
+        addInputFileView.setAddInputFileController(addInputFileController);
         return this;
     }
 
@@ -101,7 +101,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(getInputPathsAndInitView.getViewName());
+        viewManagerModel.setState(getInputPathsAndInitViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;
