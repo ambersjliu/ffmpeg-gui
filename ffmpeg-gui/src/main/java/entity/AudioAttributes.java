@@ -6,7 +6,6 @@ import lombok.Getter;
 import net.bramp.ffmpeg.probe.FFmpegStream;
 
 @Getter
-@Builder
 public class AudioAttributes {
     private long bitrate;
     private long sampleRate;
