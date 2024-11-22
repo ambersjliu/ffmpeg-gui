@@ -15,6 +15,6 @@ public class ConvertVideoFileData {
     private final double duration;
     private final double startTime;
 
-     private final VideoAttributes videoAttributes;
-     private final AudioAttributes audioAttributes;
+    private final VideoAttributes videoAttributes;
+    private final AudioAttributes audioAttributes;
 }

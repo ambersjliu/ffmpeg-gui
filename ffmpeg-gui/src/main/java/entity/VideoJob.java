@@ -17,5 +17,6 @@ public class VideoJob extends AbstractJob{
         super(inputFileName, outputFileName, duration, startTime);
         this.videoAttributes = videoAttributes;
         this.audioAttributes = audioAttributes;
+
     }
 }
