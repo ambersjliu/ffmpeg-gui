@@ -10,11 +10,13 @@ public class App {
         final AppBuilder appBuilder = new AppBuilder();
         final JFrame frame = appBuilder
                 .addGetPathsAndInitView()
+                .addInputFileView()
                 .addGetPathsAndInitUseCase()
+                .addInputFileUseCase()
                 .build();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.pack();
+//        frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
