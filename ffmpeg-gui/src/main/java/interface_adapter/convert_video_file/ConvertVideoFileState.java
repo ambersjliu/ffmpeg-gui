@@ -1,5 +1,4 @@
 package interface_adapter.convert_video_file;
-
 import entity.AudioAttributes;
 import entity.TimeCode;
 import entity.VideoAttributes;
@@ -62,5 +61,4 @@ public class ConvertVideoFileState {
         this.numAudioChannels = audioAttributes.getChannels();
         this.audioBitRate = audioAttributes.getBitrate();
     }
-
 }
