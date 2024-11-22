@@ -7,12 +7,13 @@ public class ConvertVideoFilePresenter implements ConvertVideoFileOutputBoundary
     public ConvertVideoFilePresenter() {
 
     }
-
+    @Override
     public void prepareSuccessView(ConvertVideoFileOutputData outputData) {
         System.out.println("Success!");
     }
 
-    public void prepareFailView(){
+    @Override
+    public void prepareFailView(String errorMessage) {
 
     }
 }
