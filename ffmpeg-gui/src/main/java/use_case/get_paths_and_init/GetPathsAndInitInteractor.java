@@ -41,7 +41,6 @@ public class GetPathsAndInitInteractor implements GetPathsAndInitInputBoundary{
         } catch (InvalidExecutableException e) {
             this.getPathsAndInitOutputBoundary.prepareFailView("Invalid executable");
         }catch (Exception e){
-            e.printStackTrace();
             this.getPathsAndInitOutputBoundary.prepareFailView("Unexpected error happened");
         }
     }

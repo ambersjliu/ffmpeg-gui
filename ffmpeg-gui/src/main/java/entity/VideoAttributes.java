@@ -1,5 +1,6 @@
 package entity;
 
+import exceptions.BadFileException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,13 +9,16 @@ import net.bramp.ffmpeg.probe.FFmpegStream;
 
 @Getter
 public class VideoAttributes {
-    private int width;
-    private int height;
-    private double fps;
-    private long bitrate;
-    private String codecName;
+    private final int width;
+    private final int height;
+    private final double fps;
+    private final long bitrate;
+    private final String codecName;
 
-    public VideoAttributes(FFmpegStream ffmpegStream){
+    public VideoAttributes(FFmpegStream ffmpegStream) throws BadFileException {
+        if (ffmpegStream == null){
+            throw new BadFileException();
+        }
         this.width = ffmpegStream.width;
         this.height = ffmpegStream.height;
         this.fps = ffmpegStream.avg_frame_rate.doubleValue();
