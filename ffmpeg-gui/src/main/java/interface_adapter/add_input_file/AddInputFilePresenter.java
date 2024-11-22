@@ -28,6 +28,7 @@ public class AddInputFilePresenter implements AddInputFileOutputBoundary {
 
     @Override
     public void prepareVideoSuccessView(AddInputFileOutputVideoData outputVideoData) {
+        System.out.println("Success");
         final ConvertVideoFileState state = createConvertVideoState(outputVideoData);
         this.convertVideoFileViewModel.setState(state);
         this.convertVideoFileViewModel.firePropertyChanged();
