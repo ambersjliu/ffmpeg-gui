@@ -6,10 +6,9 @@ import entity.VideoAttributes;
 import entity.VideoJob;
 import lombok.AllArgsConstructor;
 
-import java.time.Duration;
 
 @AllArgsConstructor
-public class ConvertVideoInteractor implements ConvertVideoFileInputBoundary {
+public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary {
 
     private final ConvertVideoFileOutputBoundary convertVideoFileOutputBoundary;
     private final FFmpegService ffmpegService;
@@ -22,8 +21,8 @@ public class ConvertVideoInteractor implements ConvertVideoFileInputBoundary {
     public void execute(ConvertVideoFileData videoFileData) {
         final String inputFilePath = videoFileData.getInputFileName();
         final String outputFilePath = videoFileData.getOutputFileName();
-//        final Duration duration = videoFileData.getDuration(); // TODO resolve if duration is Double or Duration ASAP
-//        final Duration startTime = videoFileData.getStartTime();
+        final double duration = videoFileData.getDuration();
+        final double startTime = videoFileData.getStartTime();
         final VideoAttributes videoAttributes = videoFileData.getVideoAttributes();
         final AudioAttributes audioAttributes = videoFileData.getAudioAttributes();
 
@@ -33,8 +32,8 @@ public class ConvertVideoInteractor implements ConvertVideoFileInputBoundary {
         }
 
         try {
-//            VideoJob job = new VideoJob(inputFilePath, outputFilePath, duration, startTime, videoAttributes, audioAttributes);
-//            this.ffmpegService.convertVideo(job);
+            VideoJob job = new VideoJob(inputFilePath, outputFilePath, duration, startTime, videoAttributes, audioAttributes);
+            this.ffmpegService.convertVideo(job);
         } catch (Exception e) {  //TODO write proper catch blocks for specific errors.
             this.convertVideoFileOutputBoundary.prepareFailView("Unexpected error occurred.");
         }
