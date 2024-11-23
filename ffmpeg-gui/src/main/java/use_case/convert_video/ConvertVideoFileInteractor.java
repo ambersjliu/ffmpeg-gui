@@ -34,6 +34,8 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
         try {
             VideoJob job = new VideoJob(inputFilePath, outputFilePath, duration, startTime, videoAttributes, audioAttributes);
             this.ffmpegService.convertVideo(job);
+            final ConvertVideoFileOutputData outputData = new ConvertVideoFileOutputData(true);
+            this.convertVideoFileOutputBoundary.prepareSuccessView(outputData);
         } catch (Exception e) {  //TODO write proper catch blocks for specific errors.
             this.convertVideoFileOutputBoundary.prepareFailView("Unexpected error occurred.");
         }
