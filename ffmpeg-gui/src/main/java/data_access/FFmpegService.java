@@ -73,7 +73,7 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
                 .setAudioBitRate(audioBitRate)
 
                 .setVideoCodec(videoCodec)
-                .setVideoFrameRate(frameRate, 1)
+                .setVideoFrameRate(frameRate)
                 .setVideoBitRate(videoBitrate)
                 .setVideoResolution(width, height)
 

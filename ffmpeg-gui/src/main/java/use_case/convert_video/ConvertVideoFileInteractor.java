@@ -26,7 +26,7 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
         final VideoAttributes videoAttributes = videoFileData.getVideoAttributes();
         final AudioAttributes audioAttributes = videoFileData.getAudioAttributes();
 
-        if(inputFilePath == null || outputFilePath == null){
+        if(inputFilePath == null || outputFilePath == null || inputFilePath.trim().isEmpty() || outputFilePath.trim().isEmpty()){
             this.convertVideoFileOutputBoundary.prepareFailView("Please choose file and save directory.");
             return;
         }
