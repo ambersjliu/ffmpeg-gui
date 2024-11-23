@@ -6,8 +6,8 @@ import net.bramp.ffmpeg.probe.FFmpegStream;
 
 @Getter
 public class AudioAttributes {
-    private final long bitrate;
-    private final long sampleRate;
+    private final int bitrate;
+    private final int sampleRate;
     private final int channels;
     private final String codecName;
 
@@ -15,7 +15,7 @@ public class AudioAttributes {
         if (ffmpegStream == null){
             throw new BadFileException();
         }
-        this.bitrate = ffmpegStream.bit_rate;
+        this.bitrate = Math.toIntExact(ffmpegStream.bit_rate);
         this.sampleRate = ffmpegStream.sample_rate;
         this.channels = ffmpegStream.channels;
         this.codecName = ffmpegStream.codec_name;
