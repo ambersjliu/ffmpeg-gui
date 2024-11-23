@@ -11,7 +11,7 @@ import net.bramp.ffmpeg.probe.FFmpegStream;
 public class VideoAttributes {
     private final int width;
     private final int height;
-    private final double fps;
+    private final int fps;
     private final long bitrate;
     private final String codecName;
 
@@ -21,7 +21,7 @@ public class VideoAttributes {
         }
         this.width = ffmpegStream.width;
         this.height = ffmpegStream.height;
-        this.fps = ffmpegStream.avg_frame_rate.doubleValue();
+        this.fps = ffmpegStream.avg_frame_rate.intValue();
         this.bitrate = ffmpegStream.bit_rate;
         this.codecName = ffmpegStream.codec_name;
     }
