@@ -8,7 +8,6 @@ import interface_adapter.convert_video_file.ConvertVideoFileState;
 import interface_adapter.convert_video_file.ConvertVideoFileViewModel;
 import lombok.AllArgsConstructor;
 import net.bramp.ffmpeg.probe.FFmpegFormat;
-import net.bramp.ffmpeg.probe.FFmpegStream;
 import use_case.add_input_file.AddInputFileOutputAudioData;
 import use_case.add_input_file.AddInputFileOutputBoundary;
 import use_case.add_input_file.AddInputFileOutputVideoData;
@@ -22,12 +21,13 @@ public class AddInputFilePresenter implements AddInputFileOutputBoundary {
 
     @Override
     public void prepareAudioSuccessView(AddInputFileOutputAudioData outputData) {
-
+        
     }
 
 
     @Override
     public void prepareVideoSuccessView(AddInputFileOutputVideoData outputVideoData) {
+        System.out.println("Success");
         final ConvertVideoFileState state = createConvertVideoState(outputVideoData);
         this.convertVideoFileViewModel.setState(state);
         this.convertVideoFileViewModel.firePropertyChanged();
@@ -46,16 +46,14 @@ public class AddInputFilePresenter implements AddInputFileOutputBoundary {
     }
 
 
-    private ConvertVideoFileState createConvertVideoState(AddInputFileOutputVideoData outputVideoData) {
-        FFmpegStream videoStream = outputVideoData.getVideoStream();
-        FFmpegStream audioStream = outputVideoData.getAudioStream();
+    private ConvertVideoFileState createConvertVideoState(AddInputFileOutputVideoData outputVideoData){
         FFmpegFormat format = outputVideoData.getFormat();
 
         String inputFilePath = outputVideoData.getInputFilePath();
         String formatName = format.format_name;
 
-        VideoAttributes videoAttributes = new VideoAttributes(videoStream);
-        AudioAttributes audioAttributes = new AudioAttributes(audioStream);
+        VideoAttributes videoAttributes = outputVideoData.getVideoAttributes();
+        AudioAttributes audioAttributes = outputVideoData.getAudioAttributes();
         TimeCode startTime = new TimeCode(format.start_time);
         TimeCode endTime = new TimeCode(format.start_time + format.duration);
         return new ConvertVideoFileState(inputFilePath, formatName, startTime, endTime, videoAttributes, audioAttributes);

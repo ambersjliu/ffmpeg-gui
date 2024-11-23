@@ -13,7 +13,7 @@ public class GetInputPathsAndInitViewModel extends ViewModel<GetInputPathsAndIni
     public static final String NEXT_TEXT = "Next";
 
     public GetInputPathsAndInitViewModel() {
-        super("Getter view");
+        super("get paths and init");
         setState(new GetInputPathsAndInitState());
     }
 }

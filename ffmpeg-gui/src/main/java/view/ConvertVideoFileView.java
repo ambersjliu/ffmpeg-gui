@@ -15,7 +15,7 @@ import java.beans.PropertyChangeListener;
 
 public class ConvertVideoFileView extends JPanel implements ActionListener, PropertyChangeListener {
     @Getter
-    private final String viewName = "ConvertVideoFileView";
+    private final String viewName ="convert video file";
 
     private final ConvertVideoFileViewModel convertVideoFileViewModel;
     @Setter

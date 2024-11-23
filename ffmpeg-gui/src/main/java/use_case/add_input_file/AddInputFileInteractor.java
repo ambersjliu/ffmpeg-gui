@@ -1,6 +1,9 @@
 package use_case.add_input_file;
 
 import data_access.FFmpegService;
+import entity.AudioAttributes;
+import entity.VideoAttributes;
+import exceptions.BadFileException;
 import lombok.AllArgsConstructor;
 import net.bramp.ffmpeg.probe.FFmpegFormat;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
@@ -24,14 +27,18 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
             FFmpegFormat format = result.getFormat();
 
             if (isVideoFile(result)) {
+                final FFmpegStream videoStream = getVideoStream(result);
+                final FFmpegStream audioStream = getAudioStream(result);
                 final AddInputFileOutputVideoData addInputFileOutputVideoData = new AddInputFileOutputVideoData(
-                        getVideoStream(result), getAudioStream(result), format, inputFileData.getFilePath()
+                        createVideoAttributes(videoStream), createAudioAttributes(audioStream),
+                        format, inputFileData.getFilePath()
                 );
 
                 this.addInputFileOutputBoundary.prepareVideoSuccessView(addInputFileOutputVideoData);
             } else if (isAudioFile(result)) {
+                final FFmpegStream audioStream = getAudioStream(result);
                 final AddInputFileOutputAudioData addInputFileOutputAudioData = new AddInputFileOutputAudioData(
-                        getAudioStream(result), format, inputFileData.getFilePath()
+                        createAudioAttributes(audioStream), format, inputFileData.getFilePath()
                 );
 
                 this.addInputFileOutputBoundary.prepareAudioSuccessView(addInputFileOutputAudioData);
@@ -39,7 +46,7 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
                 throw new IOException();
             }
 
-        } catch (IOException e) {
+        } catch (IOException | BadFileException e) {
             this.addInputFileOutputBoundary.prepareFailView("Invalid file");
         }
 
@@ -83,5 +90,13 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
             }
         }
         return res;
+    }
+
+    private AudioAttributes createAudioAttributes(FFmpegStream ffmpegStream) throws BadFileException {
+        return new AudioAttributes(ffmpegStream);
+    }
+
+    private VideoAttributes createVideoAttributes(FFmpegStream ffmpegStream) throws BadFileException {
+        return new VideoAttributes(ffmpegStream);
     }
 }
