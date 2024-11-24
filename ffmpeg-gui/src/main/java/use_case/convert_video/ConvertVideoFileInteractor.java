@@ -21,6 +21,8 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
     public void execute(ConvertVideoFileData videoFileData) {
         final String inputFilePath = videoFileData.getInputFileName();
         final String outputFilePath = videoFileData.getOutputFileName();
+        final String outputFormat = videoFileData.getOutputFormat();
+
         final double duration = videoFileData.getDuration();
         final double startTime = videoFileData.getStartTime();
         final VideoAttributes videoAttributes = videoFileData.getVideoAttributes();
@@ -32,7 +34,7 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
         }
 
         try {
-            VideoJob job = new VideoJob(inputFilePath, outputFilePath, duration, startTime, videoAttributes, audioAttributes);
+            VideoJob job = new VideoJob(inputFilePath, outputFilePath, outputFormat, duration, startTime, videoAttributes, audioAttributes);
             this.ffmpegService.convertVideo(job);
             final ConvertVideoFileOutputData outputData = new ConvertVideoFileOutputData(true);
             this.convertVideoFileOutputBoundary.prepareSuccessView(outputData);

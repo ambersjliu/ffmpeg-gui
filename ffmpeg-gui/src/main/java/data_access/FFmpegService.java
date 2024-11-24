@@ -13,6 +13,7 @@ import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 @NoArgsConstructor
 @Getter
@@ -44,6 +45,10 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
 
         String input = job.getInputFileName();
         String output = job.getOutputFileName();
+        String format = job.getOutputFormat();
+
+        long startTime = (long) job.getStartTime();
+        long duration = (long) job.getDuration();
 
         int audioChannels = job.getAudioAttributes().getChannels();
         String audioCodec = job.getAudioAttributes().getCodecName();
@@ -52,7 +57,7 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
 
         String videoCodec = job.getVideoAttributes().getCodecName();
         long videoBitrate = job.getVideoAttributes().getBitrate();
-        int frameRate = job.getVideoAttributes().getFps();
+        double frameRate = job.getVideoAttributes().getFps();
         int width = job.getVideoAttributes().getWidth();
         int height = job.getVideoAttributes().getHeight();
 
@@ -65,17 +70,22 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
 //                .setFormat("mp4")        // Format is inferred from filename, or can be set
 //                .setTargetSize(250_000)  // Target size in KB
 
-                .disableSubtitle()       // No subtiles
+                .disableSubtitle()
+                .setStartOffset(startTime, TimeUnit.SECONDS)// No subtiles
+                .setDuration(duration, TimeUnit.SECONDS)
+                .setFormat(format)
 
                 .setAudioChannels(audioChannels)
-                .setAudioCodec(audioCodec)
+//                .setAudioCodec(audioCodec)
                 .setAudioSampleRate(audioSampleRate)
                 .setAudioBitRate(audioBitRate)
 
                 .setVideoCodec(videoCodec)
                 .setVideoFrameRate(frameRate)
                 .setVideoBitRate(videoBitrate)
-                .setVideoResolution(width, height)
+//                .setVideoResolution(width, height)
+                .setVideoHeight(height)
+                .setVideoWidth(width)
 
                 .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL) // Allow FFmpeg to use experimental specs
                 .done();

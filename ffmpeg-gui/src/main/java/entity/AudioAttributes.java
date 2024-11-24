@@ -1,10 +1,12 @@
 package entity;
 
 import exceptions.BadFileException;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.bramp.ffmpeg.probe.FFmpegStream;
 
 @Getter
+@AllArgsConstructor
 public class AudioAttributes {
     private final int bitrate;
     private final int sampleRate;

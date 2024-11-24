@@ -9,9 +9,9 @@ import lombok.Getter;
 @Getter
 public class AudioJob extends AbstractJob{
     private AudioAttributes audioAttributes;
-    public AudioJob(String inputFileName, String outputFileName, double duration, double startTime,
+    public AudioJob(String inputFileName, String outputFileName, String outputFormat, double duration, double startTime,
                     AudioAttributes audioAttributes) {
-        super(inputFileName, outputFileName, duration, startTime);
+        super(inputFileName, outputFileName, outputFormat, duration, startTime);
         this.audioAttributes = audioAttributes;
     }
 }
