@@ -1,8 +1,8 @@
 package interface_adapter.add_input_file;
 
-import entity.AudioAttributes;
-import entity.TimeCode;
-import entity.VideoAttributes;
+import attribute.AudioAttributes;
+import attribute.TimeCode;
+import attribute.VideoAttributes;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.convert_video_file.ConvertVideoFileState;
 import interface_adapter.convert_video_file.ConvertVideoFileViewModel;

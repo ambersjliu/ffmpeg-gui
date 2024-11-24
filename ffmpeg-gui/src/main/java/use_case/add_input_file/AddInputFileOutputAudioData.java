@@ -1,7 +1,7 @@
 package use_case.add_input_file;
 
 
-import entity.AudioAttributes;
+import attribute.AudioAttributes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,8 @@
 package interface_adapter.convert_video_file;
-import entity.AudioAttributes;
-import entity.TimeCode;
-import entity.VideoAttributes;
+
+import attribute.AudioAttributes;
+import attribute.TimeCode;
+import attribute.VideoAttributes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -61,4 +62,5 @@ public class ConvertVideoFileState {
         this.numAudioChannels = audioAttributes.getChannels();
         this.audioBitRate = audioAttributes.getBitrate();
     }
+
 }

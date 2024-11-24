@@ -1,5 +1,7 @@
 package entity;
 
+import attribute.AudioAttributes;
+import attribute.VideoAttributes;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

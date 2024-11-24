@@ -1,8 +1,8 @@
 package use_case.add_input_file;
 
 import data_access.FFmpegService;
-import entity.AudioAttributes;
-import entity.VideoAttributes;
+import attribute.AudioAttributes;
+import attribute.VideoAttributes;
 import exceptions.BadFileException;
 import lombok.AllArgsConstructor;
 import net.bramp.ffmpeg.probe.FFmpegFormat;

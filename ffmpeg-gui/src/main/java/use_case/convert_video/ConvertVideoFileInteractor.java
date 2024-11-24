@@ -1,8 +1,8 @@
 package use_case.convert_video;
 
 import data_access.FFmpegService;
-import entity.AudioAttributes;
-import entity.VideoAttributes;
+import attribute.AudioAttributes;
+import attribute.VideoAttributes;
 import entity.VideoJob;
 import exceptions.BadFileException;
 import lombok.AllArgsConstructor;
