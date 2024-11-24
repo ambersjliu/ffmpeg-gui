@@ -1,4 +1,4 @@
-package entity;
+package attributes;
 
 import lombok.Getter;
 
