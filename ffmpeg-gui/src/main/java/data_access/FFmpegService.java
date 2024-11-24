@@ -41,7 +41,6 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
 
     @Override
     public void convertVideo(VideoJob job) {
-        //TODO throw descriptive errors.
 
         String input = job.getInputFileName();
         String output = job.getOutputFileName();
@@ -76,14 +75,13 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
                 .setFormat(format)
 
                 .setAudioChannels(audioChannels)
-//                .setAudioCodec(audioCodec)
+                .setAudioCodec(audioCodec)
                 .setAudioSampleRate(audioSampleRate)
                 .setAudioBitRate(audioBitRate)
 
                 .setVideoCodec(videoCodec)
                 .setVideoFrameRate(frameRate)
                 .setVideoBitRate(videoBitrate)
-//                .setVideoResolution(width, height)
                 .setVideoHeight(height)
                 .setVideoWidth(width)
 

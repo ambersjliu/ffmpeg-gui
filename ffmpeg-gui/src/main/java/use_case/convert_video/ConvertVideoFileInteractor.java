@@ -4,7 +4,10 @@ import data_access.FFmpegService;
 import entity.AudioAttributes;
 import entity.VideoAttributes;
 import entity.VideoJob;
+import exceptions.BadFileException;
 import lombok.AllArgsConstructor;
+
+import java.io.IOException;
 
 
 @AllArgsConstructor
@@ -19,29 +22,41 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
      */
     @Override
     public void execute(ConvertVideoFileData videoFileData) {
-        final String inputFilePath = videoFileData.getInputFileName();
-        final String outputFilePath = videoFileData.getOutputFileName();
-        final String outputFormat = videoFileData.getOutputFormat();
-
-        final double duration = videoFileData.getDuration();
-        final double startTime = videoFileData.getStartTime();
-        final VideoAttributes videoAttributes = videoFileData.getVideoAttributes();
-        final AudioAttributes audioAttributes = videoFileData.getAudioAttributes();
-
-        if(inputFilePath == null || outputFilePath == null || inputFilePath.trim().isEmpty() || outputFilePath.trim().isEmpty()){
-            this.convertVideoFileOutputBoundary.prepareFailView("Please choose file and save directory.");
-            return;
-        }
-
         try {
-            VideoJob job = new VideoJob(inputFilePath, outputFilePath, outputFormat, duration, startTime, videoAttributes, audioAttributes);
+            validateInput(videoFileData);
+            VideoJob job = createVideoJob(videoFileData);
             this.ffmpegService.convertVideo(job);
             final ConvertVideoFileOutputData outputData = new ConvertVideoFileOutputData(true);
             this.convertVideoFileOutputBoundary.prepareSuccessView(outputData);
-        } catch (Exception e) {  //TODO write proper catch blocks for specific errors.
+        }catch(BadFileException e){
+            this.convertVideoFileOutputBoundary.prepareFailView("Invalid or null file path");
+        } catch (IllegalArgumentException e){
+            this.convertVideoFileOutputBoundary.prepareFailView("Error occurred when processing: possibly invalid codec/format combination");
+        } catch (Exception e) {
             this.convertVideoFileOutputBoundary.prepareFailView("Unexpected error occurred.");
         }
 
+    }
+
+    protected void validateInput(ConvertVideoFileData videoFileData) throws BadFileException {
+        final String inputFilePath = videoFileData.getInputFileName();
+        final String outputFilePath = videoFileData.getOutputFileName();
+
+        if (inputFilePath == null || outputFilePath == null || inputFilePath.trim().isEmpty() || outputFilePath.trim().isEmpty()) {
+            throw new BadFileException();
+        }
+    }
+
+    protected VideoJob createVideoJob(ConvertVideoFileData videoFileData) {
+        return new VideoJob(
+                videoFileData.getInputFileName(),
+                videoFileData.getOutputFileName(),
+                videoFileData.getOutputFormat(),
+                videoFileData.getDuration(),
+                videoFileData.getStartTime(),
+                videoFileData.getVideoAttributes(),
+                videoFileData.getAudioAttributes()
+        );
     }
 
 }

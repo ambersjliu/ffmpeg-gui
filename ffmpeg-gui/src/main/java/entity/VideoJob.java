@@ -19,4 +19,8 @@ public class VideoJob extends AbstractJob{
         this.audioAttributes = audioAttributes;
 
     }
+
+    public VideoJob() {
+
+    }
 }
