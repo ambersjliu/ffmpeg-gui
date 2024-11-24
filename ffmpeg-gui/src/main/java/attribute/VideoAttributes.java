@@ -1,5 +1,4 @@
 package attribute;
-
 import lombok.Getter;
 import net.bramp.ffmpeg.probe.FFmpegStream;
 

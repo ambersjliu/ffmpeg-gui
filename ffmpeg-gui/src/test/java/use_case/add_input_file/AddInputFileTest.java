@@ -5,6 +5,7 @@ import data_access.FFmpegService;
 import net.bramp.ffmpeg.probe.FFmpegFormat;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import net.bramp.ffmpeg.probe.FFmpegStream;
+import org.apache.commons.lang3.math.Fraction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,10 +43,16 @@ public class AddInputFileTest {
                 Assertions.fail("Should not fail");
             }
         };
-        // todo make the video result: has a video stream, has an audio stream
+
         FFmpegProbeResult videoResult = new FFmpegProbeResult();
 
+        // Make a detailed fake video stream
         FFmpegStream videoStream = new FFmpegStream();
+        videoStream.width = 1;
+        videoStream.height = 1;
+        videoStream.avg_frame_rate = Fraction.getFraction((double) 4 /5);
+        videoStream.bit_rate = 123;
+        videoStream.codec_name = "hevc";
         videoStream.codec_type = FFmpegStream.CodecType.VIDEO;
 
         FFmpegStream audioStream = new FFmpegStream();
@@ -56,9 +63,49 @@ public class AddInputFileTest {
         streams.add(videoStream);
         streams.add(audioStream);
 
-        FFmpegFormat format = new FFmpegFormat();
+        videoResult.format = new FFmpegFormat();
+        videoResult.streams = streams;
 
-        videoResult.format = format;
+        Mockito.when(ffmpegService.probe(anyString())).thenReturn(videoResult);
+        AddInputFileInputData inputData = new AddInputFileInputData("blah");
+        AddInputFileInputBoundary interactor = new AddInputFileInteractor(ffmpegService, outputBoundary);
+        interactor.execute(inputData);
+    }
+
+    @Test
+    void failureInvalidVideoFile() throws IOException {
+        AddInputFileOutputBoundary outputBoundary = new AddInputFileOutputBoundary() {
+
+            @Override
+            public void prepareVideoSuccessView(AddInputFileOutputVideoData outputData) {
+                Assertions.fail("Should not show video success view");
+            }
+
+            @Override
+            public void prepareAudioSuccessView(AddInputFileOutputAudioData outputData) {
+                Assertions.fail("Should not show audio success view");
+            }
+
+            @Override
+            public void prepareFailView(String errorMessage) {
+
+            }
+        };
+        FFmpegProbeResult videoResult = new FFmpegProbeResult();
+
+        // Make a detailed fake video stream
+        FFmpegStream videoStream = new FFmpegStream();
+        videoStream.codec_type = FFmpegStream.CodecType.VIDEO;
+        videoStream.width = 1;
+        videoStream.height = 1;
+        videoStream.avg_frame_rate = Fraction.getFraction((double) 4 /5);
+        videoStream.bit_rate = 123;
+        videoStream.codec_name = "hevc";
+
+        List<FFmpegStream> streams = new ArrayList<>();
+        streams.add(videoStream);
+
+        videoResult.format = new FFmpegFormat();
         videoResult.streams = streams;
 
         Mockito.when(ffmpegService.probe(anyString())).thenReturn(videoResult);
@@ -86,16 +133,19 @@ public class AddInputFileTest {
         };
         FFmpegProbeResult audioResult = new FFmpegProbeResult();
 
+        // Make a detailed fake audio stream
         FFmpegStream audioStream = new FFmpegStream();
         audioStream.codec_type = FFmpegStream.CodecType.AUDIO;
+        audioStream.bit_rate = 123;
+        audioStream.codec_name = "flac";
+        audioStream.sample_rate = 44100;
+        audioStream.channels = 2;
 
         List<FFmpegStream> streams = new ArrayList<>();
 
         streams.add(audioStream);
 
-        FFmpegFormat format = new FFmpegFormat();
-
-        audioResult.format = format;
+        audioResult.format = new FFmpegFormat();
         audioResult.streams = streams;
 
         Mockito.when(ffmpegService.probe(anyString())).thenReturn(audioResult);
