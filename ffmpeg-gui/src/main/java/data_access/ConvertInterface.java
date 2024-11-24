@@ -1,6 +1,6 @@
 package data_access;
 
-import entity.AudioJob;
+import constant.AudioJob;
 import entity.VideoJob;
 
 public interface ConvertInterface {
