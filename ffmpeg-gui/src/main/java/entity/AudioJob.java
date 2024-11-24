@@ -1,7 +1,6 @@
-package constant;
+package entity;
 
-import entity.AbstractJob;
-import entity.AudioAttributes;
+import attributes.AudioAttributes;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

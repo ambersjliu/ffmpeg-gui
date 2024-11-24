@@ -1,6 +1,6 @@
 package data_access;
 
-import constant.AudioJob;
+import entity.AudioJob;
 import entity.VideoJob;
 import exceptions.InvalidExecutableException;
 import lombok.Getter;
