@@ -1,7 +1,7 @@
 package use_case.convert_video;
 
-import entity.AudioAttributes;
-import entity.VideoAttributes;
+import attribute.AudioAttributes;
+import attribute.VideoAttributes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
