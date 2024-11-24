@@ -1,6 +1,5 @@
 package entity;
 
-import attributes.AudioAttributes;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +7,7 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 @Getter
-public class AudioJob extends AbstractJob {
+public class AudioJob extends AbstractJob{
     private AudioAttributes audioAttributes;
     public AudioJob(String inputFileName, String outputFileName, double duration, double startTime,
                     AudioAttributes audioAttributes) {

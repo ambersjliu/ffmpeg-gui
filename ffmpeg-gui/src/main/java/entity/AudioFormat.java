@@ -1,4 +1,4 @@
-package constant;
+package entity;
 
 public class AudioFormat {
     //for future extension to Audio

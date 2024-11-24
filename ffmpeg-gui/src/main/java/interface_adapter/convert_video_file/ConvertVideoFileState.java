@@ -1,8 +1,8 @@
 package interface_adapter.convert_video_file;
 
-import attributes.AudioAttributes;
-import attributes.TimeCode;
-import attributes.VideoAttributes;
+import entity.AudioAttributes;
+import entity.TimeCode;
+import entity.VideoAttributes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

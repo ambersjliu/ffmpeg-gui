@@ -1,8 +1,8 @@
 package interface_adapter.convert_video_file;
 
-import constant.AudioCodec;
-import constant.VideoCodec;
-import constant.VideoFormat;
+import entity.AudioCodec;
+import entity.VideoCodec;
+import entity.VideoFormat;
 import interface_adapter.ViewModel;
 
 import java.io.IOException;

@@ -1,5 +1,7 @@
-package attributes;
+package entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import net.bramp.ffmpeg.probe.FFmpegStream;
 
