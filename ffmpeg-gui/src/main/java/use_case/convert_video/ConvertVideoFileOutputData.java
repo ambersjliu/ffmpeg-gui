@@ -7,5 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ConvertVideoFileOutputData {
     private final boolean successfulSave;
+    private final String successMessage;
 
 }

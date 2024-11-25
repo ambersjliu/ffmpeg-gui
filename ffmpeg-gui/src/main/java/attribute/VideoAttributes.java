@@ -1,8 +1,10 @@
 package attribute;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.bramp.ffmpeg.probe.FFmpegStream;
 
 @Getter
+@AllArgsConstructor
 public class VideoAttributes {
     private int width;
     private int height;
@@ -17,4 +19,6 @@ public class VideoAttributes {
         this.bitrate = ffmpegStream.bit_rate;
         this.codecName = ffmpegStream.codec_name;
     }
+
+
 }

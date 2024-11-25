@@ -12,8 +12,10 @@ import java.time.Duration;
 public class ConvertVideoFileData {
     private final String inputFileName;
     private final String outputFileName;
-    private final double duration;
+    private final String outputFormat;
+
     private final double startTime;
+    private final double duration;
 
     private final VideoAttributes videoAttributes;
     private final AudioAttributes audioAttributes;

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import net.bramp.ffmpeg.probe.FFmpegFormat;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import net.bramp.ffmpeg.probe.FFmpegStream;
+import utils.Validator;
 
 import java.io.IOException;
 
@@ -18,11 +19,8 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
 
     @Override
     public void execute(AddInputFileInputData inputFileData) {
-        if (inputFileData.getFilePath() == null || inputFileData.getFilePath().trim().isEmpty()) {
-            this.addInputFileOutputBoundary.prepareFailView("Please add a file");
-            return;
-        }
         try {
+            Validator.validateFilePath(inputFileData.getFilePath());
             FFmpegProbeResult result = this.ffmpegService.probe(inputFileData.getFilePath());
             FFmpegFormat format = result.getFormat();
 
