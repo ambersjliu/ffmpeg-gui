@@ -41,7 +41,7 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
 
     @Override
     public void convertVideo(VideoJob job) {
-
+        //copy from here
         String input = job.getInputFileName();
         String output = job.getOutputFileName();
         String format = job.getOutputFormat();
@@ -53,6 +53,7 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
         String audioCodec = job.getAudioAttributes().getCodecName();
         int audioSampleRate = (int) job.getAudioAttributes().getSampleRate();
         long audioBitRate = job.getAudioAttributes().getBitrate();
+        //to here
 
         String videoCodec = job.getVideoAttributes().getCodecName();
         long videoBitrate = job.getVideoAttributes().getBitrate();
@@ -94,7 +95,42 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
 
     @Override
     public void convertAudio(AudioJob job) {
+        String input = job.getInputFileName();
+        String output = job.getOutputFileName();
+        String format = job.getOutputFormat();
 
+        long startTime = (long) job.getStartTime();
+        long duration = (long) job.getDuration();
+
+        int audioChannels = job.getAudioAttributes().getChannels();
+        String audioCodec = job.getAudioAttributes().getCodecName();
+        int audioSampleRate = (int) job.getAudioAttributes().getSampleRate();
+        long audioBitRate = job.getAudioAttributes().getBitrate();
+
+        FFmpegBuilder builder = new FFmpegBuilder()
+
+                .setInput(input)
+                .overrideOutputFiles(true) // Override the output if it exists
+
+                .addOutput(output)   // Filename for the destination
+
+                .disableSubtitle()
+                .setStartOffset(startTime, TimeUnit.SECONDS)// No subtiles
+                .setDuration(duration, TimeUnit.SECONDS)
+                .setFormat(format)
+
+                .setAudioChannels(audioChannels)
+                .setAudioCodec(audioCodec)
+                .setAudioSampleRate(audioSampleRate)
+                .setAudioBitRate(audioBitRate)
+
+                .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL) // Allow FFmpeg to use experimental specs
+                .done();
+
+        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+
+        // Run a one-pass encode
+        executor.createJob(builder).run();
     }
 
 
