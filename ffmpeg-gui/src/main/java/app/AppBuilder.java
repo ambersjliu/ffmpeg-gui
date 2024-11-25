@@ -7,6 +7,7 @@ import interface_adapter.add_input_file.AddInputFilePresenter;
 import interface_adapter.add_input_file.AddInputFileViewModel;
 import interface_adapter.change_file.ChangeFileController;
 import interface_adapter.change_file.ChangeFilePresenter;
+import interface_adapter.convert_video_file.ConvertVideoFileController;
 import interface_adapter.convert_video_file.ConvertVideoFilePresenter;
 import interface_adapter.convert_video_file.ConvertVideoFileViewModel;
 import interface_adapter.get_paths_and_init.GetInputPathsAndInitController;
@@ -18,6 +19,8 @@ import use_case.add_input_file.AddInputFileOutputBoundary;
 import use_case.change_file.ChangeFileInputBoundary;
 import use_case.change_file.ChangeFileInteractor;
 import use_case.change_file.ChangeFileOutputBoundary;
+import use_case.convert_video.ConvertVideoFileInputBoundary;
+import use_case.convert_video.ConvertVideoFileInteractor;
 import use_case.convert_video.ConvertVideoFileOutputBoundary;
 import use_case.get_paths_and_init.GetPathsAndInitInputBoundary;
 import use_case.get_paths_and_init.GetPathsAndInitInteractor;
@@ -88,7 +91,7 @@ public class AppBuilder {
 
     public AppBuilder addInputFileUseCase(){
         final AddInputFileOutputBoundary addInputFileOutputBoundary =
-                new AddInputFilePresenter(addInputFileViewModel, convertVideoFileViewModel, viewManagerModel);
+                new AddInputFilePresenter(addInputFileViewModel, convertVideoFileViewModel, viewManagerModel, convertVideoFileView);
 
         final AddInputFileInputBoundary addInputFileInteractor =
                 new AddInputFileInteractor(ffmpegService, addInputFileOutputBoundary);
@@ -107,6 +110,18 @@ public class AppBuilder {
 
         final ChangeFileController changeFileController = new ChangeFileController(changeFileInteractor);
         convertVideoFileView.setChangeFileController(changeFileController);
+        return this;
+    }
+
+    public AppBuilder addConvertVideoFileUseCase(){
+        final ConvertVideoFilePresenter convertVideoFileBoundary =
+                new ConvertVideoFilePresenter(convertVideoFileViewModel);
+
+        final ConvertVideoFileInputBoundary convertVideoFileInteractor =
+                new ConvertVideoFileInteractor(convertVideoFileBoundary, ffmpegService);
+
+        final ConvertVideoFileController convertVideoFileController = new ConvertVideoFileController(convertVideoFileInteractor);
+        convertVideoFileView.setConvertVideoFileController(convertVideoFileController);
         return this;
     }
 
