@@ -8,15 +8,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 public class ConvertVideoFileView extends JPanel implements ActionListener, PropertyChangeListener {
     @Getter
-    private final String viewName ="convert video file";
+    private final String viewName = "convert video file";
 
     private final ConvertVideoFileViewModel convertVideoFileViewModel;
     @Setter
@@ -32,7 +35,6 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
 
     private final JComboBox<String> outputFormatDropdown;
 
-
     private final JTextField startTimeHour = new JTextField(4);
     private final JTextField startTimeMinute = new JTextField(4);
     private final JTextField startTimeSecond = new JTextField(4);
@@ -44,19 +46,25 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
     private final JTextField dimensionWidth = new JTextField(7);
     private final JTextField dimensionHeight = new JTextField(7);
 
-    private final JSpinner frameRate = new JSpinner();
+    private final JSpinner frameRate = new JSpinner(new SpinnerNumberModel(0, 0, 1000, 0.5));
+
+    private final JSpinner videoBitrate = new JSpinner(new SpinnerNumberModel(0, 0, 100_000_000, 1));
 
     private final JComboBox<String> videoCodecDropdown;
 
     private final JComboBox<String> audioCodecDropdown;
 
-    private final JSpinner bitrate = new JSpinner();
+    private final JSpinner audioBitrate = new JSpinner(new SpinnerNumberModel(0, 0, 100_000_000, 1));
 
-    private final JTextField numberOfChannel = new JTextField(14);
+    private final JSpinner numberOfChannel = new JSpinner();
 
     private final JTextField sampleRate = new JTextField(14);
 
     private final JButton saveAsDestination;
+
+    private final JFileChooser fileChooserDialog = new JFileChooser();
+
+    private final JLabel outputPath = new JLabel();
 
 
     public ConvertVideoFileView(ConvertVideoFileViewModel convertVideoFileViewModel) {
@@ -114,6 +122,13 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
         frameRateField.add(frameRateLabel);
         frameRateField.add(frameRate);
 
+        //video bitrate
+        JPanel videoBitrateField = new JPanel();
+        JLabel videoBitrateLabel = new JLabel(ConvertVideoFileViewModel.VIDEO_BITRATE_LABEL);
+        audioBitrate.setPreferredSize(new Dimension(75, 20));
+        videoBitrateField.add(videoBitrateLabel);
+        videoBitrateField.add(audioBitrate);
+
         //video encoder
         JPanel videoCodecField = new JPanel();
         JLabel videoCodecLabel = new JLabel(ConvertVideoFileViewModel.VIDEO_CODEC_LABEL);
@@ -128,12 +143,12 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
         audioCodecField.add(audioCodecLabel);
         audioCodecField.add(audioCodecDropdown);
 
-        //bitrate
-        JPanel bitrateField = new JPanel();
-        JLabel bitrateLabel = new JLabel(ConvertVideoFileViewModel.BITRATE_LABEL);
-        bitrate.setPreferredSize(new Dimension(75, 20));
-        bitrateField.add(bitrateLabel);
-        bitrateField.add(bitrate);
+        //audio bitrate
+        JPanel audioBitrateField = new JPanel();
+        JLabel audioBitrateLabel = new JLabel(ConvertVideoFileViewModel.AUDIO_BITRATE_LABEL);
+        audioBitrate.setPreferredSize(new Dimension(75, 20));
+        audioBitrateField.add(audioBitrateLabel);
+        audioBitrateField.add(audioBitrate);
 
         //channels
         JPanel numberOfChannelField = new JPanel();
@@ -149,26 +164,57 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
 
         //save as
         JLabel saveAsDestinationLabel = new JLabel(ConvertVideoFileViewModel.SAVE_AS_DESTINATION_LABEL);
-        saveAsDestination =new JButton(ConvertVideoFileViewModel.BROWSE_LABEL);
+        saveAsDestination = new JButton(ConvertVideoFileViewModel.BROWSE_LABEL);
         LabelButtonPanel saveAsDestinationField = new LabelButtonPanel(saveAsDestinationLabel, saveAsDestination);
+
+        //init file chooser
+        fileChooserDialog.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
         convertButton.addActionListener(
                 e -> {
                     if (e.getSource().equals(convertButton)) {
                         final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
-                        convertVideoFileController.execute();
+                        convertVideoFileController.execute(currentState);
                     }
                 }
         );
 
         fileChangeButton.addActionListener(
-                e->{
-                    if(e.getSource().equals(fileChangeButton)) {
+                e -> {
+                    if (e.getSource().equals(fileChangeButton)) {
                         final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
                         this.changeFileController.execute(currentState.getInputFilePath());
                     }
                 }
         );
+
+        saveAsDestination.addActionListener(
+                e -> {
+                    if (e.getSource().equals(saveAsDestination)) {
+                        fileChooserDialog.showSaveDialog(this);
+                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                        currentState.setOutputFilePath(fileChooserDialog.getSelectedFile().getAbsolutePath());
+                        convertVideoFileViewModel.firePropertyChanged();
+                    }
+                }
+        );
+
+        addOutputFormatDropdownListener();
+        addStartTimeHourListener();
+        addStartTimeMinuteListener();
+        addStartTimeSecondListener();
+        addEndTimeHourListener();
+        addEndTimeMinuteListener();
+        addEndTimeSecondListener();
+        addDimensionWidthListener();
+        addDimensionHeightListener();
+        addFrameRateListener();
+        addVideoBitrateListener();
+        addAudioCodecDropdownListener();
+        addVideoCodecDropdownListener();
+        addAudioBitrateListener();
+        addNumberOfChannelListener();
+        addSampleRateListener();
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -182,17 +228,325 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
         this.add(frameRateField);
         this.add(videoCodecField);
         this.add(audioCodecField);
-        this.add(bitrateField);
+        this.add(audioBitrateField);
         this.add(numberOfChannelField);
         this.add(sampleRateField);
         this.add(saveAsDestinationField);
+        this.add(outputPath);
     }
 
-    public void actionPerformed(ActionEvent e) {}
+    private void addOutputFormatDropdownListener() {
+        outputFormatDropdown.addActionListener(
+                e -> {
+                    final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                    currentState.setOutputFilePath(Objects.requireNonNull(outputFormatDropdown.getSelectedItem()).toString());
+                    convertVideoFileViewModel.setState(currentState);
+                }
+        );
+    }
+
+    private void addStartTimeHourListener() {
+        startTimeHour.getDocument().addDocumentListener(
+                new DocumentListener() {
+                    private void documentListenerHelper() {
+                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                        currentState.setStartTimeHours(Integer.parseInt(startTimeHour.getText()));
+                        convertVideoFileViewModel.setState(currentState);
+                    }
+
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+                }
+        );
+    }
+
+    private void addStartTimeMinuteListener() {
+        startTimeMinute.getDocument().addDocumentListener(
+                new DocumentListener() {
+                    private void documentListenerHelper() {
+                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                        currentState.setStartTimeMinutes(Integer.parseInt(startTimeMinute.getText()));
+                        convertVideoFileViewModel.setState(currentState);
+                    }
+
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+                }
+        );
+    }
+
+    private void addStartTimeSecondListener() {
+        startTimeSecond.getDocument().addDocumentListener(
+                new DocumentListener() {
+                    private void documentListenerHelper() {
+                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                        currentState.setEndTimeSeconds(Double.parseDouble(startTimeSecond.getText()));
+                        convertVideoFileViewModel.setState(currentState);
+                    }
+
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+                }
+        );
+    }
+
+    private void addEndTimeHourListener() {
+        endTimeHour.getDocument().addDocumentListener(
+                new DocumentListener() {
+                    private void documentListenerHelper() {
+                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                        currentState.setEndTimeHours(Integer.parseInt(endTimeHour.getText()));
+                        convertVideoFileViewModel.setState(currentState);
+                    }
+
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+                }
+        );
+    }
+
+    private void addEndTimeMinuteListener() {
+        endTimeMinute.getDocument().addDocumentListener(
+                new DocumentListener() {
+                    private void documentListenerHelper() {
+                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                        currentState.setEndTimeMinutes(Integer.parseInt(endTimeMinute.getText()));
+                        convertVideoFileViewModel.setState(currentState);
+                    }
+
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+                }
+        );
+    }
+
+    private void addEndTimeSecondListener() {
+        endTimeSecond.getDocument().addDocumentListener(
+                new DocumentListener() {
+                    private void documentListenerHelper() {
+                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                        currentState.setEndTimeSeconds(Double.parseDouble(endTimeSecond.getText()));
+                        convertVideoFileViewModel.setState(currentState);
+                    }
+
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+                }
+        );
+    }
+
+    private void addDimensionWidthListener(){
+        dimensionWidth.getDocument().addDocumentListener(
+                new DocumentListener() {
+                    private void documentListenerHelper() {
+                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                        currentState.setWidth(Integer.parseInt(dimensionWidth.getText()));
+                        convertVideoFileViewModel.setState(currentState);
+                    }
+
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+                }
+        );
+    }
+
+    private void addDimensionHeightListener(){
+        dimensionHeight.getDocument().addDocumentListener(
+                new DocumentListener() {
+                    private void documentListenerHelper() {
+                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                        currentState.setHeight(Integer.parseInt(dimensionHeight.getText()));
+                        convertVideoFileViewModel.setState(currentState);
+                    }
+
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+                }
+        );
+    }
+
+    private void addFrameRateListener(){
+        frameRate.addChangeListener(e -> {
+            final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+            currentState.setFrameRate(Double.parseDouble(frameRate.getValue().toString()));
+            convertVideoFileViewModel.setState(currentState);
+        });
+    }
+
+    private void addVideoBitrateListener(){
+        videoBitrate.addChangeListener(e -> {
+            final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+            currentState.setVideoBitRate(Integer.parseInt(videoBitrate.getValue().toString()));
+            convertVideoFileViewModel.setState(currentState);
+        });
+    }
+
+    private void addVideoCodecDropdownListener(){
+        videoCodecDropdown.addActionListener(
+                e -> {
+                    final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                    currentState.setVideoCodecName(videoCodecDropdown.getSelectedItem().toString());
+                    convertVideoFileViewModel.setState(currentState);
+                }
+        );
+    }
+
+    private void addAudioCodecDropdownListener(){
+        audioCodecDropdown.addActionListener(
+                e -> {
+                    final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                    currentState.setAudioCodecName(audioCodecDropdown.getSelectedItem().toString());
+                    convertVideoFileViewModel.setState(currentState);
+                }
+        );
+    }
+
+    private void addAudioBitrateListener(){
+        audioBitrate.addChangeListener(e -> {
+            final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+            currentState.setAudioBitRate(Integer.parseInt(audioBitrate.getValue().toString()));
+            convertVideoFileViewModel.setState(currentState);
+        });
+    }
+
+    private void addNumberOfChannelListener(){
+        numberOfChannel.addChangeListener(e -> {
+            final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+            currentState.setNumAudioChannels(Integer.parseInt(numberOfChannel.getValue().toString()));
+            convertVideoFileViewModel.setState(currentState);
+        });
+    }
+
+    private void addSampleRateListener(){
+        sampleRate.getDocument().addDocumentListener(
+                new DocumentListener() {
+                    private void documentListenerHelper() {
+                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                        currentState.setAudioSampleRate(Long.parseLong(sampleRate.getText()));
+                        convertVideoFileViewModel.setState(currentState);
+                    }
+
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        documentListenerHelper();
+                    }
+                }
+        );
+    }
+
+    public void actionPerformed(ActionEvent e) {
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+        outputPath.setText(currentState.getOutputFilePath());
     }
 
 }

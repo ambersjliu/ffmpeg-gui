@@ -11,7 +11,7 @@ public class ConvertVideoFileController {
         this.convertVideoFileInteractor = convertVideoFileInteractor;
     }
 
-    public void execute(){
+    public void execute(ConvertVideoFileState convertVideoFileState) {
         // final ConvertVideoFileData videoFileData= new ConvertVideoFileData();
         // TODO: add all parameters to ConvertVideoFileData.java, and then give necessary parameters to function call.
         // convertVideoFileInteractor.execute(videoFileData);
