@@ -1,8 +1,10 @@
 package attribute;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class TimeCode {
     private final int hours;
     private final int minutes;
