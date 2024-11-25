@@ -88,7 +88,7 @@ public class ConvertVideoTest {
     @Test
     public void manualTestConvertVideo() throws IOException, BadFileException {
         FFmpegService ffmpegService = new FFmpegService();
-        ffmpegService.initialize("C:/PATH_programs/ffmpeg.exe", "C:/PATH_programs/ffprobe.exe");
+        ffmpegService.initialize("ffmpeg path", "ffprobe path");
 
         ConvertVideoFileOutputBoundary convertVideoFileOutputBoundary = new ConvertVideoFileOutputBoundary() {
             @Override
@@ -102,8 +102,8 @@ public class ConvertVideoTest {
             }
         };
 
-        String inputFilePath = "C:\\Users\\amber\\Documents\\UofT\\YEAR2\\CSC207\\ffmpeg-gui\\ffmpeg-gui\\src\\test\\resources\\test_video.mp4";
-        String outputFilePath = "C:\\Users\\amber\\Documents\\UofT\\YEAR2\\CSC207\\ffmpeg-gui\\ffmpeg-gui\\src\\test\\resources\\test_video.mov";
+        String inputFilePath = "path to local file";
+        String outputFilePath = "desired output file";
 
         // Replace with your intended output values
         int targetWidth = 1000;
