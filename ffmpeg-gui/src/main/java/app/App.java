@@ -18,6 +18,7 @@ public class App {
                 .convertVideoFileView()
                 .addGetPathsAndInitUseCase()
                 .addInputFileUseCase()
+                .addChangeFileUseCase()
                 .build();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

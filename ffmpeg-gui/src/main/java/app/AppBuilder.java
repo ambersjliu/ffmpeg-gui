@@ -5,6 +5,8 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.add_input_file.AddInputFileController;
 import interface_adapter.add_input_file.AddInputFilePresenter;
 import interface_adapter.add_input_file.AddInputFileViewModel;
+import interface_adapter.change_file.ChangeFileController;
+import interface_adapter.change_file.ChangeFilePresenter;
 import interface_adapter.convert_video_file.ConvertVideoFilePresenter;
 import interface_adapter.convert_video_file.ConvertVideoFileViewModel;
 import interface_adapter.get_paths_and_init.GetInputPathsAndInitController;
@@ -13,6 +15,9 @@ import interface_adapter.get_paths_and_init.GetInputPathsAndInitViewModel;
 import use_case.add_input_file.AddInputFileInputBoundary;
 import use_case.add_input_file.AddInputFileInteractor;
 import use_case.add_input_file.AddInputFileOutputBoundary;
+import use_case.change_file.ChangeFileInputBoundary;
+import use_case.change_file.ChangeFileInteractor;
+import use_case.change_file.ChangeFileOutputBoundary;
 import use_case.convert_video.ConvertVideoFileOutputBoundary;
 import use_case.get_paths_and_init.GetPathsAndInitInputBoundary;
 import use_case.get_paths_and_init.GetPathsAndInitInteractor;
@@ -73,10 +78,10 @@ public class AppBuilder {
         final GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary =
                 new GetInputPathsAndInitPresenter(viewManagerModel, addInputFileViewModel, getInputPathsAndInitViewModel);
 
-        final GetPathsAndInitInputBoundary getPathsAndInitInputBoundary =
+        final GetPathsAndInitInputBoundary getPathsAndInitInteractor =
                 new GetPathsAndInitInteractor(getPathsAndInitOutputBoundary, ffmpegService);
 
-        final GetInputPathsAndInitController getInputPathsAndInitController = new GetInputPathsAndInitController(getPathsAndInitInputBoundary);
+        final GetInputPathsAndInitController getInputPathsAndInitController = new GetInputPathsAndInitController(getPathsAndInitInteractor);
         getInputPathsAndInitView.setGetInputPathsAndInitController(getInputPathsAndInitController);
         return this;
     }
@@ -85,11 +90,23 @@ public class AppBuilder {
         final AddInputFileOutputBoundary addInputFileOutputBoundary =
                 new AddInputFilePresenter(addInputFileViewModel, convertVideoFileViewModel, viewManagerModel);
 
-        final AddInputFileInputBoundary addInputFileInputBoundary =
+        final AddInputFileInputBoundary addInputFileInteractor =
                 new AddInputFileInteractor(ffmpegService, addInputFileOutputBoundary);
 
-        final AddInputFileController addInputFileController = new AddInputFileController(addInputFileInputBoundary);
+        final AddInputFileController addInputFileController = new AddInputFileController(addInputFileInteractor);
         addInputFileView.setAddInputFileController(addInputFileController);
+        return this;
+    }
+
+    public AppBuilder addChangeFileUseCase(){
+        final ChangeFileOutputBoundary changeFileOutputBoundary =
+                new ChangeFilePresenter(convertVideoFileViewModel, viewManagerModel, addInputFileViewModel);
+
+        final ChangeFileInputBoundary changeFileInteractor =
+                new ChangeFileInteractor(changeFileOutputBoundary);
+
+        final ChangeFileController changeFileController = new ChangeFileController(changeFileInteractor);
+        convertVideoFileView.setChangeFileController(changeFileController);
         return this;
     }
 

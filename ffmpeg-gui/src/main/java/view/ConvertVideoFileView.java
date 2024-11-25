@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.change_file.ChangeFileController;
 import interface_adapter.convert_video_file.ConvertVideoFileController;
 import interface_adapter.convert_video_file.ConvertVideoFileState;
 import interface_adapter.convert_video_file.ConvertVideoFileViewModel;
@@ -20,6 +21,8 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
     private final ConvertVideoFileViewModel convertVideoFileViewModel;
     @Setter
     private ConvertVideoFileController convertVideoFileController;
+    @Setter
+    private ChangeFileController changeFileController;
 
     //some J objects
     private final JButton fileChangeButton;
@@ -151,8 +154,19 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
 
         convertButton.addActionListener(
                 e -> {
-                    final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
-                    convertVideoFileController.execute();
+                    if (e.getSource().equals(convertButton)) {
+                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                        convertVideoFileController.execute();
+                    }
+                }
+        );
+
+        fileChangeButton.addActionListener(
+                e->{
+                    if(e.getSource().equals(fileChangeButton)) {
+                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                        this.changeFileController.execute(currentState.getInputFilePath());
+                    }
                 }
         );
 
