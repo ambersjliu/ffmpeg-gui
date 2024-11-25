@@ -46,15 +46,15 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
     private final JTextField dimensionWidth = new JTextField(7);
     private final JTextField dimensionHeight = new JTextField(7);
 
-    private final JSpinner frameRate = new JSpinner(new SpinnerNumberModel(0, 0, 10000000, 0.5));
+    private final JSpinner frameRate = new JSpinner(new SpinnerNumberModel(0, 0, 1000, 0.5));
 
-    private final JSpinner videoBitrate = new JSpinner(new SpinnerNumberModel(0, 0, 100000000, 1));
+    private final JSpinner videoBitrate = new JSpinner(new SpinnerNumberModel(0, 0, 100_000_000, 1));
 
     private final JComboBox<String> videoCodecDropdown;
 
     private final JComboBox<String> audioCodecDropdown;
 
-    private final JSpinner audioBitrate = new JSpinner(new SpinnerNumberModel(0, 0, 100000000, 1));
+    private final JSpinner audioBitrate = new JSpinner(new SpinnerNumberModel(0, 0, 100_000_000, 1));
 
     private final JSpinner numberOfChannel = new JSpinner();
 
