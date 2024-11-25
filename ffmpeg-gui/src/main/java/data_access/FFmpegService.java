@@ -51,8 +51,8 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
 
         int audioChannels = job.getAudioAttributes().getChannels();
         String audioCodec = job.getAudioAttributes().getCodecName();
-        int audioSampleRate = job.getAudioAttributes().getSampleRate();
-        int audioBitRate = job.getAudioAttributes().getBitrate();
+        int audioSampleRate = (int) job.getAudioAttributes().getSampleRate();
+        long audioBitRate = job.getAudioAttributes().getBitrate();
 
         String videoCodec = job.getVideoAttributes().getCodecName();
         long videoBitrate = job.getVideoAttributes().getBitrate();
@@ -66,8 +66,6 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
                 .overrideOutputFiles(true) // Override the output if it exists
 
                 .addOutput(output)   // Filename for the destination
-//                .setFormat("mp4")        // Format is inferred from filename, or can be set
-//                .setTargetSize(250_000)  // Target size in KB
 
                 .disableSubtitle()
                 .setStartOffset(startTime, TimeUnit.SECONDS)// No subtiles
@@ -99,8 +97,5 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
 
     }
 
-    // TODO: Create Entities to represent the information about a file as well as user input
-    // TODO: Write method using ffprobe to return information about an input file
-    // TODO: Encoding method
 
 }

@@ -1,13 +1,11 @@
 package use_case.convert_video;
 
 import data_access.FFmpegService;
-import attribute.AudioAttributes;
-import attribute.VideoAttributes;
 import entity.VideoJob;
+import entity.VideoJobFactory;
 import exceptions.BadFileException;
 import lombok.AllArgsConstructor;
-
-import java.io.IOException;
+import utils.Validator;
 
 
 @AllArgsConstructor
@@ -23,10 +21,11 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
     @Override
     public void execute(ConvertVideoFileData videoFileData) {
         try {
-            validateInput(videoFileData);
+            Validator.validateFilePath(videoFileData.getInputFileName());
             VideoJob job = createVideoJob(videoFileData);
             this.ffmpegService.convertVideo(job);
-            final ConvertVideoFileOutputData outputData = new ConvertVideoFileOutputData(true);
+            String successMessage = "Successfully converted with output: " + videoFileData.getOutputFileName();
+            final ConvertVideoFileOutputData outputData = new ConvertVideoFileOutputData(true, successMessage);
             this.convertVideoFileOutputBoundary.prepareSuccessView(outputData);
         }catch(BadFileException e){
             this.convertVideoFileOutputBoundary.prepareFailView("Invalid or null file path");
@@ -38,17 +37,10 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
 
     }
 
-    protected void validateInput(ConvertVideoFileData videoFileData) throws BadFileException {
-        final String inputFilePath = videoFileData.getInputFileName();
-        final String outputFilePath = videoFileData.getOutputFileName();
-
-        if (inputFilePath == null || outputFilePath == null || inputFilePath.trim().isEmpty() || outputFilePath.trim().isEmpty()) {
-            throw new BadFileException();
-        }
-    }
 
     protected VideoJob createVideoJob(ConvertVideoFileData videoFileData) {
-        return new VideoJob(
+        VideoJobFactory videoJobFactory = new VideoJobFactory();
+        return videoJobFactory.create(
                 videoFileData.getInputFileName(),
                 videoFileData.getOutputFileName(),
                 videoFileData.getOutputFormat(),

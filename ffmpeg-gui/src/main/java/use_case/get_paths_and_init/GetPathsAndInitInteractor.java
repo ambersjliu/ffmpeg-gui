@@ -1,8 +1,10 @@
 package use_case.get_paths_and_init;
 
 import data_access.FFmpegService;
+import exceptions.BadFileException;
 import exceptions.InvalidExecutableException;
 import lombok.AllArgsConstructor;
+import utils.Validator;
 
 import java.io.IOException;
 
@@ -23,12 +25,8 @@ public class GetPathsAndInitInteractor implements GetPathsAndInitInputBoundary{
         final String ffmpegPath = input.getFfmpegPath();
         final String ffprobePath = input.getFfprobePath();
 
-        if(ffmpegPath == null || ffprobePath == null || ffmpegPath.trim().isEmpty() || ffprobePath.trim().isEmpty()) {
-            this.getPathsAndInitOutputBoundary.prepareFailView("Please add both paths!");
-            return;
-        }
-
         try {
+            Validator.validateFilePaths(ffmpegPath, ffprobePath);
             if (ffmpegPath.lastIndexOf("ffmpeg") < ffmpegPath.length() - 15 || ffprobePath.lastIndexOf("ffprobe") < ffprobePath.length() - 15) {
                 throw new IOException();
             }
@@ -36,6 +34,8 @@ public class GetPathsAndInitInteractor implements GetPathsAndInitInputBoundary{
             this.ffmpegService.validateBinaries();
             final GetPathsAndInitOutputData outputData = new GetPathsAndInitOutputData(false);
             this.getPathsAndInitOutputBoundary.prepareSuccessView(outputData);
+        } catch (BadFileException e){
+            this.getPathsAndInitOutputBoundary.prepareFailView("Please add both paths!");
         } catch (IOException e) {
             this.getPathsAndInitOutputBoundary.prepareFailView("Invalid file type");
         } catch (InvalidExecutableException e) {

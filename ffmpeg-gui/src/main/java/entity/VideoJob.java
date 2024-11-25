@@ -5,9 +5,11 @@ import attribute.VideoAttributes;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class VideoJob extends AbstractJob{
     private VideoAttributes videoAttributes;
@@ -22,7 +24,4 @@ public class VideoJob extends AbstractJob{
 
     }
 
-    public VideoJob() {
-
-    }
 }
