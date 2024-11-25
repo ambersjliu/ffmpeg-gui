@@ -97,5 +97,42 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
 
     }
 
+    public void convertVideoToGif(VideoJob job){
+        String input = job.getInputFileName();
+        String output = job.getOutputFileName();
+        String format = job.getOutputFormat();
+
+        long startTime = (long) job.getStartTime();
+        long duration = (long) job.getDuration();
+
+        double frameRate = job.getVideoAttributes().getFps();
+        int width = job.getVideoAttributes().getWidth();
+
+        FFmpegBuilder builder = new FFmpegBuilder()
+
+                .setInput(input)
+                .overrideOutputFiles(true) // Override the output if it exists
+
+                .addOutput(output)   // Filename for the destination
+
+                .disableSubtitle()
+                .setStartOffset(startTime, TimeUnit.SECONDS)// No subtiles
+                .setDuration(duration, TimeUnit.SECONDS)
+                .setFormat(format)
+
+                .setVideoFrameRate(frameRate)
+                .setVideoFilter(String.format(
+                        "[0:v] fps=%s,scale=%s:-1,split [a][b];[a] palettegen [p];[b][p] paletteuse",
+                        frameRate, width))
+
+                .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL) // Allow FFmpeg to use experimental specs
+                .done();
+
+        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+
+        // Run a one-pass encode
+        executor.createJob(builder).run();
+    }
+
 
 }
