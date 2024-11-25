@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.util.Objects;
 
 public class ConvertVideoFileView extends JPanel implements ActionListener, PropertyChangeListener {
@@ -62,10 +63,11 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
 
     private final JButton saveAsDestination;
 
-    private final JFileChooser fileChooserDialog = new JFileChooser();
+    private JFileChooser fileChooserDialog = new JFileChooser();
 
     private final JLabel outputPath = new JLabel();
 
+    private final JLabel errorField = new JLabel();
 
     public ConvertVideoFileView(ConvertVideoFileViewModel convertVideoFileViewModel) {
         this.convertVideoFileViewModel = convertVideoFileViewModel;
@@ -168,7 +170,9 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
         LabelButtonPanel saveAsDestinationField = new LabelButtonPanel(saveAsDestinationLabel, saveAsDestination);
 
         //init file chooser
-        fileChooserDialog.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//        String path = convertVideoFileViewModel.getState().getInputFilePath();
+//        path = path.substring(0, path.lastIndexOf("\\"));
+//        fileChooserDialog = new JFileChooser(new File(path));
 
         convertButton.addActionListener(
                 e -> {
@@ -233,14 +237,18 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
         this.add(sampleRateField);
         this.add(saveAsDestinationField);
         this.add(outputPath);
+        this.add(errorField);
     }
 
     private void addOutputFormatDropdownListener() {
         outputFormatDropdown.addActionListener(
                 e -> {
                     final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
-                    currentState.setOutputFilePath(Objects.requireNonNull(outputFormatDropdown.getSelectedItem()).toString());
+                    String path = currentState.getOutputFilePath();
+                    path = path.substring(0, path.lastIndexOf('.')) + '.' + Objects.requireNonNull(outputFormatDropdown.getSelectedItem()).toString();
+                    currentState.setOutputFilePath(path);
                     convertVideoFileViewModel.setState(currentState);
+                    convertVideoFileViewModel.firePropertyChanged();
                 }
         );
     }
@@ -304,7 +312,7 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
                 new DocumentListener() {
                     private void documentListenerHelper() {
                         final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
-                        currentState.setEndTimeSeconds(Double.parseDouble(startTimeSecond.getText()));
+                        currentState.setStartTimeSeconds(Double.parseDouble(startTimeSecond.getText()));
                         convertVideoFileViewModel.setState(currentState);
                     }
 
@@ -547,6 +555,29 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
     public void propertyChange(PropertyChangeEvent evt) {
         final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
         outputPath.setText(currentState.getOutputFilePath());
+        fileChooserDialog.setSelectedFile(new File(currentState.getOutputFilePath()));
+        errorField.setText(currentState.getConversionErrorMessage());
+    }
+
+    public void init(){
+        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+        outputFormatDropdown.setSelectedItem(currentState.getOutputFormatName());
+        startTimeHour.setText(String.valueOf(currentState.getStartTimeHours()));
+        startTimeMinute.setText(String.valueOf(currentState.getStartTimeMinutes()));
+        startTimeSecond.setText(String.valueOf(currentState.getStartTimeSeconds()));
+        endTimeHour.setText(String.valueOf(currentState.getEndTimeHours()));
+        endTimeMinute.setText(String.valueOf(currentState.getEndTimeMinutes()));
+        endTimeSecond.setText(String.valueOf(currentState.getEndTimeSeconds()));
+        dimensionHeight.setText(String.valueOf(currentState.getHeight()));
+        dimensionWidth.setText(String.valueOf(currentState.getWidth()));
+        frameRate.setValue(currentState.getFrameRate());
+        videoBitrate.setValue(currentState.getVideoBitRate());
+        audioCodecDropdown.setSelectedItem(currentState.getAudioCodecName());
+        numberOfChannel.setValue(currentState.getNumAudioChannels());
+        audioBitrate.setValue(currentState.getAudioSampleRate());
+        sampleRate.setText(String.valueOf(currentState.getAudioSampleRate()));
+        outputPath.setText(String.valueOf(currentState.getOutputFilePath()));
+        fileChooserDialog.setSelectedFile(new File(currentState.getOutputFilePath()));
     }
 
 }

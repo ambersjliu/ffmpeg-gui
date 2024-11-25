@@ -38,6 +38,8 @@ public class ConvertVideoFileViewModel extends ViewModel<ConvertVideoFileState> 
 
     public static final String SAMPLE_RATE_LABEL = "Sample Rate";
 
+    public static final String OUTPUT_FILE_NAME_LABEL = "Output File Name";
+
     public static final String SAVE_AS_DESTINATION_LABEL = "Save as:";
     public static final String BROWSE_LABEL = "Browse";
 

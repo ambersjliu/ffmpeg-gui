@@ -11,7 +11,7 @@ public class TimeCode {
     public TimeCode(double timeInSeconds) {
         this.hours = (int) (timeInSeconds / 3600);
         this.minutes = (int) ((timeInSeconds % 3600) / 60);
-        seconds = timeInSeconds % 60;
+        this.seconds = timeInSeconds % 60;
     }
 
     public double toSeconds() {
