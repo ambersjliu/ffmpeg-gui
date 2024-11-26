@@ -178,6 +178,7 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
                 e -> {
                     if (e.getSource().equals(convertButton)) {
                         final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                        updateState(currentState);
                         convertVideoFileController.execute(currentState);
                     }
                 }
@@ -238,6 +239,34 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
         this.add(saveAsDestinationField);
         this.add(outputPath);
         this.add(errorField);
+    }
+
+    private void updateState(ConvertVideoFileState currentState) {
+        String currentFormat = Objects.requireNonNull(outputFormatDropdown.getSelectedItem()).toString();
+        String path = currentState.getOutputFilePath();
+        path = path.substring(0, path.lastIndexOf('.')) + '.' + currentFormat;
+        currentState.setOutputFilePath(path);
+        currentState.setOutputFormatName(currentFormat);
+
+        currentState.setStartTimeHours(Integer.parseInt(startTimeHour.getText()));
+        currentState.setStartTimeMinutes(Integer.parseInt(startTimeMinute.getText()));
+        currentState.setStartTimeSeconds(Double.parseDouble(startTimeSecond.getText()));
+
+        currentState.setEndTimeHours(Integer.parseInt(endTimeHour.getText()));
+        currentState.setEndTimeMinutes(Integer.parseInt(endTimeMinute.getText()));
+        currentState.setEndTimeSeconds(Double.parseDouble(endTimeSecond.getText()));
+
+        currentState.setWidth(Integer.parseInt(dimensionWidth.getText()));
+        currentState.setHeight(Integer.parseInt(dimensionHeight.getText()));
+
+        currentState.setFrameRate(Double.parseDouble(frameRate.getValue().toString()));
+        currentState.setVideoBitRate(Integer.parseInt(videoBitrate.getValue().toString()));
+        currentState.setVideoCodecName(videoCodecDropdown.getSelectedItem().toString());
+
+        currentState.setAudioCodecName(audioCodecDropdown.getSelectedItem().toString());
+        currentState.setAudioBitRate(Integer.parseInt(audioBitrate.getValue().toString()));
+        currentState.setNumAudioChannels(Integer.parseInt(numberOfChannel.getValue().toString()));
+        currentState.setAudioSampleRate(Long.parseLong(sampleRate.getText()));
     }
 
     private void addOutputFormatDropdownListener() {
