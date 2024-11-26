@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ConvertAudioFIleState {
+public class ConvertAudioFileState {
     private String inputFilePath;
     private String outputFilePath;
     private String outputFormatName;
@@ -32,7 +32,7 @@ public class ConvertAudioFIleState {
     private String conversionSuccessMessage;
     private String conversionErrorMessage;
 
-    public ConvertAudioFIleState(String inputFilePath, String outputFormatName,
+    public ConvertAudioFileState(String inputFilePath, String outputFormatName,
                                  TimeCode startTime, TimeCode endTime,
                                  AudioAttributes audioAttributes) {
         this.inputFilePath = inputFilePath;
