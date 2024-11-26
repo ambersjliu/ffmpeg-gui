@@ -143,7 +143,7 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
 
         double frameRate = job.getVideoAttributes().getFps();
         int width = job.getVideoAttributes().getWidth();
-        int height = job.getVideoAttributes().getHeight();
+
 
         FFmpegBuilder builder = new FFmpegBuilder()
 

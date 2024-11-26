@@ -30,10 +30,6 @@ public class ConvertVideoTest {
     @Mock
     ConvertVideoFileOutputBoundary mockConvertVideoFileOutputBoundary;
 
-    @Mock
-    ConvertVideoFileData convertVideoFileData;
-
-
     @InjectMocks
     ConvertVideoFileInteractor convertVideoFileInteractor;
 
@@ -54,7 +50,7 @@ public class ConvertVideoTest {
         try (MockedStatic<Validator> mocked = mockStatic(Validator.class)) {
             Mockito.doNothing().when(mockFFmpegService).convertVideo(any());
 //            Mockito.doReturn(new VideoJob()).when(convertVideoFileInteractor).createVideoJob(any());
-            convertVideoFileInteractor.execute(convertVideoFileData);
+            convertVideoFileInteractor.execute(inputData);
             Mockito.verify(mockConvertVideoFileOutputBoundary).prepareSuccessView(any());
         }
     }
@@ -63,7 +59,7 @@ public class ConvertVideoTest {
     void executeWithBadFileExceptionShouldPrepareFailView(){
         try (MockedStatic<Validator> mocked = mockStatic(Validator.class)) {
             mocked.when(()->Validator.validateFilePath(any())).thenThrow(new BadFileException());
-            convertVideoFileInteractor.execute(convertVideoFileData);
+            convertVideoFileInteractor.execute(inputData);
             Mockito.verify(mockConvertVideoFileOutputBoundary).prepareFailView("Invalid or null file path");
         }
     }
@@ -74,7 +70,7 @@ public class ConvertVideoTest {
         try (MockedStatic<Validator> mocked = mockStatic(Validator.class)) {
 //            Mockito.doReturn(new VideoJob()).when(convertVideoFileInteractor).createVideoJob(any());
             Mockito.doThrow(new IllegalArgumentException()).when(mockFFmpegService).convertVideo(any());
-            convertVideoFileInteractor.execute(convertVideoFileData);
+            convertVideoFileInteractor.execute(inputData);
             Mockito.verify(mockConvertVideoFileOutputBoundary).prepareFailView("Error occurred when processing: " +
                     "possibly invalid codec/format combination");
         }
@@ -86,7 +82,7 @@ public class ConvertVideoTest {
         try (MockedStatic<Validator> mocked = mockStatic(Validator.class)) {
 //            Mockito.doReturn(new VideoJob()).when(convertVideoFileInteractor).createVideoJob(any());
             Mockito.doThrow(new RuntimeException()).when(mockFFmpegService).convertVideo(any());
-            convertVideoFileInteractor.execute(convertVideoFileData);
+            convertVideoFileInteractor.execute(inputData);
             Mockito.verify(mockConvertVideoFileOutputBoundary).prepareFailView("Unexpected error occurred.");
         }
     }
