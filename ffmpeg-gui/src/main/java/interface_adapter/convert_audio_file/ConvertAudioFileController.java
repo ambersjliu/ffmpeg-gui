@@ -18,7 +18,7 @@ public class ConvertAudioFileController {
         String outputFileName = convertAudioFileState.getOutputFilePath();
         String outputFormat = convertAudioFileState.getOutputFormatName();
 
-        TimeCode startTimeCode = new TimeCode(convertAudioFileState.getStartTimeHours(), convertAudioFileState.getStartTimeHours(), convertAudioFileState.getStartTimeSeconds());
+        TimeCode startTimeCode = new TimeCode(convertAudioFileState.getStartTimeHours(), convertAudioFileState.getStartTimeMinutes(), convertAudioFileState.getStartTimeSeconds());
         double startTime = startTimeCode.toSeconds();
 
         TimeCode endTimeCode = new TimeCode(convertAudioFileState.getEndTimeHours(), convertAudioFileState.getEndTimeMinutes(), convertAudioFileState.getEndTimeSeconds());
