@@ -1,5 +1,6 @@
 package view;
 
+import constant.VideoCodec;
 import interface_adapter.change_file.ChangeFileController;
 import interface_adapter.convert_video_file.ConvertVideoFileController;
 import interface_adapter.convert_video_file.ConvertVideoFileState;
@@ -574,6 +575,7 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
         dimensionWidth.setText(String.valueOf(currentState.getWidth()));
         frameRate.setValue(currentState.getFrameRate());
         videoBitrate.setValue(currentState.getVideoBitRate());
+        videoCodecDropdown.setSelectedItem(currentState.getVideoCodecName());
         audioCodecDropdown.setSelectedItem(currentState.getAudioCodecName());
         numberOfChannel.setValue(currentState.getNumAudioChannels());
         audioBitrate.setValue(currentState.getAudioSampleRate());
