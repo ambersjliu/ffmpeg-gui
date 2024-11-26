@@ -3,6 +3,8 @@ package interface_adapter.convert_video_file;
 import attribute.AudioAttributes;
 import attribute.TimeCode;
 import attribute.VideoAttributes;
+import constant.AudioCodec;
+import constant.VideoCodec;
 import constant.VideoFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,7 +44,7 @@ public class ConvertVideoFileState {
                                  TimeCode startTime, TimeCode endTime,
                                  VideoAttributes videoAttributes, AudioAttributes audioAttributes) {
         this.inputFilePath = inputFilePath;
-        this.outputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf('.')) + "." + VideoFormat.DEFAULT_FORMAT;
+        this.outputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf('.')) + "." + VideoFormat.DEFAULT_VIDEO_FORMAT;
         this.outputFormatName = outputFormatName;
 
         this.startTimeHours = startTime.getHours();
@@ -57,9 +59,9 @@ public class ConvertVideoFileState {
         this.height = videoAttributes.getHeight();
         this.videoBitRate = videoAttributes.getBitrate();
         this.frameRate = videoAttributes.getFps();
-        this.videoCodecName = videoAttributes.getCodecName();
+        this.videoCodecName = VideoCodec.DEFAULT_VIDEO_CODEC;
 
-        this.audioCodecName = audioAttributes.getCodecName();
+        this.audioCodecName = AudioCodec.DEFAULT_AUDIO_CODEC;
         this.audioSampleRate = audioAttributes.getSampleRate();
         this.numAudioChannels = audioAttributes.getChannels();
         this.audioBitRate = audioAttributes.getBitrate();

@@ -55,7 +55,7 @@ public class AddInputFilePresenter implements AddInputFileOutputBoundary {
         FFmpegFormat format = outputVideoData.getFormat();
 
         String inputFilePath = outputVideoData.getInputFilePath();
-        String formatName = VideoFormat.DEFAULT_FORMAT;
+        String formatName = VideoFormat.DEFAULT_VIDEO_FORMAT;
 
         VideoAttributes videoAttributes = outputVideoData.getVideoAttributes();
         AudioAttributes audioAttributes = outputVideoData.getAudioAttributes();
