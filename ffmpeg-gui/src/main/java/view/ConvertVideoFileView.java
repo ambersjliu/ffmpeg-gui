@@ -36,16 +36,16 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
 
     private final JComboBox<String> outputFormatDropdown;
 
-    private final JTextField startTimeHour = new JTextField(4);
-    private final JTextField startTimeMinute = new JTextField(4);
-    private final JTextField startTimeSecond = new JTextField(4);
+    private JTextField startTimeHour = new JTextField(4);
+    private JTextField startTimeMinute = new JTextField(4);
+    private JTextField startTimeSecond = new JTextField(4);
 
-    private final JTextField endTimeHour = new JTextField(4);
-    private final JTextField endTimeMinute = new JTextField(4);
-    private final JTextField endTimeSecond = new JTextField(4);
+    private JTextField endTimeHour = new JTextField(4);
+    private JTextField endTimeMinute = new JTextField(4);
+    private JTextField endTimeSecond = new JTextField(4);
 
-    private final JTextField dimensionWidth = new JTextField(7);
-    private final JTextField dimensionHeight = new JTextField(7);
+    private JTextField dimensionWidth = new JTextField(7);
+    private JTextField dimensionHeight = new JTextField(7);
 
     private final JSpinner frameRate = new JSpinner(new SpinnerNumberModel(0, 0, 1000, 0.5));
 
@@ -59,7 +59,7 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
 
     private final JSpinner numberOfChannel = new JSpinner();
 
-    private final JTextField sampleRate = new JTextField(14);
+    private JTextField sampleRate = new JTextField(14);
 
     private final JButton saveAsDestination;
 
@@ -254,217 +254,81 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
     }
 
     private void addStartTimeHourListener() {
-        startTimeHour.getDocument().addDocumentListener(
-                new DocumentListener() {
-                    private void documentListenerHelper() {
-                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
-                        currentState.setStartTimeHours(Integer.parseInt(startTimeHour.getText()));
-                        convertVideoFileViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void insertUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void removeUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void changedUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
+        startTimeHour.addActionListener(
+                e->{
+                    final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                    currentState.setStartTimeHours(Integer.parseInt(startTimeHour.getText()));
+                    convertVideoFileViewModel.setState(currentState);
                 }
         );
     }
 
     private void addStartTimeMinuteListener() {
-        startTimeMinute.getDocument().addDocumentListener(
-                new DocumentListener() {
-                    private void documentListenerHelper() {
-                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
-                        currentState.setStartTimeMinutes(Integer.parseInt(startTimeMinute.getText()));
-                        convertVideoFileViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void insertUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void removeUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void changedUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
+        startTimeMinute.addActionListener(
+                e -> {
+                    final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                    currentState.setStartTimeMinutes(Integer.parseInt(startTimeMinute.getText()));
+                    convertVideoFileViewModel.setState(currentState);
                 }
         );
     }
 
     private void addStartTimeSecondListener() {
-        startTimeSecond.getDocument().addDocumentListener(
-                new DocumentListener() {
-                    private void documentListenerHelper() {
-                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
-                        currentState.setStartTimeSeconds(Double.parseDouble(startTimeSecond.getText()));
-                        convertVideoFileViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void insertUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void removeUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void changedUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
+        startTimeSecond.addActionListener(
+                e -> {
+                    final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                    currentState.setStartTimeSeconds(Double.parseDouble(startTimeSecond.getText()));
+                    convertVideoFileViewModel.setState(currentState);
                 }
         );
     }
 
     private void addEndTimeHourListener() {
-        endTimeHour.getDocument().addDocumentListener(
-                new DocumentListener() {
-                    private void documentListenerHelper() {
-                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
-                        currentState.setEndTimeHours(Integer.parseInt(endTimeHour.getText()));
-                        convertVideoFileViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void insertUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void removeUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void changedUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
+        endTimeHour.addActionListener(
+                e -> {
+                    final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                    currentState.setEndTimeHours(Integer.parseInt(endTimeHour.getText()));
+                    convertVideoFileViewModel.setState(currentState);
                 }
         );
     }
 
     private void addEndTimeMinuteListener() {
-        endTimeMinute.getDocument().addDocumentListener(
-                new DocumentListener() {
-                    private void documentListenerHelper() {
-                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
-                        currentState.setEndTimeMinutes(Integer.parseInt(endTimeMinute.getText()));
-                        convertVideoFileViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void insertUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void removeUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void changedUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
+        endTimeMinute.addActionListener(
+                e -> {
+                    final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                    currentState.setEndTimeMinutes(Integer.parseInt(endTimeMinute.getText()));
+                    convertVideoFileViewModel.setState(currentState);
                 }
         );
     }
 
     private void addEndTimeSecondListener() {
-        endTimeSecond.getDocument().addDocumentListener(
-                new DocumentListener() {
-                    private void documentListenerHelper() {
-                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
-                        currentState.setEndTimeSeconds(Double.parseDouble(endTimeSecond.getText()));
-                        convertVideoFileViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void insertUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void removeUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void changedUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
+        endTimeSecond.addActionListener(
+                e -> {
+                    final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                    currentState.setEndTimeSeconds(Double.parseDouble(endTimeSecond.getText()));
+                    convertVideoFileViewModel.setState(currentState);
                 }
         );
     }
 
     private void addDimensionWidthListener(){
-        dimensionWidth.getDocument().addDocumentListener(
-                new DocumentListener() {
-                    private void documentListenerHelper() {
-                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
-                        currentState.setWidth(Integer.parseInt(dimensionWidth.getText()));
-                        convertVideoFileViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void insertUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void removeUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void changedUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
+        dimensionWidth.addActionListener(
+                e -> {
+                    final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                    currentState.setWidth(Integer.parseInt(dimensionWidth.getText()));
+                    convertVideoFileViewModel.setState(currentState);
                 }
         );
     }
 
     private void addDimensionHeightListener(){
-        dimensionHeight.getDocument().addDocumentListener(
-                new DocumentListener() {
-                    private void documentListenerHelper() {
-                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
-                        currentState.setHeight(Integer.parseInt(dimensionHeight.getText()));
-                        convertVideoFileViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void insertUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void removeUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void changedUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
+        dimensionHeight.addActionListener(
+                e -> {
+                    final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                    currentState.setHeight(Integer.parseInt(dimensionHeight.getText()));
+                    convertVideoFileViewModel.setState(currentState);
                 }
         );
     }
@@ -522,28 +386,11 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
     }
 
     private void addSampleRateListener(){
-        sampleRate.getDocument().addDocumentListener(
-                new DocumentListener() {
-                    private void documentListenerHelper() {
-                        final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
-                        currentState.setAudioSampleRate(Long.parseLong(sampleRate.getText()));
-                        convertVideoFileViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void insertUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void removeUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
-
-                    @Override
-                    public void changedUpdate(DocumentEvent e) {
-                        documentListenerHelper();
-                    }
+        sampleRate.addActionListener(
+                e -> {
+                    final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
+                    currentState.setAudioSampleRate(Long.parseLong(sampleRate.getText()));
+                    convertVideoFileViewModel.setState(currentState);
                 }
         );
     }
@@ -562,7 +409,7 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
     public void init(){
         final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
         outputFormatDropdown.setSelectedItem(currentState.getOutputFormatName());
-        startTimeHour.setText(String.valueOf(currentState.getStartTimeHours()));
+        startTimeHour.setText(Integer.toString(currentState.getStartTimeHours()));
         startTimeMinute.setText(String.valueOf(currentState.getStartTimeMinutes()));
         startTimeSecond.setText(String.valueOf(currentState.getStartTimeSeconds()));
         endTimeHour.setText(String.valueOf(currentState.getEndTimeHours()));
