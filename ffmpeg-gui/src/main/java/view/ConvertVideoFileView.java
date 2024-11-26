@@ -243,10 +243,12 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
     private void addOutputFormatDropdownListener() {
         outputFormatDropdown.addActionListener(
                 e -> {
+                    String currentFormat = Objects.requireNonNull(outputFormatDropdown.getSelectedItem()).toString();
                     final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
                     String path = currentState.getOutputFilePath();
-                    path = path.substring(0, path.lastIndexOf('.')) + '.' + Objects.requireNonNull(outputFormatDropdown.getSelectedItem()).toString();
+                    path = path.substring(0, path.lastIndexOf('.')) + '.' + currentFormat;
                     currentState.setOutputFilePath(path);
+                    currentState.setOutputFormatName(currentFormat);
                     convertVideoFileViewModel.setState(currentState);
                     convertVideoFileViewModel.firePropertyChanged();
                 }

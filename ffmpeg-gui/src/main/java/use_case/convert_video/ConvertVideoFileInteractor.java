@@ -23,7 +23,11 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
         try {
             Validator.validateFilePath(videoFileData.getInputFileName());
             VideoJob job = createVideoJob(videoFileData);
-            this.ffmpegService.convertVideo(job);
+            if (isOutputGif(videoFileData)){
+                this.ffmpegService.convertVideoToGif(job);
+            } else {
+                this.ffmpegService.convertVideo(job);
+            }
             String successMessage = "Successfully converted with output: " + videoFileData.getOutputFileName();
             final ConvertVideoFileOutputData outputData = new ConvertVideoFileOutputData(true, successMessage);
             this.convertVideoFileOutputBoundary.prepareSuccessView(outputData);
@@ -49,6 +53,10 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
                 videoFileData.getVideoAttributes(),
                 videoFileData.getAudioAttributes()
         );
+    }
+
+    private boolean isOutputGif(ConvertVideoFileData videoFileData) {
+        return videoFileData.getOutputFormat().equals("gif");
     }
 
 }
