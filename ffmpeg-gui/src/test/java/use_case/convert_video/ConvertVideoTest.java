@@ -7,11 +7,13 @@ import entity.VideoJob;
 import exceptions.BadFileException;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import use_case.convert_audio.ConvertAudioFileData;
 import utils.Validator;
 
 import java.io.IOException;
@@ -33,14 +35,25 @@ public class ConvertVideoTest {
 
 
     @InjectMocks
-    @Spy
     ConvertVideoFileInteractor convertVideoFileInteractor;
+
+    ConvertVideoFileData inputData;
+
+    @BeforeEach
+    void setup(){
+        // make a fake convertAudioFileData
+        VideoAttributes videoAttributes = new VideoAttributes(1,2,3,4, "hi");
+        AudioAttributes audioAttributes = new AudioAttributes(1,2,3, "hi");
+        inputData = new ConvertVideoFileData(
+                "bye", "bye", "mp3", 12.00, 14.00,
+                videoAttributes, audioAttributes);
+    }
 
     @Test
     void executeHappyPath(){
         try (MockedStatic<Validator> mocked = mockStatic(Validator.class)) {
             Mockito.doNothing().when(mockFFmpegService).convertVideo(any());
-            Mockito.doReturn(new VideoJob()).when(convertVideoFileInteractor).createVideoJob(any());
+//            Mockito.doReturn(new VideoJob()).when(convertVideoFileInteractor).createVideoJob(any());
             convertVideoFileInteractor.execute(convertVideoFileData);
             Mockito.verify(mockConvertVideoFileOutputBoundary).prepareSuccessView(any());
         }
@@ -59,7 +72,7 @@ public class ConvertVideoTest {
     @Test
     void executeWithIllegalArgumentExceptionShouldPrepareFailView(){
         try (MockedStatic<Validator> mocked = mockStatic(Validator.class)) {
-            Mockito.doReturn(new VideoJob()).when(convertVideoFileInteractor).createVideoJob(any());
+//            Mockito.doReturn(new VideoJob()).when(convertVideoFileInteractor).createVideoJob(any());
             Mockito.doThrow(new IllegalArgumentException()).when(mockFFmpegService).convertVideo(any());
             convertVideoFileInteractor.execute(convertVideoFileData);
             Mockito.verify(mockConvertVideoFileOutputBoundary).prepareFailView("Error occurred when processing: " +
@@ -71,7 +84,7 @@ public class ConvertVideoTest {
     @Test
     void executeWithOtherExceptionShouldPrepareFailView(){
         try (MockedStatic<Validator> mocked = mockStatic(Validator.class)) {
-            Mockito.doReturn(new VideoJob()).when(convertVideoFileInteractor).createVideoJob(any());
+//            Mockito.doReturn(new VideoJob()).when(convertVideoFileInteractor).createVideoJob(any());
             Mockito.doThrow(new RuntimeException()).when(mockFFmpegService).convertVideo(any());
             convertVideoFileInteractor.execute(convertVideoFileData);
             Mockito.verify(mockConvertVideoFileOutputBoundary).prepareFailView("Unexpected error occurred.");

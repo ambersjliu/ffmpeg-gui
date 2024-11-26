@@ -19,6 +19,7 @@ public class App {
                 .addGetPathsAndInitUseCase()
                 .addInputFileUseCase()
                 .addChangeFileUseCase()
+                .addConvertVideoFileUseCase()
                 .build();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

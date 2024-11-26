@@ -96,6 +96,7 @@ public class GetInputPathsAndInitView extends JPanel implements ActionListener, 
                         }
                     }
                 });
+
         nextButton.addActionListener(
                 e -> {
                     final GetInputPathsAndInitState currentState = getInputPathsAndInitViewModel.getState();

@@ -11,6 +11,7 @@ import net.bramp.ffmpeg.probe.FFmpegFormat;
 import use_case.add_input_file.AddInputFileOutputAudioData;
 import use_case.add_input_file.AddInputFileOutputBoundary;
 import use_case.add_input_file.AddInputFileOutputVideoData;
+import view.ConvertVideoFileView;
 
 @AllArgsConstructor
 public class AddInputFilePresenter implements AddInputFileOutputBoundary {
@@ -18,6 +19,7 @@ public class AddInputFilePresenter implements AddInputFileOutputBoundary {
     private final AddInputFileViewModel addInputFileViewModel;
     private final ConvertVideoFileViewModel convertVideoFileViewModel;
     private final ViewManagerModel viewManagerModel;
+    private final ConvertVideoFileView convertVideoFileView;
 
     @Override
     public void prepareAudioSuccessView(AddInputFileOutputAudioData outputData) {
@@ -30,7 +32,9 @@ public class AddInputFilePresenter implements AddInputFileOutputBoundary {
         System.out.println("Success");
         final ConvertVideoFileState state = createConvertVideoState(outputVideoData);
         this.convertVideoFileViewModel.setState(state);
+        this.convertVideoFileView.init();
         this.convertVideoFileViewModel.firePropertyChanged();
+
 
         this.viewManagerModel.setState(convertVideoFileViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();

@@ -24,17 +24,21 @@ public class ConvertVideoFileViewModel extends ViewModel<ConvertVideoFileState> 
 
     public static final String FRAME_RATE_LABEL = "Frame Rate";
 
+    public static final String VIDEO_BITRATE_LABEL = "Video Bitrate";
+
     public static final String VIDEO_CODEC_LABEL = "Video codec";
     public static final String[] VIDEO_CODEC = VideoCodec.VIDEO_CODEC;
 
     public static final String AUDIO_CODEC_LABEL = "Audio Codec";
     public static final String[] AUDIO_CODEC = AudioCodec.AUDIO_CODEC;
 
-    public static final String BITRATE_LABEL = "Bitrate";
+    public static final String AUDIO_BITRATE_LABEL = "Audio Bitrate";
 
     public static final String CHANNEL_LABEL = "Channels";
 
     public static final String SAMPLE_RATE_LABEL = "Sample Rate";
+
+    public static final String OUTPUT_FILE_NAME_LABEL = "Output File Name";
 
     public static final String SAVE_AS_DESTINATION_LABEL = "Save as:";
     public static final String BROWSE_LABEL = "Browse";
