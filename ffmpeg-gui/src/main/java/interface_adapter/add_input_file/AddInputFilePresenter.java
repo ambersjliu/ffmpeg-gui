@@ -3,6 +3,7 @@ package interface_adapter.add_input_file;
 import attribute.AudioAttributes;
 import attribute.TimeCode;
 import attribute.VideoAttributes;
+import constant.VideoFormat;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.convert_video_file.ConvertVideoFileState;
 import interface_adapter.convert_video_file.ConvertVideoFileViewModel;
@@ -54,7 +55,7 @@ public class AddInputFilePresenter implements AddInputFileOutputBoundary {
         FFmpegFormat format = outputVideoData.getFormat();
 
         String inputFilePath = outputVideoData.getInputFilePath();
-        String formatName = format.format_name;
+        String formatName = VideoFormat.DEFAULT_FORMAT;
 
         VideoAttributes videoAttributes = outputVideoData.getVideoAttributes();
         AudioAttributes audioAttributes = outputVideoData.getAudioAttributes();
