@@ -152,7 +152,7 @@ public class AppBuilder {
     }
 
     public JFrame build(){
-        final JFrame application = new JFrame("Setting ffmpeg file path");
+        final JFrame application = new JFrame();
         application.setSize(AppConstants.WIDTH, AppConstants.HEIGHT);
         application.setResizable(AppConstants.RESIZABLE);
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
