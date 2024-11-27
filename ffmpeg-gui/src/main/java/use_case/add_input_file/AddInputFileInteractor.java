@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import net.bramp.ffmpeg.probe.FFmpegFormat;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import net.bramp.ffmpeg.probe.FFmpegStream;
+import utils.Truncator;
 import utils.Validator;
 
 import java.io.IOException;
@@ -95,6 +96,10 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
     }
 
     private VideoAttributes createVideoAttributes(FFmpegStream ffmpegStream) throws BadFileException {
-        return new VideoAttributes(ffmpegStream);
+        VideoAttributes res = new VideoAttributes(ffmpegStream);
+        // Truncate FPS
+        double currFps = res.getFps();
+        res.setFps(Truncator.truncate(currFps));
+        return res;
     }
 }

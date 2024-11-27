@@ -12,6 +12,7 @@ import net.bramp.ffmpeg.probe.FFmpegFormat;
 import use_case.add_input_file.AddInputFileOutputAudioData;
 import use_case.add_input_file.AddInputFileOutputBoundary;
 import use_case.add_input_file.AddInputFileOutputVideoData;
+import utils.Truncator;
 import view.ConvertVideoFileView;
 
 @AllArgsConstructor
@@ -59,8 +60,8 @@ public class AddInputFilePresenter implements AddInputFileOutputBoundary {
 
         VideoAttributes videoAttributes = outputVideoData.getVideoAttributes();
         AudioAttributes audioAttributes = outputVideoData.getAudioAttributes();
-        TimeCode startTime = new TimeCode(format.start_time);
-        TimeCode endTime = new TimeCode(format.start_time + format.duration);
+        TimeCode startTime = new TimeCode(Truncator.truncate(format.start_time));
+        TimeCode endTime = new TimeCode(Truncator.truncate(format.start_time + format.duration));
         return new ConvertVideoFileState(inputFilePath, formatName, startTime, endTime, videoAttributes, audioAttributes);
     }
 }

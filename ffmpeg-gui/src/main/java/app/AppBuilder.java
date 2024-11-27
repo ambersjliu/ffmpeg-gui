@@ -1,5 +1,6 @@
 package app;
 
+import constant.AppConstants;
 import data_access.FFmpegService;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.add_input_file.AddInputFileController;
@@ -21,7 +22,6 @@ import use_case.change_file.ChangeFileInteractor;
 import use_case.change_file.ChangeFileOutputBoundary;
 import use_case.convert_video.ConvertVideoFileInputBoundary;
 import use_case.convert_video.ConvertVideoFileInteractor;
-import use_case.convert_video.ConvertVideoFileOutputBoundary;
 import use_case.get_paths_and_init.GetPathsAndInitInputBoundary;
 import use_case.get_paths_and_init.GetPathsAndInitInteractor;
 import use_case.get_paths_and_init.GetPathsAndInitOutputBoundary;
