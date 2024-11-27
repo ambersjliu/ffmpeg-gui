@@ -39,9 +39,9 @@ public class AddInputFileView extends JPanel implements PropertyChangeListener {
         // and registers this view as a listener to teh view model changes. When
         // ViewModel state changes, the view's propertyChange method will be called
         // this allows the view to update itself when data changes.
-        this.chooseFile = new JLabel(addInputFileViewModel.CHOOSE_FILE_LABEL);
-        this.nextButton = new JButton(addInputFileViewModel.NEXT_BUTTON_LABEL);
-        this.browseButton = new JButton(addInputFileViewModel.BROWSE_BUTTON_LABEL);
+        this.chooseFile = new JLabel(AddInputFileViewModel.CHOOSE_FILE_LABEL);
+        this.nextButton = new JButton(AddInputFileViewModel.NEXT_BUTTON_LABEL);
+        this.browseButton = new JButton(AddInputFileViewModel.BROWSE_BUTTON_LABEL);
 
         this.errorField = new JLabel("");
         this.errorField.setForeground(Color.red);

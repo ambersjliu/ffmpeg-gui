@@ -13,6 +13,7 @@ public class ConvertVideoFilePresenter implements ConvertVideoFileOutputBoundary
     @Override
     public void prepareSuccessView(ConvertVideoFileOutputData outputData) {
         final ConvertVideoFileState state = convertVideoFileViewModel.getState();
+        state.setConversionProgressMessage("");
         state.setConversionSuccessMessage(outputData.getSuccessMessage());
         convertVideoFileViewModel.firePropertyChanged();
     }
@@ -20,6 +21,7 @@ public class ConvertVideoFilePresenter implements ConvertVideoFileOutputBoundary
     @Override
     public void prepareFailView(String errorMessage) {
         final ConvertVideoFileState state = convertVideoFileViewModel.getState();
+        state.setConversionProgressMessage("");
         state.setConversionErrorMessage(errorMessage);
         convertVideoFileViewModel.firePropertyChanged();
     }

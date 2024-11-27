@@ -64,12 +64,12 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
         FFmpegBuilder builder = new FFmpegBuilder()
 
                 .setInput(input)
-                .overrideOutputFiles(true) // Override the output if it exists
+                .overrideOutputFiles(true)
 
-                .addOutput(output)   // Filename for the destination
+                .addOutput(output)
 
                 .disableSubtitle()
-                .setStartOffset(startTime, TimeUnit.SECONDS)// No subtiles
+                .setStartOffset(startTime, TimeUnit.SECONDS)
                 .setDuration(duration, TimeUnit.SECONDS)
                 .setFormat(format)
 
@@ -84,7 +84,7 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
                 .setVideoHeight(height)
                 .setVideoWidth(width)
 
-                .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL) // Allow FFmpeg to use experimental specs
+                .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL)
                 .done();
 
         FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);

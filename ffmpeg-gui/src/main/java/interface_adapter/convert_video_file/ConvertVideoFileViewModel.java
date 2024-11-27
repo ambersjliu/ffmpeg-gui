@@ -38,12 +38,12 @@ public class ConvertVideoFileViewModel extends ViewModel<ConvertVideoFileState> 
 
     public static final String SAMPLE_RATE_LABEL = "Sample Rate";
 
-    public static final String OUTPUT_FILE_NAME_LABEL = "Output File Name";
-
     public static final String SAVE_AS_DESTINATION_LABEL = "Save as:";
     public static final String BROWSE_LABEL = "Browse";
 
-    public ConvertVideoFileViewModel() throws IOException {
+    public static final String PROGRESS_MESSAGE = "Converting, please wait...";
+
+    public ConvertVideoFileViewModel(){
         super("convert video file");
         setState(new ConvertVideoFileState());
     }

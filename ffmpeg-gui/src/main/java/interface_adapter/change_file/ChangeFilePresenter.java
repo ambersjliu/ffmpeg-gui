@@ -19,13 +19,15 @@ public class ChangeFilePresenter implements ChangeFileOutputBoundary {
     @Override
     public void prepareSuccessView(ChangeFileOutputData changeFileOutputData) {
         final ConvertVideoFileState convertVideoFileState = convertVideoFileViewModel.getState();
-//        convertVideoFileState.setInputFilePath("");
         convertVideoFileViewModel.setState(convertVideoFileState);
         convertVideoFileViewModel.firePropertyChanged();
+
         final AddInputFileState addInputFileState = addInputFileViewModel.getState();
+        addInputFileState.setFileError("");
         addInputFileState.setFilePath(changeFileOutputData.getPath());
         addInputFileViewModel.setState(addInputFileState);
         addInputFileViewModel.firePropertyChanged();
+
         this.viewManagerModel.setState(addInputFileViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
