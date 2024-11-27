@@ -20,7 +20,7 @@ public class ConvertVideoFileController {
         String outputFormat = convertVideoFileState.getOutputFormatName();
 
 
-        TimeCode startTimeCode = new TimeCode(convertVideoFileState.getStartTimeHours(), convertVideoFileState.getStartTimeHours(), convertVideoFileState.getStartTimeSeconds());
+        TimeCode startTimeCode = new TimeCode(convertVideoFileState.getStartTimeHours(), convertVideoFileState.getStartTimeMinutes(), convertVideoFileState.getStartTimeSeconds());
         double startTime = startTimeCode.toSeconds();
 
         TimeCode endTimeCode = new TimeCode(convertVideoFileState.getEndTimeHours(), convertVideoFileState.getEndTimeMinutes(), convertVideoFileState.getEndTimeSeconds());
