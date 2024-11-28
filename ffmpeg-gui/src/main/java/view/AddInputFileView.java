@@ -4,20 +4,15 @@ import interface_adapter.add_input_file.AddInputFileViewModel;
 import interface_adapter.add_input_file.AddInputFileState;
 import interface_adapter.add_input_file.AddInputFileController;
 import lombok.Setter;
-import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 
 
 public class AddInputFileView extends JPanel implements PropertyChangeListener {
-    @Getter
-    private final String viewName = "add input file";
     private final AddInputFileViewModel addInputFileViewModel;
     @Setter
     private AddInputFileController addInputFileController;

@@ -16,10 +16,12 @@ public class App {
                 .addGetPathsAndInitView()
                 .addInputFileView()
                 .convertVideoFileView()
+                .convertAudioFileView()
                 .addGetPathsAndInitUseCase()
                 .addInputFileUseCase()
                 .addChangeFileUseCase()
                 .addConvertVideoFileUseCase()
+                .addConvertAudioFileUseCase()
                 .build();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
