@@ -45,7 +45,7 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
     private final JComboBox<String> audioCodecDropdown;
 
     private final JSpinner audioBitrate = new JSpinner(new SpinnerNumberModel(0, 0,
-            NumericalConstants.MAX_DECIMAL_PLACES, 1));
+            NumericalConstants.MAX_BITRATE, 1));
 
     private final JSpinner numberOfChannel = new JSpinner();
 
