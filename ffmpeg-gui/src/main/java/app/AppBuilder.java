@@ -118,7 +118,7 @@ public class AppBuilder {
 
     public AppBuilder addChangeFileUseCase(){
         final ChangeFileOutputBoundary changeFileOutputBoundary =
-                new ChangeFilePresenter(convertVideoFileViewModel, viewManagerModel, addInputFileViewModel);
+                new ChangeFilePresenter(viewManagerModel, addInputFileViewModel);
 
         final ChangeFileInputBoundary changeFileInteractor =
                 new ChangeFileInteractor(changeFileOutputBoundary);
