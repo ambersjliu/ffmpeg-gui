@@ -34,7 +34,7 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
         }catch(BadFileException e){
             this.convertVideoFileOutputBoundary.prepareFailView("Invalid or null file path");
         } catch (IllegalArgumentException e){
-            this.convertVideoFileOutputBoundary.prepareFailView("Error occurred when processing: possibly invalid codec/format combination");
+            this.convertVideoFileOutputBoundary.prepareFailView("Error occurred when processing: invalid argument");
         } catch (Exception e) {
             this.convertVideoFileOutputBoundary.prepareFailView("Unexpected error occurred.");
         }
