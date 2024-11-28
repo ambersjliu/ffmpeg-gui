@@ -40,7 +40,7 @@ public class GetPathsAndInitTest {
 
     @Test
     @SneakyThrows
-    public void failureIOExceptionShouldPrepareFailView(){
+    public void validateBinariesIOExceptionShouldPrepareFailView(){
         GetPathsAndInitData inputData = new GetPathsAndInitData(".", ".");
         GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary = new GetPathsAndInitOutputBoundary(){
 
@@ -58,6 +58,12 @@ public class GetPathsAndInitTest {
         Mockito.doThrow(new IOException()).when(ffmpegService).validateBinaries();
         GetPathsAndInitInputBoundary interactor = new GetPathsAndInitInteractor(getPathsAndInitOutputBoundary, ffmpegService);
         interactor.execute(inputData);
+    }
+
+    @Test
+    @SneakyThrows
+    public void doesEndOfPathContainIOExceptionShouldPrepareFailView(){
+        // Todo
     }
 
     @Test

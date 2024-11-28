@@ -2,8 +2,20 @@ package utils;
 
 import exceptions.BadFileException;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class Validator {
     private Validator() {
+    }
+
+    public static void doesEndOfPathContain(String filePath, String targetString) throws IOException {
+        Path path = Paths.get(filePath);
+        Path endOfPath = path.getFileName();
+        if (endOfPath == null || endOfPath.toString().contains(targetString)) {
+            throw new IOException();
+        }
     }
 
     public static void validateFilePaths(String... paths) throws BadFileException {
