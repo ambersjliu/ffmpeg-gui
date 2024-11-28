@@ -1,11 +1,13 @@
 package view;
 
 import constant.AppConstants;
+import constant.NumericalConstants;
 import interface_adapter.change_file.ChangeFileController;
 import interface_adapter.convert_video_file.ConvertVideoFileController;
 import interface_adapter.convert_video_file.ConvertVideoFileState;
 import interface_adapter.convert_video_file.ConvertVideoFileViewModel;
 import lombok.Setter;
+import utils.Validator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,15 +43,17 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
     private final JTextField dimensionWidth = new JTextField(7);
     private final JTextField dimensionHeight = new JTextField(7);
 
-    private final JSpinner frameRate = new JSpinner(new SpinnerNumberModel(0, 0, 1000, 0.5));
+    private final JSpinner frameRate = new JSpinner(new SpinnerNumberModel(0, 0, NumericalConstants.MAX_FRAMERATE, 0.5));
 
-    private final JSpinner videoBitrate = new JSpinner(new SpinnerNumberModel(0, 0, 100_000_000, 1));
+    private final JSpinner videoBitrate = new JSpinner(new SpinnerNumberModel(0, 0,
+            NumericalConstants.MAX_BITRATE, 1));
 
     private final JComboBox<String> videoCodecDropdown;
 
     private final JComboBox<String> audioCodecDropdown;
 
-    private final JSpinner audioBitrate = new JSpinner(new SpinnerNumberModel(0, 0, 100_000_000, 1));
+    private final JSpinner audioBitrate = new JSpinner(new SpinnerNumberModel(0, 0,
+            NumericalConstants.MAX_BITRATE, 1));
 
     private final JSpinner numberOfChannel = new JSpinner();
 
@@ -65,7 +69,7 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
 
     private final JLabel successField = new JLabel();
 
-    private final JLabel progressField = new JLabel();
+    private final JLabel warningField = new JLabel();
 
     public ConvertVideoFileView(ConvertVideoFileViewModel convertVideoFileViewModel) {
         this.convertVideoFileViewModel = convertVideoFileViewModel;
@@ -173,20 +177,26 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
         //success field
         successField.setForeground(AppConstants.SUCCESS_COLOR);
 
-        //progress field
-        progressField.setForeground(AppConstants.PROGRESS_COLOR);
+        //warning field
+        warningField.setForeground(AppConstants.WARNING_COLOR);
 
 
         convertButton.addActionListener(
                 e -> {
                     if (e.getSource().equals(convertButton)) {
                         final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();
-                        updateState(currentState);
-                        currentState.setConversionProgressMessage(ConvertVideoFileViewModel.PROGRESS_MESSAGE);
-                        currentState.setConversionErrorMessage("");
-                        currentState.setConversionSuccessMessage("");
-                        convertVideoFileViewModel.firePropertyChanged();
-                        convertVideoFileController.execute(currentState);
+                        if (Validator.validateNonEmptyTextFields(this)) {
+                            updateState(currentState);
+                            currentState.setConversionErrorMessage("");
+                            currentState.setConversionSuccessMessage("");
+                            currentState.setConversionWarningMessage("");
+                            convertVideoFileViewModel.firePropertyChanged();
+                            convertVideoFileController.execute(currentState);
+                        } else {
+                            currentState.setConversionWarningMessage(ConvertVideoFileViewModel.WARNING_MESSAGE);
+                            convertVideoFileViewModel.firePropertyChanged();
+                        }
+
                     }
                 }
         );
@@ -234,7 +244,7 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
         this.add(outputPath);
         this.add(errorField);
         this.add(successField);
-        this.add(progressField);
+        this.add(warningField);
     }
 
     private void updateState(ConvertVideoFileState currentState) {
@@ -289,9 +299,11 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
         outputPath.setText(currentState.getOutputFilePath());
         fileChooserDialog.setSelectedFile(new File(currentState.getOutputFilePath()));
         errorField.setText(currentState.getConversionErrorMessage());
-        progressField.setText(currentState.getConversionProgressMessage());
+        warningField.setText(currentState.getConversionWarningMessage());
         successField.setText(currentState.getConversionSuccessMessage());
     }
+
+
 
     public void init(){
         final ConvertVideoFileState currentState = convertVideoFileViewModel.getState();

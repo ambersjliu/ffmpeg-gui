@@ -38,7 +38,7 @@ public class ConvertVideoFileState {
     private long audioSampleRate;
 
     private String conversionSuccessMessage;
-    private String conversionProgressMessage;
+    private String conversionWarningMessage;
     private String conversionErrorMessage;
 
     public ConvertVideoFileState(String inputFilePath, String outputFormatName,

@@ -33,6 +33,8 @@ public class ConvertAudioFileViewModel extends ViewModel<ConvertAudioFileState> 
     public static final String SAVE_AS_DESTINATION_LABEL = "Save as:";
     public static final String BROWSE_LABEL = "Browse";
 
+    public static final String WARNING_LABEL = "Please fill all fields.";
+
     public ConvertAudioFileViewModel(){
         super("convert audio file");
         setState(new ConvertAudioFileState());
