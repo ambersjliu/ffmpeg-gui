@@ -41,7 +41,7 @@ public class ConvertVideoFileViewModel extends ViewModel<ConvertVideoFileState> 
     public static final String SAVE_AS_DESTINATION_LABEL = "Save as:";
     public static final String BROWSE_LABEL = "Browse";
 
-    public static final String PROGRESS_MESSAGE = "Converting, please wait...";
+    public static final String WARNING_MESSAGE = "Please fill all fields!";
 
     public ConvertVideoFileViewModel(){
         super("convert video file");

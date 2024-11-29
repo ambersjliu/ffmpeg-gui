@@ -1,12 +1,14 @@
 package view;
 
 import constant.AppConstants;
+import constant.NumericalConstants;
 import interface_adapter.change_file.ChangeFileController;
 import interface_adapter.convert_audio_file.ConvertAudioFileController;
 import interface_adapter.convert_audio_file.ConvertAudioFileState;
 import interface_adapter.convert_audio_file.ConvertAudioFileViewModel;
 
 import lombok.Setter;
+import utils.Validator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,7 +44,8 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
 
     private final JComboBox<String> audioCodecDropdown;
 
-    private final JSpinner audioBitrate = new JSpinner(new SpinnerNumberModel(0, 0, 100_000_000, 1));
+    private final JSpinner audioBitrate = new JSpinner(new SpinnerNumberModel(0, 0,
+            NumericalConstants.MAX_BITRATE, 1));
 
     private final JSpinner numberOfChannel = new JSpinner();
 
@@ -57,6 +60,8 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
     private final JLabel errorField = new JLabel();
 
     private final JLabel successField = new JLabel();
+
+    private final JLabel warningField = new JLabel();
 
     public ConvertAudioFileView(ConvertAudioFileViewModel convertAudioFileViewModel) {
         this.convertAudioFileViewModel = convertAudioFileViewModel;
@@ -135,15 +140,24 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
         //success field
         successField.setForeground(AppConstants.SUCCESS_COLOR);
 
+        //warning field
+        warningField.setForeground(AppConstants.WARNING_COLOR);
+
+
         convertButton.addActionListener(
                 e -> {
                     if (e.getSource().equals(convertButton)) {
                         final ConvertAudioFileState currentState = convertAudioFileViewModel.getState();
-                        updateState(currentState);
-                        currentState.setConversionErrorMessage("");
-                        currentState.setConversionSuccessMessage("");
-                        convertAudioFileViewModel.firePropertyChanged();
-                        convertAudioFileController.execute(currentState);
+                        if (Validator.validateNonEmptyTextFields(this)) {
+                            updateState(currentState);
+                            currentState.setConversionErrorMessage("");
+                            currentState.setConversionSuccessMessage("");
+                            convertAudioFileViewModel.firePropertyChanged();
+                            convertAudioFileController.execute(currentState);
+                        } else {
+                            currentState.setConversionWarningMessage(ConvertAudioFileViewModel.WARNING_LABEL);
+                            convertAudioFileViewModel.firePropertyChanged();
+                        }
                     }
                 }
         );
@@ -186,6 +200,7 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
         this.add(outputPath);
         this.add(errorField);
         this.add(successField);
+        this.add(warningField);
     }
     
     @Override
@@ -238,6 +253,7 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
         fileChooserDialog.setSelectedFile(new File(currentState.getOutputFilePath()));
         errorField.setText(currentState.getConversionErrorMessage());
         successField.setText(currentState.getConversionSuccessMessage());
+        warningField.setText(currentState.getConversionWarningMessage());
     }
 
     public void init(){
