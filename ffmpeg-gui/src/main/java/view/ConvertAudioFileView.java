@@ -1,23 +1,35 @@
 package view;
 
-import constant.AppConstants;
-import constant.NumericalConstants;
-import interface_adapter.change_file.ChangeFileController;
-import interface_adapter.convert_audio_file.ConvertAudioFileController;
-import interface_adapter.convert_audio_file.ConvertAudioFileState;
-import interface_adapter.convert_audio_file.ConvertAudioFileViewModel;
-
-import lombok.Setter;
-import utils.Validator;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.Objects;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+
+import constant.AppConstants;
+import constant.NumericalConstants;
+import interface_adapter.change_file.ChangeFileController;
+import interface_adapter.convert_audio_file.ConvertAudioFileController;
+import interface_adapter.convert_audio_file.ConvertAudioFileState;
+import interface_adapter.convert_audio_file.ConvertAudioFileViewModel;
+import lombok.Setter;
+import utils.Validator;
+
+/**
+ * View for convert audio file.
+ */
 
 public class ConvertAudioFileView extends JPanel implements ActionListener, PropertyChangeListener {
 
@@ -67,25 +79,25 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
         this.convertAudioFileViewModel = convertAudioFileViewModel;
         this.convertAudioFileViewModel.addPropertyChangeListener(this);
 
-        //Title
+        // Title
         final JLabel title = new JLabel(ConvertAudioFileViewModel.TITLE_LABEL);
 
-        //Change file
+        // Change file
         fileChangeButton = new JButton(ConvertAudioFileViewModel.FILE_CHANGE_LABEL);
 
-        //Encode button
+        // Encode button
         convertButton = new JButton(ConvertAudioFileViewModel.START_ENCODE_LABEL);
 
-        //output format
-        JPanel outputFormatField = new JPanel();
-        JLabel outputFormatLabel = new JLabel(ConvertAudioFileViewModel.OUTPUT_FORMAT_LABEL);
+        // output format
+        final JPanel outputFormatField = new JPanel();
+        final JLabel outputFormatLabel = new JLabel(ConvertAudioFileViewModel.OUTPUT_FORMAT_LABEL);
         outputFormatDropdown = new JComboBox<>(ConvertAudioFileViewModel.FILE_FORMAT);
         outputFormatField.add(outputFormatLabel);
         outputFormatField.add(outputFormatDropdown);
 
-        //start time
-        JPanel startTimeField = new JPanel();
-        JLabel startTimeLabel = new JLabel(ConvertAudioFileViewModel.START_TIME_LABEL);
+        // start time
+        final JPanel startTimeField = new JPanel();
+        final JLabel startTimeLabel = new JLabel(ConvertAudioFileViewModel.START_TIME_LABEL);
         startTimeField.add(startTimeLabel);
         startTimeField.add(startTimeHour);
         startTimeField.add(new JLabel(":"));
@@ -93,9 +105,9 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
         startTimeField.add(new JLabel(":"));
         startTimeField.add(startTimeSecond);
 
-        //end time
-        JPanel endTimeField = new JPanel();
-        JLabel endTimeLabel = new JLabel(ConvertAudioFileViewModel.END_TIME_LABEL);
+        // end time
+        final JPanel endTimeField = new JPanel();
+        final JLabel endTimeLabel = new JLabel(ConvertAudioFileViewModel.END_TIME_LABEL);
         endTimeField.add(endTimeLabel);
         endTimeField.add(endTimeHour);
         endTimeField.add(new JLabel(":"));
@@ -103,50 +115,49 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
         endTimeField.add(new JLabel(":"));
         endTimeField.add(endTimeSecond);
 
-        //audio encoder
-        JPanel audioCodecField = new JPanel();
-        JLabel audioCodecLabel = new JLabel(ConvertAudioFileViewModel.AUDIO_CODEC_LABEL);
+        // audio encoder
+        final JPanel audioCodecField = new JPanel();
+        final JLabel audioCodecLabel = new JLabel(ConvertAudioFileViewModel.AUDIO_CODEC_LABEL);
         audioCodecDropdown = new JComboBox<>(ConvertAudioFileViewModel.AUDIO_CODEC);
         audioCodecField.add(audioCodecLabel);
         audioCodecField.add(audioCodecDropdown);
 
-        //audio bitrate
-        JPanel audioBitrateField = new JPanel();
-        JLabel audioBitrateLabel = new JLabel(ConvertAudioFileViewModel.AUDIO_BITRATE_LABEL);
+        // audio bitrate
+        final JPanel audioBitrateField = new JPanel();
+        final JLabel audioBitrateLabel = new JLabel(ConvertAudioFileViewModel.AUDIO_BITRATE_LABEL);
         audioBitrate.setPreferredSize(new Dimension(75, 20));
         audioBitrateField.add(audioBitrateLabel);
         audioBitrateField.add(audioBitrate);
 
-        //channels
-        JPanel numberOfChannelField = new JPanel();
-        JLabel numberOfChannelLabel = new JLabel(ConvertAudioFileViewModel.CHANNEL_LABEL);
+        // channels
+        final JPanel numberOfChannelField = new JPanel();
+        final JLabel numberOfChannelLabel = new JLabel(ConvertAudioFileViewModel.CHANNEL_LABEL);
         numberOfChannelField.add(numberOfChannelLabel);
         numberOfChannelField.add(numberOfChannel);
 
-        //Sample rate
-        JPanel sampleRateField = new JPanel();
-        JLabel sampleRateLabel = new JLabel(ConvertAudioFileViewModel.SAMPLE_RATE_LABEL);
+        // Sample rate
+        final JPanel sampleRateField = new JPanel();
+        final JLabel sampleRateLabel = new JLabel(ConvertAudioFileViewModel.SAMPLE_RATE_LABEL);
         sampleRateField.add(sampleRateLabel);
         sampleRateField.add(sampleRate);
 
-        //save as
-        JLabel saveAsDestinationLabel = new JLabel(ConvertAudioFileViewModel.SAVE_AS_DESTINATION_LABEL);
+        // save as
+        final JLabel saveAsDestinationLabel = new JLabel(ConvertAudioFileViewModel.SAVE_AS_DESTINATION_LABEL);
         saveAsDestination = new JButton(ConvertAudioFileViewModel.BROWSE_LABEL);
-        LabelButtonPanel saveAsDestinationField = new LabelButtonPanel(saveAsDestinationLabel, saveAsDestination);
+        final LabelButtonPanel saveAsDestinationField = new LabelButtonPanel(saveAsDestinationLabel, saveAsDestination);
 
-        //error field
+        // error field
         errorField.setForeground(AppConstants.ERROR_COLOR);
 
-        //success field
+        // success field
         successField.setForeground(AppConstants.SUCCESS_COLOR);
 
-        //warning field
+        // warning field
         warningField.setForeground(AppConstants.WARNING_COLOR);
 
-
         convertButton.addActionListener(
-                e -> {
-                    if (e.getSource().equals(convertButton)) {
+                evt -> {
+                    if (evt.getSource().equals(convertButton)) {
                         final ConvertAudioFileState currentState = convertAudioFileViewModel.getState();
                         if (Validator.validateNonEmptyTextFields(this)) {
                             updateState(currentState);
@@ -154,7 +165,8 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
                             currentState.setConversionSuccessMessage("");
                             convertAudioFileViewModel.firePropertyChanged();
                             convertAudioFileController.execute(currentState);
-                        } else {
+                        }
+                        else {
                             currentState.setConversionWarningMessage(ConvertAudioFileViewModel.WARNING_LABEL);
                             convertAudioFileViewModel.firePropertyChanged();
                         }
@@ -163,8 +175,8 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
         );
 
         fileChangeButton.addActionListener(
-                e -> {
-                    if (e.getSource().equals(fileChangeButton)) {
+                evt -> {
+                    if (evt.getSource().equals(fileChangeButton)) {
                         final ConvertAudioFileState currentState = convertAudioFileViewModel.getState();
                         this.changeFileController.execute(currentState.getInputFilePath());
                     }
@@ -172,8 +184,8 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
         );
 
         saveAsDestination.addActionListener(
-                e -> {
-                    if (e.getSource().equals(saveAsDestination)) {
+                evt -> {
+                    if (evt.getSource().equals(saveAsDestination)) {
                         fileChooserDialog.showSaveDialog(this);
                         final ConvertAudioFileState currentState = convertAudioFileViewModel.getState();
                         currentState.setOutputFilePath(fileChooserDialog.getSelectedFile().getAbsolutePath());
@@ -209,7 +221,7 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
     }
 
     private void updateState(ConvertAudioFileState currentState) {
-        String currentFormat = Objects.requireNonNull(outputFormatDropdown.getSelectedItem()).toString();
+        final String currentFormat = Objects.requireNonNull(outputFormatDropdown.getSelectedItem()).toString();
         String path = currentState.getOutputFilePath();
         path = path.substring(0, path.lastIndexOf('.')) + '.' + currentFormat;
         currentState.setOutputFilePath(path);
@@ -229,11 +241,10 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
         currentState.setAudioSampleRate(Long.parseLong(sampleRate.getText()));
     }
 
-
     private void addOutputFormatDropdownListener() {
         outputFormatDropdown.addActionListener(
-                e -> {
-                    String currentFormat = Objects.requireNonNull(outputFormatDropdown.getSelectedItem()).toString();
+                evt -> {
+                    final String currentFormat = Objects.requireNonNull(outputFormatDropdown.getSelectedItem()).toString();
                     final ConvertAudioFileState currentState = convertAudioFileViewModel.getState();
                     String path = currentState.getOutputFilePath();
                     path = path.substring(0, path.lastIndexOf('.')) + '.' + currentFormat;
@@ -244,7 +255,6 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
                 }
         );
     }
-    
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -256,7 +266,11 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
         warningField.setText(currentState.getConversionWarningMessage());
     }
 
-    public void init(){
+    /**
+     * Initialize the view.
+     */
+
+    public void init() {
         final ConvertAudioFileState currentState = convertAudioFileViewModel.getState();
         outputFormatDropdown.setSelectedItem(currentState.getOutputFormatName());
         startTimeHour.setText(Integer.toString(currentState.getStartTimeHours()));

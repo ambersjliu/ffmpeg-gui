@@ -1,5 +1,11 @@
 package app;
 
+import java.awt.CardLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+
 import constant.AppConstants;
 import data_access.FFmpegService;
 import interface_adapter.ViewManagerModel;
@@ -32,11 +38,15 @@ import use_case.convert_video.ConvertVideoFileOutputBoundary;
 import use_case.get_paths_and_init.GetPathsAndInitInputBoundary;
 import use_case.get_paths_and_init.GetPathsAndInitInteractor;
 import use_case.get_paths_and_init.GetPathsAndInitOutputBoundary;
-import view.*;
+import view.AddInputFileView;
+import view.ConvertAudioFileView;
+import view.ConvertVideoFileView;
+import view.GetInputPathsAndInitView;
+import view.ViewManager;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
+/**
+ * Builds the app.
+ */
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -59,23 +69,38 @@ public class AppBuilder {
     private ConvertAudioFileViewModel convertAudioFileViewModel;
     private ConvertAudioFileView convertAudioFileView;
 
-    public AppBuilder(){
+    public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
 
-    public AppBuilder addGetPathsAndInitView(){
+    /**
+     * Adds get ffmpeg and ffprobe path view.
+     * @return itself
+     */
+
+    public AppBuilder addGetPathsAndInitView() {
         getInputPathsAndInitViewModel = new GetInputPathsAndInitViewModel();
         getInputPathsAndInitView = new GetInputPathsAndInitView(getInputPathsAndInitViewModel);
         cardPanel.add(getInputPathsAndInitView, getInputPathsAndInitViewModel.getViewName());
         return this;
     }
 
-    public AppBuilder addInputFileView(){
+    /**
+     * Adds input file path view.
+     * @return itself
+     */
+
+    public AppBuilder addInputFileView() {
         addInputFileViewModel = new AddInputFileViewModel();
         addInputFileView = new AddInputFileView(addInputFileViewModel);
         cardPanel.add(addInputFileView, addInputFileViewModel.getViewName());
         return this;
     }
+
+    /**
+     * Adds convert video view.
+     * @return itself
+     */
 
     public AppBuilder convertVideoFileView() {
         convertVideoFileViewModel = new ConvertVideoFileViewModel();
@@ -84,26 +109,43 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder convertAudioFileView(){
+    /**
+     * Adds convert audio view.
+     * @return itself
+     */
+
+    public AppBuilder convertAudioFileView() {
         convertAudioFileViewModel = new ConvertAudioFileViewModel();
         convertAudioFileView = new ConvertAudioFileView(convertAudioFileViewModel);
         cardPanel.add(convertAudioFileView, convertAudioFileViewModel.getViewName());
         return this;
     }
 
-    public AppBuilder addGetPathsAndInitUseCase(){
+    /**
+     * Add get ffmpeg and ffprobe path use case.
+     * @return itself
+     */
+
+    public AppBuilder addGetPathsAndInitUseCase() {
         final GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary =
-                new GetInputPathsAndInitPresenter(viewManagerModel, addInputFileViewModel, getInputPathsAndInitViewModel);
+                new GetInputPathsAndInitPresenter(
+                        viewManagerModel, addInputFileViewModel, getInputPathsAndInitViewModel);
 
         final GetPathsAndInitInputBoundary getPathsAndInitInteractor =
                 new GetPathsAndInitInteractor(getPathsAndInitOutputBoundary, ffmpegService);
 
-        final GetInputPathsAndInitController getInputPathsAndInitController = new GetInputPathsAndInitController(getPathsAndInitInteractor);
+        final GetInputPathsAndInitController getInputPathsAndInitController = new GetInputPathsAndInitController(
+                getPathsAndInitInteractor);
         getInputPathsAndInitView.setGetInputPathsAndInitController(getInputPathsAndInitController);
         return this;
     }
 
-    public AppBuilder addInputFileUseCase(){
+    /**
+     * Add input file path use case.
+     * @return itself
+     */
+
+    public AppBuilder addInputFileUseCase() {
         final AddInputFileOutputBoundary addInputFileOutputBoundary =
                 new AddInputFilePresenter(addInputFileViewModel, convertVideoFileViewModel, convertAudioFileViewModel,
                         viewManagerModel, convertVideoFileView, convertAudioFileView);
@@ -116,7 +158,12 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder addChangeFileUseCase(){
+    /**
+     * Add change file use case.
+     * @return itself
+     */
+
+    public AppBuilder addChangeFileUseCase() {
         final ChangeFileOutputBoundary changeFileOutputBoundary =
                 new ChangeFilePresenter(viewManagerModel, addInputFileViewModel);
 
@@ -129,29 +176,46 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder addConvertVideoFileUseCase(){
+    /**
+     * Add convert video use case.
+     * @return itself
+     */
+
+    public AppBuilder addConvertVideoFileUseCase() {
         final ConvertVideoFileOutputBoundary convertVideoFileOutputBoundary =
                 new ConvertVideoFilePresenter(convertVideoFileViewModel);
 
         final ConvertVideoFileInputBoundary convertVideoFileInteractor =
                 new ConvertVideoFileInteractor(convertVideoFileOutputBoundary, ffmpegService);
 
-        final ConvertVideoFileController convertVideoFileController = new ConvertVideoFileController(convertVideoFileInteractor);
+        final ConvertVideoFileController convertVideoFileController = new ConvertVideoFileController(
+                convertVideoFileInteractor);
         convertVideoFileView.setConvertVideoFileController(convertVideoFileController);
         return this;
     }
 
-    public AppBuilder addConvertAudioFileUseCase(){
+    /**
+     * Add convert audio use case.
+     * @return itself
+     */
+
+    public AppBuilder addConvertAudioFileUseCase() {
         final ConvertAudioFileOutputBoundary convertAudioFileOutputBoundary =
                 new ConvertAudioFilePresenter(convertAudioFileViewModel);
         final ConvertAudioFileInputBoundary convertAudioFileInputBoundary =
                 new ConvertAudioFileInteractor(convertAudioFileOutputBoundary, ffmpegService);
-        final ConvertAudioFileController convertAudioFileController = new ConvertAudioFileController(convertAudioFileInputBoundary);
+        final ConvertAudioFileController convertAudioFileController = new ConvertAudioFileController(
+                convertAudioFileInputBoundary);
         convertAudioFileView.setConvertAudioFileController(convertAudioFileController);
         return this;
     }
 
-    public JFrame build(){
+    /**
+     * Builds the java swing ui.
+     * @return the built ui
+     */
+
+    public JFrame build() {
         final JFrame application = new JFrame();
         application.setSize(AppConstants.WIDTH, AppConstants.HEIGHT);
         application.setResizable(AppConstants.RESIZABLE);

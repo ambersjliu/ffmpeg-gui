@@ -1,5 +1,8 @@
 package use_case.add_input_file;
 
+/**
+ * An interface to define the add input file presenter.
+ */
 
 public interface AddInputFileOutputBoundary {
     /**

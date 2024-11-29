@@ -1,6 +1,10 @@
 package constant;
 
-import java.awt.*;
+import java.awt.Color;
+
+/**
+ * Defines the constants in the app.
+ */
 
 public class AppConstants {
     public static final int WIDTH = 800;

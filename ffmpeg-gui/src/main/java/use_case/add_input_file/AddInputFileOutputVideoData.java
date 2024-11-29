@@ -6,9 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.bramp.ffmpeg.probe.FFmpegFormat;
 
+/**
+ * Video Data of the input file.
+ */
+
 @AllArgsConstructor
 @Getter
-public class AddInputFileOutputVideoData{
+public class AddInputFileOutputVideoData {
     private VideoAttributes videoAttributes;
     private AudioAttributes audioAttributes;
     private FFmpegFormat format;

@@ -15,12 +15,12 @@ public class DirectConfigLoader extends AbstractConfigLoader{
     }
 
     @Override
-    public String getFFmpegPath() {
+    public String getFfmpegPath() {
         return this.ffmpegPath;
     }
 
     @Override
-    public String getFFprobePath() {
+    public String getFfprobePath() {
         return this.ffprobePath;
     }
 }

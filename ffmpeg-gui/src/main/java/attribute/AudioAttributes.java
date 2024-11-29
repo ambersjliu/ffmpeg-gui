@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.bramp.ffmpeg.probe.FFmpegStream;
 
+/**
+ * Defines attributes in audio.
+ */
+
 @Getter
 @AllArgsConstructor
 public class AudioAttributes {
@@ -14,7 +18,7 @@ public class AudioAttributes {
     private String codecName;
 
     public AudioAttributes(FFmpegStream ffmpegStream) throws BadFileException {
-        if (ffmpegStream == null){
+        if (ffmpegStream == null) {
             throw new BadFileException();
         }
         this.bitrate = ffmpegStream.bit_rate;

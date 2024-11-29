@@ -1,19 +1,18 @@
 package use_case.convert_audio;
 
-
-import attribute.AudioAttributes;
 import data_access.FFmpegService;
 import entity.AudioJob;
-
 import entity.AudioJobFactory;
 import exceptions.BadFileException;
 import lombok.AllArgsConstructor;
-import use_case.convert_video.ConvertVideoFileOutputBoundary;
-import use_case.convert_video.ConvertVideoFileOutputData;
 import utils.Validator;
 
+/**
+ * Interactor for convert audio file use case.
+ */
+
 @AllArgsConstructor
-public class ConvertAudioFileInteractor  implements ConvertAudioFileInputBoundary {
+public class ConvertAudioFileInteractor implements ConvertAudioFileInputBoundary {
     private final ConvertAudioFileOutputBoundary convertAudioFileOutputBoundary;
     private final FFmpegService ffmpegService;
 
@@ -25,23 +24,29 @@ public class ConvertAudioFileInteractor  implements ConvertAudioFileInputBoundar
     public void execute(ConvertAudioFileData convertAudioFileData) {
         try {
             Validator.validateFilePath(convertAudioFileData.getInputFileName());
-            AudioJob job = createAudioJob(convertAudioFileData);
+            final AudioJob job = createAudioJob(convertAudioFileData);
             this.ffmpegService.convertAudio(job);
-            String successMessage = "Successfully converted with output: " + convertAudioFileData.getOutputFileName();
-            final ConvertAudioFileOutputData outputData = new ConvertAudioFileOutputData(true, successMessage);
+            final String successMessage =
+                    "Successfully converted with output: " + convertAudioFileData.getOutputFileName();
+            final ConvertAudioFileOutputData outputData =
+                    new ConvertAudioFileOutputData(true, successMessage);
             this.convertAudioFileOutputBoundary.prepareSuccessView(outputData);
-        } catch (BadFileException e) {
+        }
+        catch (BadFileException evt) {
             this.convertAudioFileOutputBoundary.prepareFailView("Invalid or null file path");
-        } catch (IllegalArgumentException e) {
-            this.convertAudioFileOutputBoundary.prepareFailView("Error occurred when processing: possibly invalid codec/format combination");
-        } catch (Exception e) {
+        }
+        catch (IllegalArgumentException evt) {
+            this.convertAudioFileOutputBoundary.prepareFailView(
+                    "Error occurred when processing: possibly invalid codec/format combination");
+        }
+        catch (Exception evt) {
             this.convertAudioFileOutputBoundary.prepareFailView("Unexpected error occurred.");
         }
 
     }
 
     protected AudioJob createAudioJob(ConvertAudioFileData convertAudioFileData) {
-        AudioJobFactory audioJobFactory = new AudioJobFactory();
+        final AudioJobFactory audioJobFactory = new AudioJobFactory();
         return audioJobFactory.create(
                 convertAudioFileData.getInputFileName(),
                 convertAudioFileData.getOutputFileName(),
@@ -53,16 +58,3 @@ public class ConvertAudioFileInteractor  implements ConvertAudioFileInputBoundar
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

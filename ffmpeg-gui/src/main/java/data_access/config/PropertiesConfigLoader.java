@@ -28,11 +28,11 @@ public class PropertiesConfigLoader extends AbstractConfigLoader{
         }
     }
 
-    public String getFFmpegPath(){
+    public String getFfmpegPath(){
         return properties.getProperty("ffmpeg.path");
     }
 
-    public String getFFprobePath(){
+    public String getFfprobePath(){
         return properties.getProperty("ffprobe.path");
     }
 }

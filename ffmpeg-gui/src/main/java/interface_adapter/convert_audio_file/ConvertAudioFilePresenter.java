@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import use_case.convert_audio.ConvertAudioFileOutputBoundary;
 import use_case.convert_audio.ConvertAudioFileOutputData;
 
+/**
+ * Presenter of the convert audio file use case.
+ */
+
 @AllArgsConstructor
 public class ConvertAudioFilePresenter implements ConvertAudioFileOutputBoundary {
 

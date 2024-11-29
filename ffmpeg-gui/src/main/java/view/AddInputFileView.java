@@ -1,16 +1,29 @@
 package view;
 
-import interface_adapter.add_input_file.AddInputFileViewModel;
-import interface_adapter.add_input_file.AddInputFileState;
-import interface_adapter.add_input_file.AddInputFileController;
-import lombok.Setter;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import interface_adapter.add_input_file.AddInputFileController;
+import interface_adapter.add_input_file.AddInputFileState;
+import interface_adapter.add_input_file.AddInputFileViewModel;
+import lombok.Setter;
+
+/**
+ * Defines the view for add input file use case.
+ */
 
 public class AddInputFileView extends JPanel implements PropertyChangeListener {
     private final AddInputFileViewModel addInputFileViewModel;
@@ -24,9 +37,7 @@ public class AddInputFileView extends JPanel implements PropertyChangeListener {
     private final JFileChooser fileChooser;
     private final JLabel errorField;
 
-
-
-    public AddInputFileView(AddInputFileViewModel addInputFileViewModel){
+    public AddInputFileView(AddInputFileViewModel addInputFileViewModel) {
         this.addInputFileViewModel = addInputFileViewModel;
 
         this.addInputFileViewModel.addPropertyChangeListener(this);
@@ -43,7 +54,6 @@ public class AddInputFileView extends JPanel implements PropertyChangeListener {
 
         this.selectedFilePath = new JLabel("");
 
-
         // displays a label for possible error message
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -54,31 +64,38 @@ public class AddInputFileView extends JPanel implements PropertyChangeListener {
         setBackground(Color.white);
 
         // main content panel
-        JPanel mainContentPanel = new JPanel(new GridBagLayout());
-        mainContentPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10)); //creates padding
+        final JPanel mainContentPanel = new JPanel(new GridBagLayout());
+        // creates padding
+        mainContentPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL; // the components will stretch horizontally within its grid cell
-        gbc.insets = new Insets(5,5,5,5); // there will be 5 pixels of padding between components
+        // the components will stretch horizontally within its grid cell
+        final GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        // there will be 5 pixels of padding between components
+        gbc.insets = new Insets(5,5,5,5);
 
         // First row: Source File label, text field, and browse button
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.weightx = 0; // element stays at its preferred size
+        // element stays at its preferred size
+        gbc.weightx = 0;
         mainContentPanel.add(chooseFile, gbc);
 
         gbc.gridx = 1;
-        gbc.weightx = 1.0;// chooseFile can expand to take up extra space
+        // chooseFile can expand to take up extra space
+        gbc.weightx = 1.0;
         mainContentPanel.add(selectedFilePath, gbc);
 
         gbc.gridx = 2;
-        gbc.weightx = 0; // fixed size
+        // fixed size
+        gbc.weightx = 0;
         mainContentPanel.add(browseButton, gbc);
 
         // Second row: Next button (centered)
         gbc.gridx = 1;
         gbc.gridy = 1;
-        gbc.insets = new Insets(20, 5, 5, 5);  // Extra top padding
+        // Extra top padding
+        gbc.insets = new Insets(20, 5, 5, 5);
         mainContentPanel.add(nextButton, gbc);
 
         // Third row: Error message
@@ -86,25 +103,25 @@ public class AddInputFileView extends JPanel implements PropertyChangeListener {
         gbc.gridwidth = 3;
         mainContentPanel.add(errorField, gbc);
 
-
-
         add(mainContentPanel, BorderLayout.NORTH);
 
-        //initial button state
+        // initial button state
         nextButton.setEnabled(false);
 
         setPreferredSize(new Dimension(400, 150));
 
         browseButton.addActionListener(
-                e -> {
-                    if (e.getSource() == browseButton) {
-                        int result = fileChooser.showOpenDialog(AddInputFileView.this);
+                evt -> {
+                    if (evt.getSource() == browseButton) {
+                        final int result = fileChooser.showOpenDialog(AddInputFileView.this);
                         if (result == JFileChooser.APPROVE_OPTION) {
-                            File selectedFile = fileChooser.getSelectedFile(); // gets the file object taht represents teh user selected
-                            selectedFilePath.setText(selectedFile.getAbsolutePath()); //gets teh full path fo teh file object
+                            // gets the file object taht represents teh user selected
+                            final File selectedFile = fileChooser.getSelectedFile();
+                            // gets teh full path fo teh file object
+                            selectedFilePath.setText(selectedFile.getAbsolutePath());
                             errorField.setText("");
                             nextButton.setEnabled(true);
-                            AddInputFileState currentState = addInputFileViewModel.getState();
+                            final AddInputFileState currentState = addInputFileViewModel.getState();
                             currentState.setFilePath(selectedFile.getAbsolutePath());
                         }
                     }
@@ -112,21 +129,21 @@ public class AddInputFileView extends JPanel implements PropertyChangeListener {
         );
 
         nextButton.addActionListener(
-                e -> {
-                    if (e.getSource() == nextButton) {
-                        AddInputFileState currentState = addInputFileViewModel.getState();
+                evt -> {
+                    if (evt.getSource() == nextButton) {
+                        final AddInputFileState currentState = addInputFileViewModel.getState();
                         addInputFileController.execute(currentState.getFilePath());
                     }
                 }
         );
-
     }
-
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final AddInputFileState currentState = addInputFileViewModel.getState(); //gets teh current state from teh view model
-        selectedFilePath.setText(currentState.getFilePath()); // takes curr file pay and displays it
+        // gets teh current state from teh view model
+        final AddInputFileState currentState = addInputFileViewModel.getState();
+        // takes curr file pay and displays it
+        selectedFilePath.setText(currentState.getFilePath());
         errorField.setText(currentState.getFileError());
     }
 

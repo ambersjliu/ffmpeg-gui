@@ -7,6 +7,10 @@ import lombok.AllArgsConstructor;
 import use_case.change_file.ChangeFileOutputBoundary;
 import use_case.change_file.ChangeFileOutputData;
 
+/**
+ * Presenter for the change file use case.
+ */
+
 @AllArgsConstructor
 public class ChangeFilePresenter implements ChangeFileOutputBoundary {
 
@@ -27,6 +31,6 @@ public class ChangeFilePresenter implements ChangeFileOutputBoundary {
 
     @Override
     public void prepareFailView(String errorMessage) {
-        //never fails
+        // never fails
     }
 }

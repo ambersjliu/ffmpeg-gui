@@ -19,6 +19,10 @@ import utils.Truncator;
 import view.ConvertAudioFileView;
 import view.ConvertVideoFileView;
 
+/**
+ * Presenter of add input file use case.
+ */
+
 @AllArgsConstructor
 public class AddInputFilePresenter implements AddInputFileOutputBoundary {
 
@@ -44,9 +48,6 @@ public class AddInputFilePresenter implements AddInputFileOutputBoundary {
         this.viewManagerModel.firePropertyChanged();
     }
 
-
-
-
     @Override
     public void prepareVideoSuccessView(AddInputFileOutputVideoData outputVideoData) {
         System.out.println("Success, video imported");
@@ -55,12 +56,9 @@ public class AddInputFilePresenter implements AddInputFileOutputBoundary {
         this.convertVideoFileView.init();
         this.convertVideoFileViewModel.firePropertyChanged();
 
-
         this.viewManagerModel.setState(convertVideoFileViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
-
-
 
     @Override
     public void prepareFailView(String errorMessage) {
@@ -69,28 +67,28 @@ public class AddInputFilePresenter implements AddInputFileOutputBoundary {
         addInputFileViewModel.firePropertyChanged();
     }
 
+    private ConvertVideoFileState createConvertVideoState(AddInputFileOutputVideoData outputVideoData) {
+        final FFmpegFormat format = outputVideoData.getFormat();
 
-    private ConvertVideoFileState createConvertVideoState(AddInputFileOutputVideoData outputVideoData){
-        FFmpegFormat format = outputVideoData.getFormat();
+        final String inputFilePath = outputVideoData.getInputFilePath();
+        final String formatName = VideoFormat.DEFAULT_VIDEO_FORMAT;
 
-        String inputFilePath = outputVideoData.getInputFilePath();
-        String formatName = VideoFormat.DEFAULT_VIDEO_FORMAT;
-
-        VideoAttributes videoAttributes = outputVideoData.getVideoAttributes();
-        AudioAttributes audioAttributes = outputVideoData.getAudioAttributes();
-        TimeCode startTime = new TimeCode(Truncator.truncate(format.start_time));
-        TimeCode endTime = new TimeCode(Truncator.truncate(format.start_time + format.duration));
-        return new ConvertVideoFileState(inputFilePath, formatName, startTime, endTime, videoAttributes, audioAttributes);
+        final VideoAttributes videoAttributes = outputVideoData.getVideoAttributes();
+        final AudioAttributes audioAttributes = outputVideoData.getAudioAttributes();
+        final TimeCode startTime = new TimeCode(Truncator.truncate(format.start_time));
+        final TimeCode endTime = new TimeCode(Truncator.truncate(format.start_time + format.duration));
+        return new ConvertVideoFileState(
+                inputFilePath, formatName, startTime, endTime, videoAttributes, audioAttributes);
     }
 
     private ConvertAudioFileState createConvertAudioState(AddInputFileOutputAudioData outputData) {
-        FFmpegFormat format = outputData.getFormat();
-        String inputFilePath = outputData.getInputFilePath();
-        String formatName = AudioFormat.DEFAULT_AUDIO_FORMAT;
+        final FFmpegFormat format = outputData.getFormat();
+        final String inputFilePath = outputData.getInputFilePath();
+        final String formatName = AudioFormat.DEFAULT_AUDIO_FORMAT;
 
-        AudioAttributes audioAttributes = outputData.getAudioAttributes();
-        TimeCode startTime = new TimeCode(Truncator.truncate(format.start_time));
-        TimeCode endTime = new TimeCode(Truncator.truncate(format.start_time + format.duration));
+        final AudioAttributes audioAttributes = outputData.getAudioAttributes();
+        final TimeCode startTime = new TimeCode(Truncator.truncate(format.start_time));
+        final TimeCode endTime = new TimeCode(Truncator.truncate(format.start_time + format.duration));
         return new ConvertAudioFileState(inputFilePath, formatName, startTime, endTime, audioAttributes);
     }
 }
