@@ -27,9 +27,9 @@ public class GetPathsAndInitInteractor implements GetPathsAndInitInputBoundary{
 
         try {
             Validator.validateFilePaths(ffmpegPath, ffprobePath);
-            if (ffmpegPath.lastIndexOf("ffmpeg") < ffmpegPath.length() - 15 || ffprobePath.lastIndexOf("ffprobe") < ffprobePath.length() - 15) {
-                throw new IOException();
-            }
+            Validator.doesEndOfPathContain(ffmpegPath, "ffmpeg");
+            Validator.doesEndOfPathContain(ffprobePath, "ffprobe");
+
             this.ffmpegService.initialize(ffmpegPath, ffprobePath);
             this.ffmpegService.validateBinaries();
             final GetPathsAndInitOutputData outputData = new GetPathsAndInitOutputData(false);

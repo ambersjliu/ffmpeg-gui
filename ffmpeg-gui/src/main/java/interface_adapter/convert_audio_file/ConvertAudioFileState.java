@@ -31,6 +31,7 @@ public class ConvertAudioFileState {
 
     private String conversionSuccessMessage;
     private String conversionErrorMessage;
+    private String conversionWarningMessage;
 
     public ConvertAudioFileState(String inputFilePath, String outputFormatName,
                                  TimeCode startTime, TimeCode endTime,
@@ -52,4 +53,6 @@ public class ConvertAudioFileState {
         this.numAudioChannels = audioAttributes.getChannels();
         this.audioBitRate = audioAttributes.getBitrate();
     }
+
+
 }
