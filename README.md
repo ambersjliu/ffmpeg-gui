@@ -1,16 +1,18 @@
 # FFmpeg For Regular People
-A Java Swing GUI for FFmpeg
+A simple GUI for FFmpeg
 ## Contributors
-[Amber Liu](#https://github.com/ambersjliu)\
-[Ming Chan](#https://github.com/notming11)\
-[Jack Cheng](#https://github.com/21chengjk1)\
+[Amber Liu](https://github.com/ambersjliu)\
+[Ming Chan](https://github.com/notming11)\
+[Jack Cheng](https://github.com/21chengjk1)\
 [Miranda Li](https://github.com/randyli0)
 ## Summary
 FFmpeg For Regular People is a easy-to-use
 interface for converting video and audio files. 
 
-As indicated by the name, it uses FFmpeg to make media conversion possible. FFmpeg is a free and open-source software suite that can read, encode, filter, and transcode
+As indicated by the name, it uses [FFmpeg](https://ffmpeg.org/ffmpeg.html) to make media conversion possible. FFmpeg is a free and open-source software suite that can read, encode, filter, and transcode
 almost every media format in use today.
+
+This project was made possible by the [ffmpeg-cli-wrapper](https://github.com/bramp/ffmpeg-cli-wrapper) library.
 
 ### Motivation
 FFmpeg comes with a powerful CLI, but many beginner users
@@ -30,6 +32,24 @@ while offering enough flexibility to also satisfy more experienced users.
 [Feedback](#feedback)\
 [How to contribute](#how-to-contribute)
 ## Features
+todo write more...
+### Supported Inputs:
+- Most video/audio formats & codecs currently supported by FFmpeg ([list](https://en.wikipedia.org/wiki/FFmpeg#Supported_codecs_and_formats))
+- We currently only support videos with single audio streams. We aim to support videos with multiple audio streams in the near future.
+### Supported Outputs:
+#### Formats: 
+- Conversion to the following video formats:
+  - mp4, mov, avi, webm, mpeg, m4v, gif
+- Conversion to the following audio formats:
+  - mp3, flac, alac, wav, ogg
+#### Codecs:
+- Encoding with the following video codecs:
+  - av1, h264, hevc, mpeg1video, mpeg2video, mpeg4, vp9
+- Encoding with the following audio codecs:
+  - mp3, flac, opus, aac, alac, wavpack, tta, wmalossless, tak, mp4als
+
+We aim to provide a minimally opinionated conversion scheme. However, certain format/codec combinations
+are incompatible and may not work. (For example, the "opus" audio codec supports a fixed sample rate of 48kHz.)
 
 
 ## Installation instructions
