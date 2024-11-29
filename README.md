@@ -59,6 +59,22 @@ recommend you put it in your home directory.
 
 
 ## Usage guide
+You are required to input the path to FFmpeg and FFprobe into the app. Most of the time FFmpeg and FFprobe will be in the same directory.
+Input both path using the "Browse" button.
+
+<img src="./pictures/init.png" alt="input path for FFmepg and FFprobe" style="width:700px">
+
+After inputing both path and pressing next, you will be able to input the file you wish to convert.
+Import you file by finding in after pressing "Browse".
+
+<img src="./pictures/addfile.png" alt="insert file to convert" style="width:700px">
+
+Depending on your file type, you will either be send to the convert audio or convert video screen. 
+Fill out the specification in the app and click "Start Endoce" to initialize the conversion.
+
+<img src="./pictures/conversion.png" alt="conversion" style="width:700px">
+
+You can also change your imported file by clicking the "Change File" Button. It will conveniently bring you back to the previous screen.
 
 ## License
 
