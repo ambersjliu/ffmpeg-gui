@@ -78,7 +78,7 @@ This application also requires you to install FFmpeg.
 You can do so [here](https://www.ffmpeg.org/download.html). Please keep note of the installation location. We
 recommend you put it in your home directory.
 
-Installing FFmpeg is slightly more difficult for Mac users. Please follow this tutorial [here](https://www.youtube.com/watch?v=nmrjRqEIgGc).
+Installing FFmpeg is slightly different for Mac users. Please follow this tutorial [here](https://www.youtube.com/watch?v=nmrjRqEIgGc).
 
 ### Installing the application
 To install the application, download your preferred release from the [Releases](https://github.com/ambersjliu/ffmpeg-gui/releases) page.
@@ -112,7 +112,7 @@ Fill out the form in the application, and click "Start Encode" to initialize the
 You can also change your imported file by clicking the "Change File" Button. It will conveniently bring you back to the previous screen.
 
 ## License
-This project is licensed under the GPL v3 license. You may view the license [here](link).
+This project is licensed under the GPL v3 license. You may view the license [here](https://github.com/ambersjliu/ffmpeg-gui/blob/main/LICENSE).
 
 This software uses libraries from the FFmpeg project under the LGPLv2.1. We do not own FFmpeg. 
 ## Feedback
