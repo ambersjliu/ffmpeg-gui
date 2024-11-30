@@ -42,7 +42,7 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
 
                 this.addInputFileOutputBoundary.prepareAudioSuccessView(addInputFileOutputAudioData);
             } else {
-                throw new IOException();
+                throw new BadFileException();
             }
 
         } catch (IOException | BadFileException e) {

@@ -1,4 +1,4 @@
-package change_file;
+package use_case.change_file;
 
 import org.junit.jupiter.api.Test;
 import use_case.change_file.*;
