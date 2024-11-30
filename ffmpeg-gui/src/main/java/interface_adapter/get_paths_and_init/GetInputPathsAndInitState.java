@@ -1,5 +1,9 @@
 package interface_adapter.get_paths_and_init;
 
+/**
+ * State for get ffmpeg path use case.
+ */
+
 public class GetInputPathsAndInitState {
     private String ffmpegPath;
     private String ffprobePath;
@@ -9,7 +13,6 @@ public class GetInputPathsAndInitState {
         return ffmpegPath;
     }
 
-
     public String getPathError() {
         return pathError;
     }
@@ -17,7 +20,6 @@ public class GetInputPathsAndInitState {
     public String getFfprobePath() {
         return ffprobePath;
     }
-
 
     public void setPathError(String pathError) {
         this.pathError = pathError;
