@@ -115,14 +115,7 @@ public class AddInputFileView extends JPanel implements PropertyChangeListener {
                     if (evt.getSource() == browseButton) {
                         final int result = fileChooser.showOpenDialog(AddInputFileView.this);
                         if (result == JFileChooser.APPROVE_OPTION) {
-                            // gets the file object taht represents teh user selected
-                            final File selectedFile = fileChooser.getSelectedFile();
-                            // gets teh full path fo teh file object
-                            selectedFilePath.setText(selectedFile.getAbsolutePath());
-                            errorField.setText("");
-                            nextButton.setEnabled(true);
-                            final AddInputFileState currentState = addInputFileViewModel.getState();
-                            currentState.setFilePath(selectedFile.getAbsolutePath());
+                            updateViewAndSetPathInViewModel(addInputFileViewModel);
                         }
                     }
                 }
@@ -136,6 +129,15 @@ public class AddInputFileView extends JPanel implements PropertyChangeListener {
                     }
                 }
         );
+    }
+
+    private void updateViewAndSetPathInViewModel(AddInputFileViewModel viewModel) {
+        // gets the file object that represents teh user selected
+        final File selectedFile = fileChooser.getSelectedFile();
+        final AddInputFileState currentState = viewModel.getState();
+        currentState.setFilePath(selectedFile.getAbsolutePath());
+        viewModel.firePropertyChanged();
+        nextButton.setEnabled(true);
     }
 
     @Override
