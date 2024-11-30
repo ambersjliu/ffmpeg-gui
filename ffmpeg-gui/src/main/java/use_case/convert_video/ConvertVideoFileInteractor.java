@@ -7,6 +7,9 @@ import exceptions.BadFileException;
 import lombok.AllArgsConstructor;
 import utils.Validator;
 
+/**
+ * Interactor for convert video file use case.
+ */
 
 @AllArgsConstructor
 public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary {
@@ -22,28 +25,31 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
     public void execute(ConvertVideoFileData videoFileData) {
         try {
             Validator.validateFilePath(videoFileData.getInputFileName());
-            VideoJob job = createVideoJob(videoFileData);
-            if (isOutputGif(videoFileData)){
+            final VideoJob job = createVideoJob(videoFileData);
+            if (isOutputGif(videoFileData)) {
                 this.ffmpegService.convertVideoToGif(job);
-            } else {
+            }
+            else {
                 this.ffmpegService.convertVideo(job);
             }
-            String successMessage = "Successfully converted with output: " + videoFileData.getOutputFileName();
+            final String successMessage = "Successfully converted with output: " + videoFileData.getOutputFileName();
             final ConvertVideoFileOutputData outputData = new ConvertVideoFileOutputData(true, successMessage);
             this.convertVideoFileOutputBoundary.prepareSuccessView(outputData);
-        }catch(BadFileException e){
+        }
+        catch (BadFileException exception) {
             this.convertVideoFileOutputBoundary.prepareFailView("Invalid or null file path");
-        } catch (IllegalArgumentException e){
+        }
+        catch (IllegalArgumentException exception) {
             this.convertVideoFileOutputBoundary.prepareFailView("Error occurred when processing: invalid argument");
-        } catch (Exception e) {
+        }
+        catch (Exception exception) {
             this.convertVideoFileOutputBoundary.prepareFailView("Unexpected error occurred.");
         }
 
     }
 
-
     VideoJob createVideoJob(ConvertVideoFileData videoFileData) {
-        VideoJobFactory videoJobFactory = new VideoJobFactory();
+        final VideoJobFactory videoJobFactory = new VideoJobFactory();
         return videoJobFactory.create(
                 videoFileData.getInputFileName(),
                 videoFileData.getOutputFileName(),

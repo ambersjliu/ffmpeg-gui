@@ -4,11 +4,14 @@ import lombok.AllArgsConstructor;
 import use_case.convert_video.ConvertVideoFileOutputBoundary;
 import use_case.convert_video.ConvertVideoFileOutputData;
 
+/**
+ * Present for convert video use case.
+ */
+
 @AllArgsConstructor
 public class ConvertVideoFilePresenter implements ConvertVideoFileOutputBoundary {
 
     private final ConvertVideoFileViewModel convertVideoFileViewModel;
-
 
     @Override
     public void prepareSuccessView(ConvertVideoFileOutputData outputData) {

@@ -5,7 +5,9 @@ import attribute.VideoAttributes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.Duration;
+/**
+ * Data of video file in convert video use case.
+ */
 
 @Getter
 @AllArgsConstructor

@@ -3,6 +3,10 @@ package use_case.convert_video;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * Output Data for convert video use case.
+ */
+
 @Getter
 @AllArgsConstructor
 public class ConvertVideoFileOutputData {
