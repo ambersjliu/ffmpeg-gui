@@ -42,7 +42,7 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
     }
 
 
-    protected VideoJob createVideoJob(ConvertVideoFileData videoFileData) {
+    VideoJob createVideoJob(ConvertVideoFileData videoFileData) {
         VideoJobFactory videoJobFactory = new VideoJobFactory();
         return videoJobFactory.create(
                 videoFileData.getInputFileName(),
