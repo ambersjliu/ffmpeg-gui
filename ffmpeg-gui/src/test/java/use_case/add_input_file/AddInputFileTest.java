@@ -7,6 +7,7 @@ import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import net.bramp.ffmpeg.probe.FFmpegStream;
 import org.apache.commons.lang3.math.Fraction;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -24,6 +25,13 @@ public class AddInputFileTest {
 
     @Mock
     private FFmpegService ffmpegService;
+
+    FFmpegProbeResult result;
+
+    @BeforeEach
+    void setup(){
+
+    }
 
     @Test
     void successValidVideoFile() throws IOException {
