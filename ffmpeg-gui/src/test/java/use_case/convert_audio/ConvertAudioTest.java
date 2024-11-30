@@ -69,8 +69,7 @@ public class ConvertAudioTest {
 //            Mockito.doReturn(new AudioJob()).when(convertAudioFileInteractor).createAudioJob(any());
             Mockito.doThrow(new IllegalArgumentException()).when(mockFFmpegService).convertAudio(any());
             convertAudioFileInteractor.execute(convertAudioFileData);
-            Mockito.verify(mockConvertAudioFileOutputBoundary).prepareFailView("Error occurred when processing: " +
-                    "possibly invalid codec/format combination");
+            Mockito.verify(mockConvertAudioFileOutputBoundary).prepareFailView("Error occurred when processing: invalid argument");
         }
     }
 

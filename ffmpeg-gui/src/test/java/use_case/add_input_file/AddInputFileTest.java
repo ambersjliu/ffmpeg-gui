@@ -219,7 +219,7 @@ public class AddInputFileTest {
 
             @Override
             public void prepareFailView(String errorMessage) {
-                Assertions.assertEquals("Please add a file", errorMessage);
+                Assertions.assertEquals("Invalid file", errorMessage);
             }
         };
         AddInputFileInputData inputData = new AddInputFileInputData("");
@@ -242,7 +242,7 @@ public class AddInputFileTest {
 
             @Override
             public void prepareFailView(String errorMessage) {
-                Assertions.assertEquals("Please add a file", errorMessage);
+                Assertions.assertEquals("Invalid file", errorMessage);
             }
         };
         AddInputFileInputData inputData = new AddInputFileInputData(null);

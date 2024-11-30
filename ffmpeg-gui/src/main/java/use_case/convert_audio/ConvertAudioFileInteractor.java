@@ -33,7 +33,7 @@ public class ConvertAudioFileInteractor  implements ConvertAudioFileInputBoundar
         } catch (BadFileException e) {
             this.convertAudioFileOutputBoundary.prepareFailView("Invalid or null file path");
         } catch (IllegalArgumentException e) {
-            this.convertAudioFileOutputBoundary.prepareFailView("Error occurred when processing: possibly invalid codec/format combination");
+            this.convertAudioFileOutputBoundary.prepareFailView("Error occurred when processing: invalid argument");
         } catch (Exception e) {
             this.convertAudioFileOutputBoundary.prepareFailView("Unexpected error occurred.");
         }

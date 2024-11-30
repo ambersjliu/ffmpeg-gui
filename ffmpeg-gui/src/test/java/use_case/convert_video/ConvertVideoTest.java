@@ -71,8 +71,7 @@ public class ConvertVideoTest {
 //            Mockito.doReturn(new VideoJob()).when(convertVideoFileInteractor).createVideoJob(any());
             Mockito.doThrow(new IllegalArgumentException()).when(mockFFmpegService).convertVideo(any());
             convertVideoFileInteractor.execute(inputData);
-            Mockito.verify(mockConvertVideoFileOutputBoundary).prepareFailView("Error occurred when processing: " +
-                    "possibly invalid codec/format combination");
+            Mockito.verify(mockConvertVideoFileOutputBoundary).prepareFailView("Error occurred when processing: invalid argument");
         }
     }
 
