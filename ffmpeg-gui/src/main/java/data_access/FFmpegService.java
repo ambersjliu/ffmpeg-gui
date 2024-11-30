@@ -1,5 +1,8 @@
 package data_access;
 
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 import entity.AudioJob;
 import entity.VideoJob;
 import exceptions.InvalidExecutableException;
@@ -12,22 +15,36 @@ import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
+/**
+ * A class that exposes access to FFmpeg's file probing
+ * and conversion features.
+ * Note: The class name violates convention but is in accordance
+ * with the FFmpeg LGPL.
+ * <a href="https://www.ffmpeg.org/legal.html">...</a>
+ */
 @NoArgsConstructor
 @Getter
 @Setter
-public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
+public class FFmpegService implements GetMediaInfoInterface, ConvertInterface {
     private FFmpeg ffmpeg;
     private FFprobe ffprobe;
 
-
+    /**
+     * Initializes FFmpeg and FFprobe class attributes with the given paths.
+     * @param ffmpegPath the path to the FFmpeg binary
+     * @param ffprobePath the path to the FFprobe binary
+     * @throws IOException if the initialization fails
+     */
     public void initialize(String ffmpegPath, String ffprobePath) throws IOException {
         this.ffmpeg = new FFmpeg(ffmpegPath);
         this.ffprobe = new FFprobe(ffprobePath);
     }
 
+    /**
+     * Checks that the class attributes are actually ffmpeg and ffprobe binaries.
+     * @throws IOException if the binary file cannot be read
+     * @throws InvalidExecutableException if the binary file cannot be validated
+     */
     public void validateBinaries() throws IOException, InvalidExecutableException {
         if (!ffmpeg.isFFmpeg() || !ffprobe.isFFprobe()) {
             throw new InvalidExecutableException();
@@ -35,33 +52,31 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
     }
 
     @Override
-    public FFmpegProbeResult probe(String filePath) throws IOException{
+    public FFmpegProbeResult probe(String filePath) throws IOException {
         return this.ffprobe.probe(filePath);
     }
 
     @Override
     public void convertVideo(VideoJob job) {
-        //copy from here
-        String input = job.getInputFileName();
-        String output = job.getOutputFileName();
-        String format = job.getOutputFormat();
+        final String input = job.getInputFileName();
+        final String output = job.getOutputFileName();
+        final String format = job.getOutputFormat();
 
-        long startTime = (long) job.getStartTime();
-        long duration = (long) job.getDuration();
+        final long startTime = (long) job.getStartTime();
+        final long duration = (long) job.getDuration();
 
-        int audioChannels = job.getAudioAttributes().getChannels();
-        String audioCodec = job.getAudioAttributes().getCodecName();
-        int audioSampleRate = (int) job.getAudioAttributes().getSampleRate();
-        long audioBitRate = job.getAudioAttributes().getBitrate();
-        //to here
+        final int audioChannels = job.getAudioAttributes().getChannels();
+        final String audioCodec = job.getAudioAttributes().getCodecName();
+        final int audioSampleRate = (int) job.getAudioAttributes().getSampleRate();
+        final long audioBitRate = job.getAudioAttributes().getBitrate();
 
-        String videoCodec = job.getVideoAttributes().getCodecName();
-        long videoBitrate = job.getVideoAttributes().getBitrate();
-        double frameRate = job.getVideoAttributes().getFps();
-        int width = job.getVideoAttributes().getWidth();
-        int height = job.getVideoAttributes().getHeight();
+        final String videoCodec = job.getVideoAttributes().getCodecName();
+        final long videoBitrate = job.getVideoAttributes().getBitrate();
+        final double frameRate = job.getVideoAttributes().getFps();
+        final int width = job.getVideoAttributes().getWidth();
+        final int height = job.getVideoAttributes().getHeight();
 
-        FFmpegBuilder builder = new FFmpegBuilder()
+        final FFmpegBuilder builder = new FFmpegBuilder()
 
                 .setInput(input)
                 .overrideOutputFiles(true)
@@ -87,7 +102,7 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
                 .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL)
                 .done();
 
-        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+        final FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
 
         // Run a one-pass encode
         executor.createJob(builder).run();
@@ -95,27 +110,27 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
 
     @Override
     public void convertAudio(AudioJob job) {
-        String input = job.getInputFileName();
-        String output = job.getOutputFileName();
-        String format = job.getOutputFormat();
+        final String input = job.getInputFileName();
+        final String output = job.getOutputFileName();
+        final String format = job.getOutputFormat();
 
-        long startTime = (long) job.getStartTime();
-        long duration = (long) job.getDuration();
+        final long startTime = (long) job.getStartTime();
+        final long duration = (long) job.getDuration();
 
-        int audioChannels = job.getAudioAttributes().getChannels();
-        String audioCodec = job.getAudioAttributes().getCodecName();
-        int audioSampleRate = (int) job.getAudioAttributes().getSampleRate();
-        long audioBitRate = job.getAudioAttributes().getBitrate();
+        final int audioChannels = job.getAudioAttributes().getChannels();
+        final String audioCodec = job.getAudioAttributes().getCodecName();
+        final int audioSampleRate = (int) job.getAudioAttributes().getSampleRate();
+        final long audioBitRate = job.getAudioAttributes().getBitrate();
 
-        FFmpegBuilder builder = new FFmpegBuilder()
+        final FFmpegBuilder builder = new FFmpegBuilder()
 
                 .setInput(input)
-                .overrideOutputFiles(true) // Override the output if it exists
+                .overrideOutputFiles(true)
 
-                .addOutput(output)   // Filename for the destination
+                .addOutput(output)
 
                 .disableSubtitle()
-                .setStartOffset(startTime, TimeUnit.SECONDS)// No subtiles
+                .setStartOffset(startTime, TimeUnit.SECONDS)
                 .setDuration(duration, TimeUnit.SECONDS)
                 .setFormat(format)
 
@@ -124,36 +139,39 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
                 .setAudioSampleRate(audioSampleRate)
                 .setAudioBitRate(audioBitRate)
 
-                .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL) // Allow FFmpeg to use experimental specs
+                .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL)
                 .done();
 
-        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+        final FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
 
         // Run a one-pass encode
         executor.createJob(builder).run();
     }
 
-    public void convertVideoToGif(VideoJob job){
-        String input = job.getInputFileName();
-        String output = job.getOutputFileName();
-        String format = job.getOutputFormat();
+    /**
+     * Convert from video to a GIF.
+     * @param job the query to be processed
+     */
+    public void convertVideoToGif(VideoJob job) {
+        final String input = job.getInputFileName();
+        final String output = job.getOutputFileName();
+        final String format = job.getOutputFormat();
 
-        long startTime = (long) job.getStartTime();
-        long duration = (long) job.getDuration();
+        final long startTime = (long) job.getStartTime();
+        final long duration = (long) job.getDuration();
 
-        double frameRate = job.getVideoAttributes().getFps();
-        int width = job.getVideoAttributes().getWidth();
+        final double frameRate = job.getVideoAttributes().getFps();
+        final int width = job.getVideoAttributes().getWidth();
 
-
-        FFmpegBuilder builder = new FFmpegBuilder()
+        final FFmpegBuilder builder = new FFmpegBuilder()
 
                 .setInput(input)
-                .overrideOutputFiles(true) // Override the output if it exists
+                .overrideOutputFiles(true)
 
-                .addOutput(output)   // Filename for the destination
+                .addOutput(output)
 
                 .disableSubtitle()
-                .setStartOffset(startTime, TimeUnit.SECONDS)// No subtiles
+                .setStartOffset(startTime, TimeUnit.SECONDS)
                 .setDuration(duration, TimeUnit.SECONDS)
                 .setFormat(format)
 
@@ -162,14 +180,13 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface{
                         "[0:v] fps=%s,scale=%s:-1,split [a][b];[a] palettegen [p];[b][p] paletteuse",
                         frameRate, width))
 
-                .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL) // Allow FFmpeg to use experimental specs
+                .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL)
                 .done();
 
-        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+        final FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
 
         // Run a one-pass encode
         executor.createJob(builder).run();
     }
-
 
 }
