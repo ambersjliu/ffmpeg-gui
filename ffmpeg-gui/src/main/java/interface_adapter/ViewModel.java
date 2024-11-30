@@ -1,10 +1,10 @@
 package interface_adapter;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * The ViewModel for our CA implementation.
