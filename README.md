@@ -32,12 +32,11 @@ while offering enough flexibility to also satisfy more experienced users.
 [Feedback](#feedback)\
 [How to contribute](#how-to-contribute)
 ## Features
-todo write more...
-### Supported Inputs:
+### Supported inputs:
 - Most video/audio formats & codecs currently supported by FFmpeg ([list](https://en.wikipedia.org/wiki/FFmpeg#Supported_codecs_and_formats))
 - We currently only support videos with single audio streams. We aim to support videos with multiple audio streams in the near future.
-### Supported Outputs:
-#### Formats: 
+### Supported outputs:
+#### Formats:
 - Conversion to the following video formats:
   - mp4, mov, avi, webm, mpeg, m4v, gif
 - Conversion to the following audio formats:
@@ -48,36 +47,90 @@ todo write more...
 - Encoding with the following audio codecs:
   - mp3, flac, opus, aac, alac, wavpack, tta, wmalossless, tak, mp4als
 
-We aim to provide a minimally opinionated conversion scheme. However, certain format/codec combinations
+### Supported operations
+
+This application supports a variety of media operations, including:
+- Transcoding
+- Trimming
+- Resizing (video)
+- Change framerate (video)
+- High-quality GIF conversion (video)
+
+We aim to provide a minimally opinionated conversion scheme. However, certain parameter combinations
 are incompatible and may not work. (For example, the "opus" audio codec supports a fixed sample rate of 48kHz.)
+
+We hope to support more features in the future, including cropping, subtitles, chapters, and more advanced video filters.
+
+
+
+
 
 
 ## Installation instructions
-This application requires you to first install FFmpeg.
-You can do so [here](https://www.ffmpeg.org/download.html). Please keep note of the installation location. We 
+
+
+### Dependencies
+You will need Java to run this application. You can do so [here.](https://www.oracle.com/ca-en/java/technologies/downloads/)
+
+Please follow the appropriate tutorial to add Java to your system path: [Windows and Linux](https://www.geeksforgeeks.org/how-to-set-java-path-in-windows-and-linux/), [MacOS](https://www.youtube.com/watch?v=PQk9O03cukQ)
+
+This application also requires you to install FFmpeg.
+You can do so [here](https://www.ffmpeg.org/download.html). Please keep note of the installation location. We
 recommend you put it in your home directory.
+
+Installing FFmpeg is slightly more difficult for Mac users. Please follow this tutorial [here](https://www.youtube.com/watch?v=nmrjRqEIgGc).
+
+### Installing the application
+To install the application, download your preferred release from the [Releases](https://github.com/ambersjliu/ffmpeg-gui/releases) page.
+Alternatively, you can download the source code and manually build the application.
+
+### Running the application
+To run the application, double-click the downloaded .jar file. If that doesn't work, open the command line and type  `java -jar (path to the jar file)`, replacing the last part with
+the path to your jar file (no parentheses). If Java can't be found on the system, please repeat the installation process and make sure
+it was added to your system path.
+
+This application has been tested to work on 64-bit Windows and MacOS. It has not been tested on Linux yet.
+
 
 
 ## Usage guide
-You are required to input the path to FFmpeg and FFprobe into the app. Most of the time FFmpeg and FFprobe will be in the same directory.
-Input both path using the "Browse" button.
+You are required to input the path to FFmpeg and FFprobe into the app. Most of the time, FFmpeg and FFprobe will be installed in the same directory.
+Input both paths using the "Browse" button.
 
 <img src="./pictures/init.png" alt="input path for FFmepg and FFprobe" style="width:700px">
 
-After inputing both path and pressing next, you will be able to input the file you wish to convert.
-Import you file by finding in after pressing "Browse".
+After entering both paths and pressing "Next", you will be able to input the file you wish to convert.
+Import your file by pressing "Browse", selecting it in the dialog, and pressing "Next".
 
 <img src="./pictures/addfile.png" alt="insert file to convert" style="width:700px">
 
-Depending on your file type, you will either be send to the convert audio or convert video screen. 
-Fill out the specification in the app and click "Start Endoce" to initialize the conversion.
+Depending on your file type, you will be sent to a different conversion view.
+Fill out the form in the application, and click "Start Encode" to initialize the conversion.
 
 <img src="./pictures/conversion.png" alt="conversion" style="width:700px">
 
 You can also change your imported file by clicking the "Change File" Button. It will conveniently bring you back to the previous screen.
 
 ## License
+This project is licensed under the GPL v3 license. You may view the license [here](link).
 
+This software uses libraries from the FFmpeg project under the LGPLv2.1. We do not own FFmpeg. 
 ## Feedback
+Please share your feedback on the [Discussions](https://github.com/ambersjliu/ffmpeg-gui/discussions) page of this repository. 
+Be courteous and follow the general guidelines laid out [here](https://github.com/ambersjliu/ffmpeg-gui/discussions/40).
+
+To suggest features or bugfixes, please open an issue on the [Issues](https://github.com/ambersjliu/ffmpeg-gui/issues) page of this repository.
+All issues should have a concise title and description summarizing the problem or suggestion. Bugfix requests should include context and
+detailed steps to recreate the problem. 
+
+Issues will be addressed by the team based on feasibility (for feature suggestions) and severity (for bugfixes).
 
 ## How to contribute
+Before you contribute, please take a look at the [Issues](https://github.com/ambersjliu/ffmpeg-gui/issues) page for any open issues
+you can work on, especially those opened by team members. A great way to contribute is by identifying bugs and potential new features.
+
+To contribute code, please scroll to the top of the page, click the "Fork" button by the top right, and click "Create new fork."
+Once you have made a new fork, click the green "Code" button on your repository page, and clone the code using the method of your choice.
+Then, create a branch with a descriptive name matching the feature to be implemented. Ensure any PRs that are opened are well-tested, well-documented,
+and changes to existing code are limited to what is strictly necessary.
+
