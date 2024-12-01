@@ -1,5 +1,9 @@
 package constant;
 
+/**
+ * Constant involving time.
+ */
+
 public class TimeConstants {
     public static final int SECONDS_PER_MINUTE = 60;
     public static final int MINUTES_PER_HOUR = 60;
