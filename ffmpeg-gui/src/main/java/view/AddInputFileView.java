@@ -39,7 +39,6 @@ public class AddInputFileView extends JPanel implements PropertyChangeListener {
 
     public AddInputFileView(AddInputFileViewModel addInputFileViewModel) {
         this.addInputFileViewModel = addInputFileViewModel;
-
         this.addInputFileViewModel.addPropertyChangeListener(this);
         // initializes the views viewModel reference, the views controllers reference
         // and registers this view as a listener to teh view model changes. When
@@ -60,47 +59,54 @@ public class AddInputFileView extends JPanel implements PropertyChangeListener {
         // provides a dialog window allowing users to navigate their computers files
 
         // Layout setup
-        setLayout(new BorderLayout(5, 5));
+        setLayout(new BorderLayout(
+                AddInputFileViewModel.BORDER_LAYOUT_HORIZONTAL, AddInputFileViewModel.BORDER_LAYOUT_VERTICAL));
         setBackground(Color.white);
 
         // main content panel
         final JPanel mainContentPanel = new JPanel(new GridBagLayout());
         // creates padding
-        mainContentPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        mainContentPanel.setBorder(BorderFactory.createEmptyBorder(
+                AddInputFileViewModel.BORDER_PADDING_TOP,
+                AddInputFileViewModel.BORDER_PADDING_LEFT,
+                AddInputFileViewModel.BORDER_PADDING_BOTTOM,
+                AddInputFileViewModel.BORDER_PADDING_RIGHT));
 
         // the components will stretch horizontally within its grid cell
         final GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         // there will be 5 pixels of padding between components
-        gbc.insets = new Insets(5,5,5,5);
+        gbc.insets = new Insets(AddInputFileViewModel.FIRST_ROW_GRID_CELL_PADDING_TOP,
+                                AddInputFileViewModel.FIRST_ROW_GRID_CELL_PADDING_LEFT,
+                                AddInputFileViewModel.FIRST_ROW_GRID_CELL_PADDING_BOTTOM,
+                                AddInputFileViewModel.FIRST_ROW_GRID_CELL_PADDING_RIGHT);
 
         // First row: Source File label, text field, and browse button
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        // element stays at its preferred size
-        gbc.weightx = 0;
+        gbc.gridx = AddInputFileViewModel.SOURCE_FILE_LOCATION_X;
+        gbc.gridy = AddInputFileViewModel.SOURCE_FILE_LOCATION_Y;
+        gbc.weightx = AddInputFileViewModel.SOURCE_FILE_WEIGHT;
         mainContentPanel.add(chooseFile, gbc);
 
-        gbc.gridx = 1;
-        // chooseFile can expand to take up extra space
-        gbc.weightx = 1.0;
+        gbc.gridx = AddInputFileViewModel.TEXT_FIELD_LOCATION_X;
+        gbc.weightx = AddInputFileViewModel.TEXT_FIELD_WEIGHT;
         mainContentPanel.add(selectedFilePath, gbc);
 
-        gbc.gridx = 2;
-        // fixed size
-        gbc.weightx = 0;
+        gbc.gridx = AddInputFileViewModel.BROWSE_BUTTON_LOCATION_X;
+        gbc.weightx = AddInputFileViewModel.BROWSE_BUTTON_WEIGHT;
         mainContentPanel.add(browseButton, gbc);
 
         // Second row: Next button (centered)
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        // Extra top padding
-        gbc.insets = new Insets(20, 5, 5, 5);
+        gbc.gridx = AddInputFileViewModel.NEXT_BUTTON_LOCATION_X;
+        gbc.gridy = AddInputFileViewModel.NEXT_BUTTON_LOCATION_Y;
+        gbc.insets = new Insets(AddInputFileViewModel.SECOND_ROW_GRID_CELL_PADDING_TOP,
+                AddInputFileViewModel.SECOND_ROW_GRID_CELL_PADDING_LEFT,
+                AddInputFileViewModel.SECOND_ROW_GRID_CELL_PADDING_BOTTOM,
+                AddInputFileViewModel.SECOND_ROW_GRID_CELL_PADDING_RIGHT);
         mainContentPanel.add(nextButton, gbc);
 
         // Third row: Error message
-        gbc.gridy = 2;
-        gbc.gridwidth = 3;
+        gbc.gridy = AddInputFileViewModel.ERROR_MESSAGE_LOCATION_Y;
+        gbc.gridwidth = AddInputFileViewModel.ERROR_MESSAGE_WIDTH;
         mainContentPanel.add(errorField, gbc);
 
         add(mainContentPanel, BorderLayout.NORTH);
@@ -108,7 +114,8 @@ public class AddInputFileView extends JPanel implements PropertyChangeListener {
         // initial button state
         nextButton.setEnabled(false);
 
-        setPreferredSize(new Dimension(400, 150));
+        setPreferredSize(new Dimension(AddInputFileViewModel.COMPONENT_WIDTH,
+                AddInputFileViewModel.COMPONENT_HEIGHT));
 
         browseButton.addActionListener(
                 evt -> {
@@ -142,9 +149,9 @@ public class AddInputFileView extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        // gets teh current state from teh view model
+        // gets the current state from the view model
         final AddInputFileState currentState = addInputFileViewModel.getState();
-        // takes curr file pay and displays it
+        // takes current file pay and displays it
         selectedFilePath.setText(currentState.getFilePath());
         errorField.setText(currentState.getFileError());
     }
