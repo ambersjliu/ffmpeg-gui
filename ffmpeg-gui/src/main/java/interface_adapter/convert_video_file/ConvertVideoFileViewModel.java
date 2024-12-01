@@ -5,8 +5,9 @@ import constant.VideoCodec;
 import constant.VideoFormat;
 import interface_adapter.ViewModel;
 
-import java.io.IOException;
-
+/**
+ * View model for convert video file use case.
+ */
 public class ConvertVideoFileViewModel extends ViewModel<ConvertVideoFileState> {
     public static final String TITLE_LABEL = "Video Conversion";
 
@@ -43,7 +44,15 @@ public class ConvertVideoFileViewModel extends ViewModel<ConvertVideoFileState> 
 
     public static final String WARNING_MESSAGE = "Please fill all fields!";
 
-    public ConvertVideoFileViewModel(){
+    public static final int COLUMN_OF_TEXTFIELD_SHORT = 4;
+    public static final int COLUMN_OF_TEXTFIELD_LONG = 7;
+
+    public static final int SPINNER_WIDTH = 75;
+    public static final int SPINNER_HEIGHT = 20;
+
+    public static final String COLON = ":";
+
+    public ConvertVideoFileViewModel() {
         super("convert video file");
         setState(new ConvertVideoFileState());
     }
