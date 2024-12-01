@@ -1,5 +1,6 @@
 package attribute;
 
+import constant.TimeConstants;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -15,9 +16,9 @@ public class TimeCode {
     private final double seconds;
 
     public TimeCode(double timeInSeconds) {
-        this.hours = (int) (timeInSeconds / 3600);
-        this.minutes = (int) ((timeInSeconds % 3600) / 60);
-        this.seconds = timeInSeconds % 60;
+        this.hours = (int) (timeInSeconds / TimeConstants.SECONDS_PER_HOUR);
+        this.minutes = (int) ((timeInSeconds % TimeConstants.SECONDS_PER_HOUR) / TimeConstants.SECONDS_PER_MINUTE);
+        this.seconds = timeInSeconds % TimeConstants.SECONDS_PER_MINUTE;
     }
 
     /**
@@ -26,6 +27,6 @@ public class TimeCode {
      */
 
     public double toSeconds() {
-        return hours * 3600 + minutes * 60 + seconds;
+        return hours * TimeConstants.SECONDS_PER_HOUR + minutes * TimeConstants.SECONDS_PER_MINUTE + seconds;
     }
 }
