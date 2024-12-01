@@ -1,15 +1,19 @@
 package use_case.get_paths_and_init;
 
+import java.io.IOException;
+
 import data_access.FFmpegService;
 import exceptions.BadFileException;
 import exceptions.InvalidExecutableException;
 import lombok.AllArgsConstructor;
 import utils.Validator;
 
-import java.io.IOException;
+/**
+ * Interactor fot the get ffmpeg path use case.
+ */
 
 @AllArgsConstructor
-public class GetPathsAndInitInteractor implements GetPathsAndInitInputBoundary{
+public class GetPathsAndInitInteractor implements GetPathsAndInitInputBoundary {
 
     private final GetPathsAndInitOutputBoundary getPathsAndInitOutputBoundary;
     private final FFmpegService ffmpegService;
@@ -34,13 +38,17 @@ public class GetPathsAndInitInteractor implements GetPathsAndInitInputBoundary{
             this.ffmpegService.validateBinaries();
             final GetPathsAndInitOutputData outputData = new GetPathsAndInitOutputData(false);
             this.getPathsAndInitOutputBoundary.prepareSuccessView(outputData);
-        } catch (BadFileException e){
+        }
+        catch (BadFileException exception) {
             this.getPathsAndInitOutputBoundary.prepareFailView("Please add both paths!");
-        } catch (IOException e) {
+        }
+        catch (IOException exception) {
             this.getPathsAndInitOutputBoundary.prepareFailView("Invalid file type");
-        } catch (InvalidExecutableException e) {
+        }
+        catch (InvalidExecutableException exception) {
             this.getPathsAndInitOutputBoundary.prepareFailView("Invalid executable");
-        }catch (Exception e){
+        }
+        catch (Exception exception) {
             this.getPathsAndInitOutputBoundary.prepareFailView("Unexpected error happened");
         }
     }

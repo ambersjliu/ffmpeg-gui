@@ -8,6 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * State for convert audio file use case.
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,7 +41,8 @@ public class ConvertAudioFileState {
                                  TimeCode startTime, TimeCode endTime,
                                  AudioAttributes audioAttributes) {
         this.inputFilePath = inputFilePath;
-        this.outputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf('.')) + "." + AudioFormat.DEFAULT_AUDIO_FORMAT;
+        this.outputFilePath = inputFilePath.substring(
+                0, inputFilePath.lastIndexOf('.')) + "." + AudioFormat.DEFAULT_AUDIO_FORMAT;
         this.outputFormatName = outputFormatName;
 
         this.startTimeHours = startTime.getHours();
@@ -53,6 +58,4 @@ public class ConvertAudioFileState {
         this.numAudioChannels = audioAttributes.getChannels();
         this.audioBitRate = audioAttributes.getBitrate();
     }
-
-
 }

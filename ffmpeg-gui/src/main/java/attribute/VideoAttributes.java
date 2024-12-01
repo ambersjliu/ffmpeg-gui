@@ -1,9 +1,14 @@
 package attribute;
+
 import exceptions.BadFileException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.bramp.ffmpeg.probe.FFmpegStream;
+
+/**
+ * Contains attributes of a video file.
+ */
 
 @Getter
 @AllArgsConstructor
@@ -16,7 +21,7 @@ public class VideoAttributes {
     private String codecName;
 
     public VideoAttributes(FFmpegStream ffmpegStream) throws BadFileException {
-        if (ffmpegStream == null){
+        if (ffmpegStream == null) {
             throw new BadFileException();
         }
         this.width = ffmpegStream.width;
@@ -25,7 +30,5 @@ public class VideoAttributes {
         this.bitrate = ffmpegStream.bit_rate;
         this.codecName = ffmpegStream.codec_name;
     }
-
-
 
 }

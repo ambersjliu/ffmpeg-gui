@@ -1,5 +1,9 @@
 package use_case.get_paths_and_init;
 
+/**
+ * Interface defines the presenter for the get ffmpeg path use case.
+ */
+
 public interface GetPathsAndInitOutputBoundary {
     /**
      * Prepares the success view for the Get Paths And Init Use Case.

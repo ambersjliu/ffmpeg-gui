@@ -4,6 +4,10 @@ import attribute.AudioAttributes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * Input Data for convert audio file use case.
+ */
+
 @Getter
 @AllArgsConstructor
 public class ConvertAudioFileData {

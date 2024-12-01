@@ -2,11 +2,11 @@ package interface_adapter.convert_audio_file;
 
 import constant.AudioCodec;
 import constant.AudioFormat;
-import constant.VideoCodec;
-import constant.VideoFormat;
 import interface_adapter.ViewModel;
 
-import java.io.IOException;
+/**
+ * View model for convert audio file use case.
+ */
 
 public class ConvertAudioFileViewModel extends ViewModel<ConvertAudioFileState> {
     public static final String TITLE_LABEL = "Audio Conversion";
@@ -35,7 +35,15 @@ public class ConvertAudioFileViewModel extends ViewModel<ConvertAudioFileState> 
 
     public static final String WARNING_LABEL = "Please fill all fields.";
 
-    public ConvertAudioFileViewModel(){
+    public static final int COLUMN_OF_TEXTFIELD_SHORT = 4;
+    public static final int COLUMN_OF_TEXTFIELD_LONG = 4;
+
+    public static final int SPINNER_WIDTH = 75;
+    public static final int SPINNER_HEIGHT = 20;
+
+    public static final String COLON = ":";
+
+    public ConvertAudioFileViewModel() {
         super("convert audio file");
         setState(new ConvertAudioFileState());
     }

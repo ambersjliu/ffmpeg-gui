@@ -10,6 +10,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * State for convert video use case.
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -45,7 +49,8 @@ public class ConvertVideoFileState {
                                  TimeCode startTime, TimeCode endTime,
                                  VideoAttributes videoAttributes, AudioAttributes audioAttributes) {
         this.inputFilePath = inputFilePath;
-        this.outputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf('.')) + "." + VideoFormat.DEFAULT_VIDEO_FORMAT;
+        this.outputFilePath = inputFilePath.substring(
+                0, inputFilePath.lastIndexOf('.')) + "." + VideoFormat.DEFAULT_VIDEO_FORMAT;
         this.outputFormatName = outputFormatName;
 
         this.startTimeHours = startTime.getHours();

@@ -1,8 +1,10 @@
 package use_case.add_input_file;
 
-import data_access.FFmpegService;
+import java.io.IOException;
+
 import attribute.AudioAttributes;
 import attribute.VideoAttributes;
+import data_access.FFmpegService;
 import exceptions.BadFileException;
 import lombok.AllArgsConstructor;
 import net.bramp.ffmpeg.probe.FFmpegFormat;
@@ -11,7 +13,9 @@ import net.bramp.ffmpeg.probe.FFmpegStream;
 import utils.Truncator;
 import utils.Validator;
 
-import java.io.IOException;
+/**
+ * Interactor for the add input file use case, implements the logic of the use case.
+ */
 
 @AllArgsConstructor
 public class AddInputFileInteractor implements AddInputFileInputBoundary {
@@ -22,8 +26,8 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
     public void execute(AddInputFileInputData inputFileData) {
         try {
             Validator.validateFilePath(inputFileData.getFilePath());
-            FFmpegProbeResult result = this.ffmpegService.probe(inputFileData.getFilePath());
-            FFmpegFormat format = result.getFormat();
+            final FFmpegProbeResult result = this.ffmpegService.probe(inputFileData.getFilePath());
+            final FFmpegFormat format = result.getFormat();
 
             if (isVideoFile(result)) {
                 final FFmpegStream videoStream = getVideoStream(result);
@@ -34,39 +38,44 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
                 );
 
                 this.addInputFileOutputBoundary.prepareVideoSuccessView(addInputFileOutputVideoData);
-            } else if (isAudioFile(result)) {
+            }
+            else if (isAudioFile(result)) {
                 final FFmpegStream audioStream = getAudioStream(result);
                 final AddInputFileOutputAudioData addInputFileOutputAudioData = new AddInputFileOutputAudioData(
                         createAudioAttributes(audioStream), format, inputFileData.getFilePath()
                 );
 
                 this.addInputFileOutputBoundary.prepareAudioSuccessView(addInputFileOutputAudioData);
-            } else {
+            }
+            else {
                 throw new BadFileException();
             }
 
-        } catch (IOException | BadFileException e) {
+        }
+        catch (IOException | BadFileException exception) {
             this.addInputFileOutputBoundary.prepareFailView("Invalid file");
         }
 
     }
 
     private FFmpegStream getAudioStream(FFmpegProbeResult probeResult) {
+        FFmpegStream audioStream = null;
         for (FFmpegStream stream : probeResult.getStreams()) {
             if (stream.codec_type == FFmpegStream.CodecType.AUDIO) {
-                return stream;
+                audioStream = stream;
             }
         }
-        return null;
+        return audioStream;
     }
 
     private FFmpegStream getVideoStream(FFmpegProbeResult probeResult) {
+        FFmpegStream videoStream = null;
         for (FFmpegStream stream : probeResult.getStreams()) {
             if (stream.codec_type == FFmpegStream.CodecType.VIDEO) {
-                return stream;
+                videoStream = stream;
             }
         }
-        return null;
+        return videoStream;
     }
 
     private boolean isVideoFile(FFmpegProbeResult probeResult) {
@@ -96,9 +105,9 @@ public class AddInputFileInteractor implements AddInputFileInputBoundary {
     }
 
     private VideoAttributes createVideoAttributes(FFmpegStream ffmpegStream) throws BadFileException {
-        VideoAttributes res = new VideoAttributes(ffmpegStream);
+        final VideoAttributes res = new VideoAttributes(ffmpegStream);
         // Truncate FPS
-        double currFps = res.getFps();
+        final double currFps = res.getFps();
         res.setFps(Truncator.truncate(currFps));
         return res;
     }
