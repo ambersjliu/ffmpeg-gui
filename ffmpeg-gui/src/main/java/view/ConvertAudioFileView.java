@@ -46,13 +46,13 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
 
     private final JComboBox<String> outputFormatDropdown;
 
-    private final JTextField startTimeHour = new JTextField(4);
-    private final JTextField startTimeMinute = new JTextField(4);
-    private final JTextField startTimeSecond = new JTextField(4);
+    private final JTextField startTimeHour = new JTextField(ConvertAudioFileViewModel.COLUMN_OF_TEXTFIELD_SHORT);
+    private final JTextField startTimeMinute = new JTextField(ConvertAudioFileViewModel.COLUMN_OF_TEXTFIELD_SHORT);
+    private final JTextField startTimeSecond = new JTextField(ConvertAudioFileViewModel.COLUMN_OF_TEXTFIELD_SHORT);
 
-    private final JTextField endTimeHour = new JTextField(4);
-    private final JTextField endTimeMinute = new JTextField(4);
-    private final JTextField endTimeSecond = new JTextField(4);
+    private final JTextField endTimeHour = new JTextField(ConvertAudioFileViewModel.COLUMN_OF_TEXTFIELD_SHORT);
+    private final JTextField endTimeMinute = new JTextField(ConvertAudioFileViewModel.COLUMN_OF_TEXTFIELD_SHORT);
+    private final JTextField endTimeSecond = new JTextField(ConvertAudioFileViewModel.COLUMN_OF_TEXTFIELD_SHORT);
 
     private final JComboBox<String> audioCodecDropdown;
 
@@ -61,7 +61,7 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
 
     private final JSpinner numberOfChannel = new JSpinner();
 
-    private final JTextField sampleRate = new JTextField(14);
+    private final JTextField sampleRate = new JTextField(ConvertAudioFileViewModel.COLUMN_OF_TEXTFIELD_LONG);
 
     private final JButton saveAsDestination;
 
@@ -100,9 +100,9 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
         final JLabel startTimeLabel = new JLabel(ConvertAudioFileViewModel.START_TIME_LABEL);
         startTimeField.add(startTimeLabel);
         startTimeField.add(startTimeHour);
-        startTimeField.add(new JLabel(":"));
+        startTimeField.add(new JLabel(ConvertAudioFileViewModel.COLON));
         startTimeField.add(startTimeMinute);
-        startTimeField.add(new JLabel(":"));
+        startTimeField.add(new JLabel(ConvertAudioFileViewModel.COLON));
         startTimeField.add(startTimeSecond);
 
         // end time
@@ -110,9 +110,9 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
         final JLabel endTimeLabel = new JLabel(ConvertAudioFileViewModel.END_TIME_LABEL);
         endTimeField.add(endTimeLabel);
         endTimeField.add(endTimeHour);
-        endTimeField.add(new JLabel(":"));
+        endTimeField.add(new JLabel(ConvertAudioFileViewModel.COLON));
         endTimeField.add(endTimeMinute);
-        endTimeField.add(new JLabel(":"));
+        endTimeField.add(new JLabel(ConvertAudioFileViewModel.COLON));
         endTimeField.add(endTimeSecond);
 
         // audio encoder
@@ -125,7 +125,8 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
         // audio bitrate
         final JPanel audioBitrateField = new JPanel();
         final JLabel audioBitrateLabel = new JLabel(ConvertAudioFileViewModel.AUDIO_BITRATE_LABEL);
-        audioBitrate.setPreferredSize(new Dimension(75, 20));
+        audioBitrate.setPreferredSize(
+                new Dimension(ConvertAudioFileViewModel.SPINNER_WIDTH, ConvertAudioFileViewModel.SPINNER_HEIGHT));
         audioBitrateField.add(audioBitrateLabel);
         audioBitrateField.add(audioBitrate);
 
@@ -244,7 +245,8 @@ public class ConvertAudioFileView extends JPanel implements ActionListener, Prop
     private void addOutputFormatDropdownListener() {
         outputFormatDropdown.addActionListener(
                 evt -> {
-                    final String currentFormat = Objects.requireNonNull(outputFormatDropdown.getSelectedItem()).toString();
+                    final String currentFormat = Objects.requireNonNull(
+                            outputFormatDropdown.getSelectedItem()).toString();
                     final ConvertAudioFileState currentState = convertAudioFileViewModel.getState();
                     String path = currentState.getOutputFilePath();
                     path = path.substring(0, path.lastIndexOf('.')) + '.' + currentFormat;

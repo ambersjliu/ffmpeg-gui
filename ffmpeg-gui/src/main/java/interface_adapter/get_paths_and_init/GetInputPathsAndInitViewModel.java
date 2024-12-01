@@ -1,5 +1,10 @@
 package interface_adapter.get_paths_and_init;
+
 import interface_adapter.ViewModel;
+
+/**
+ * View model for the get ffmpeg path use case.
+ */
 
 public class GetInputPathsAndInitViewModel extends ViewModel<GetInputPathsAndInitState> {
     public static final String TITLE_LABEL = "Welcome to the FFmpeg GUI";

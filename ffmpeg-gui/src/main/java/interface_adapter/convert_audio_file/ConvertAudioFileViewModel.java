@@ -35,6 +35,14 @@ public class ConvertAudioFileViewModel extends ViewModel<ConvertAudioFileState> 
 
     public static final String WARNING_LABEL = "Please fill all fields.";
 
+    public static final int COLUMN_OF_TEXTFIELD_SHORT = 4;
+    public static final int COLUMN_OF_TEXTFIELD_LONG = 4;
+
+    public static final int SPINNER_WIDTH = 75;
+    public static final int SPINNER_HEIGHT = 20;
+
+    public static final String COLON = ":";
+
     public ConvertAudioFileViewModel() {
         super("convert audio file");
         setState(new ConvertAudioFileState());
