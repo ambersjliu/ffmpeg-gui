@@ -56,6 +56,8 @@ public class ConvertVideoFileController {
         final AudioAttributes audioAttributes = new AudioAttributes(
                 audioBitRate, audioSampleRate, numAudioChannels, audioCodecName);
 
+        final boolean cropping = convertVideoFileState.isCropping();
+
         final ConvertVideoFileData videoFileData = new ConvertVideoFileData(
                 inputFileName,
                 outputFileName,
@@ -63,7 +65,8 @@ public class ConvertVideoFileController {
                 startTime,
                 duration,
                 videoAttributes,
-                audioAttributes
+                audioAttributes,
+                cropping
         );
 
         convertVideoFileInteractor.execute(videoFileData);

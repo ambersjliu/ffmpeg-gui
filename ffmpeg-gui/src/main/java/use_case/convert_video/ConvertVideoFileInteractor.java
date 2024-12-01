@@ -1,6 +1,7 @@
 package use_case.convert_video;
 
 import data_access.FFmpegService;
+import entity.CropVideoJob;
 import entity.VideoJob;
 import entity.VideoJobFactory;
 import exceptions.BadFileException;
@@ -24,10 +25,15 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
     @Override
     public void execute(ConvertVideoFileData videoFileData) {
         try {
+
             Validator.validateFilePath(videoFileData.getInputFileName());
             final VideoJob job = createVideoJob(videoFileData);
+
             if (isOutputGif(videoFileData)) {
                 this.ffmpegService.convertVideoToGif(job);
+            }
+            else if (videoFileData.isCropping()) {
+                this.ffmpegService.convertCropVideo(job);
             }
             else {
                 this.ffmpegService.convertVideo(job);

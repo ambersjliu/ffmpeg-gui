@@ -35,6 +35,7 @@ public class ConvertVideoFileState {
     private long videoBitRate;
     private double frameRate;
     private String videoCodecName;
+    private boolean cropping;
 
     private String audioCodecName;
     private int numAudioChannels;

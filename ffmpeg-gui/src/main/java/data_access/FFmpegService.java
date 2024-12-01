@@ -3,7 +3,9 @@ package data_access;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import entity.AbstractJob;
 import entity.AudioJob;
+import entity.CropVideoJob;
 import entity.VideoJob;
 import exceptions.InvalidExecutableException;
 import lombok.Getter;
@@ -187,6 +189,82 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface {
 
         // Run a one-pass encode
         executor.createJob(builder).run();
+    }
+
+    /**
+     * Converting and cropping a CropVideoJob.
+     * @param job a cropped video job
+     */
+    public void convertCropVideo(VideoJob job) {
+
+        final String input = job.getInputFileName();
+        final String output = job.getOutputFileName();
+        final String format = job.getOutputFormat();
+
+        final long startTime = (long) job.getStartTime();
+        final long duration = (long) job.getDuration();
+
+        final int audioChannels = job.getAudioAttributes().getChannels();
+        final String audioCodec = job.getAudioAttributes().getCodecName();
+        final int audioSampleRate = (int) job.getAudioAttributes().getSampleRate();
+        final long audioBitRate = job.getAudioAttributes().getBitrate();
+
+        final String videoCodec = job.getVideoAttributes().getCodecName();
+        final long videoBitrate = job.getVideoAttributes().getBitrate();
+        final double frameRate = job.getVideoAttributes().getFps();
+        final int width = job.getVideoAttributes().getWidth();
+        final int height = job.getVideoAttributes().getHeight();
+
+        final FFmpegBuilder builder = new FFmpegBuilder()
+
+                .setInput(input)
+                .overrideOutputFiles(true)
+
+                .addOutput(output)
+
+                .disableSubtitle()
+                .setStartOffset(startTime, TimeUnit.SECONDS)
+                .setDuration(duration, TimeUnit.SECONDS)
+                .setFormat(format)
+
+                .setAudioChannels(audioChannels)
+                .setAudioCodec(audioCodec)
+                .setAudioSampleRate(audioSampleRate)
+                .setAudioBitRate(audioBitRate)
+
+                .setVideoCodec(videoCodec)
+                .setVideoFrameRate(frameRate)
+                .setVideoBitRate(videoBitrate)
+
+                .setVideoFilter(String.format("crop=%s:%s:0:0", width, height))
+
+                .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL)
+                .done();
+
+        final FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+
+        // Run a one-pass encode
+        executor.createJob(builder).run();
+    }
+
+    /**
+     * Converting, and calling the correct method from above.
+     * @param job an abstract job
+     * @throws IllegalArgumentException if an unsupported job is given.
+     */
+    public void convert(AbstractJob job) {
+        if (job instanceof CropVideoJob) {
+            convertCropVideo((CropVideoJob) job);
+        }
+        else if (job instanceof VideoJob) {
+            convertVideo((VideoJob) job);
+        }
+        else if (job instanceof AudioJob) {
+            convertAudio((AudioJob) job);
+        }
+        else {
+            throw new IllegalArgumentException("Unsupported job type: " + job.getClass().getName());
+        }
     }
 
 }

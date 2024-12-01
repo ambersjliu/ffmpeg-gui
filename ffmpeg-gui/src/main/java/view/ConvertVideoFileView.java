@@ -8,15 +8,7 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.Objects;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 
 import constant.AppConstants;
 import constant.NumericalConstants;
@@ -54,6 +46,8 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
 
     private final JTextField dimensionWidth = new JTextField(ConvertVideoFileViewModel.COLUMN_OF_TEXTFIELD_LONG);
     private final JTextField dimensionHeight = new JTextField(ConvertVideoFileViewModel.COLUMN_OF_TEXTFIELD_LONG);
+
+    private final JCheckBox cropCheckbox;
 
     private final JSpinner frameRate = new JSpinner(new SpinnerNumberModel(0, 0,
             NumericalConstants.MAX_FRAMERATE, 0.5));
@@ -131,6 +125,9 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
         dimensionField.add(dimensionWidth);
         dimensionField.add(new JLabel("X"));
         dimensionField.add(dimensionHeight);
+
+        // Cropping
+        cropCheckbox = new JCheckBox("Crop");
 
         // Frame rate
         final JPanel frameRateField = new JPanel();
@@ -248,6 +245,7 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
         this.add(startTimeField);
         this.add(endTimeField);
         this.add(dimensionField);
+        this.add(cropCheckbox);
         this.add(frameRateField);
         this.add(videoCodecField);
         this.add(videoBitrateField);
@@ -279,6 +277,8 @@ public class ConvertVideoFileView extends JPanel implements ActionListener, Prop
 
         currentState.setWidth(Integer.parseInt(dimensionWidth.getText()));
         currentState.setHeight(Integer.parseInt(dimensionHeight.getText()));
+
+        currentState.setCropping(cropCheckbox.isSelected());
 
         currentState.setFrameRate(Double.parseDouble(frameRate.getValue().toString()));
         currentState.setVideoBitRate(Integer.parseInt(videoBitrate.getValue().toString()));
