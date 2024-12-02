@@ -133,9 +133,7 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface {
                 .done();
 
         final FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
-
-        // Run a one-pass encode
-        executor.createJob(builder).run();
+        executor.createTwoPassJob(builder).run();
     }
 
     /**
@@ -176,9 +174,7 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface {
                 .done();
 
         final FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
-
-        // Run a one-pass encode
-        executor.createJob(builder).run();
+        executor.createTwoPassJob(builder).run();
     }
 
     /**
@@ -217,8 +213,6 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface {
                 .done();
 
         final FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
-
-        // Run a one-pass encode
         executor.createJob(builder).run();
     }
 
@@ -273,9 +267,7 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface {
                 .done();
 
         final FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
-
-        // Run a one-pass encode
-        executor.createJob(builder).run();
+        executor.createTwoPassJob(builder).run();
     }
 
 }
