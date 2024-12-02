@@ -53,13 +53,14 @@ This application supports a variety of media operations, including:
 - Transcoding
 - Trimming
 - Resizing (video)
+- Cropping (video)
 - Change framerate (video)
 - High-quality GIF conversion (video)
 
 We aim to provide a minimally opinionated conversion scheme. However, certain parameter combinations
 are incompatible and may not work. (For example, the "opus" audio codec supports a fixed sample rate of 48kHz.)
 
-We hope to support more features in the future, including cropping, subtitles, chapters, and more advanced video filters.
+We hope to support more features in the future, including subtitles, chapters, and more advanced video filters.
 
 
 

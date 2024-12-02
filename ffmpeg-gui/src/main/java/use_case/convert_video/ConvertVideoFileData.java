@@ -21,4 +21,6 @@ public class ConvertVideoFileData {
 
     private final VideoAttributes videoAttributes;
     private final AudioAttributes audioAttributes;
+
+    private final boolean cropping;
 }

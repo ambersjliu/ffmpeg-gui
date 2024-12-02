@@ -1,6 +1,7 @@
 package use_case.convert_video;
 
 import data_access.FFmpegService;
+import entity.CropVideoJob;
 import entity.VideoJob;
 import entity.VideoJobFactory;
 import exceptions.BadFileException;
@@ -24,14 +25,10 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
     @Override
     public void execute(ConvertVideoFileData videoFileData) {
         try {
+
             Validator.validateFilePath(videoFileData.getInputFileName());
             final VideoJob job = createVideoJob(videoFileData);
-            if (isOutputGif(videoFileData)) {
-                this.ffmpegService.convertVideoToGif(job);
-            }
-            else {
-                this.ffmpegService.convertVideo(job);
-            }
+            this.ffmpegService.convert(job);
             final String successMessage = "Successfully converted with output: " + videoFileData.getOutputFileName();
             final ConvertVideoFileOutputData outputData = new ConvertVideoFileOutputData(true, successMessage);
             this.convertVideoFileOutputBoundary.prepareSuccessView(outputData);
@@ -57,12 +54,9 @@ public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary
                 videoFileData.getDuration(),
                 videoFileData.getStartTime(),
                 videoFileData.getVideoAttributes(),
-                videoFileData.getAudioAttributes()
+                videoFileData.getAudioAttributes(),
+                videoFileData.isCropping()
         );
-    }
-
-    private boolean isOutputGif(ConvertVideoFileData videoFileData) {
-        return videoFileData.getOutputFormat().equals("gif");
     }
 
 }
