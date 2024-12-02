@@ -58,7 +58,35 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface {
         return this.ffprobe.probe(filePath);
     }
 
-    @Override
+    /**
+     * Converting, and calling the correct method from above.
+     * @param job an abstract job
+     * @throws IllegalArgumentException if an unsupported job is given.
+     */
+    public void convert(AbstractJob job) {
+        if (job instanceof CropVideoJob) {
+            convertCropVideo((CropVideoJob) job);
+        }
+        else if (job instanceof VideoJob) {
+            if (job.getOutputFormat().equals("gif")) {
+                convertVideoToGif((VideoJob) job);
+            }
+            else {
+                convertVideo((VideoJob) job);
+            }
+        }
+        else if (job instanceof AudioJob) {
+            convertAudio((AudioJob) job);
+        }
+        else {
+            throw new IllegalArgumentException("Unsupported job type: " + job.getClass().getName());
+        }
+    }
+
+    /**
+     * Builds and executes a video job.
+     * @param job the job to be executed
+     */
     public void convertVideo(VideoJob job) {
         final String input = job.getInputFileName();
         final String output = job.getOutputFileName();
@@ -110,7 +138,10 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface {
         executor.createJob(builder).run();
     }
 
-    @Override
+    /**
+     * Builds and executes an audio job.
+     * @param job the job to be executed
+     */
     public void convertAudio(AudioJob job) {
         final String input = job.getInputFileName();
         final String output = job.getOutputFileName();
@@ -236,7 +267,7 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface {
                 .setVideoFrameRate(frameRate)
                 .setVideoBitRate(videoBitrate)
 
-                .setVideoFilter(String.format("crop=%s:%s:0:0", width, height))
+                .setVideoFilter(String.format("crop=%s:%s", width, height))
 
                 .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL)
                 .done();
@@ -245,26 +276,6 @@ public class FFmpegService implements GetMediaInfoInterface, ConvertInterface {
 
         // Run a one-pass encode
         executor.createJob(builder).run();
-    }
-
-    /**
-     * Converting, and calling the correct method from above.
-     * @param job an abstract job
-     * @throws IllegalArgumentException if an unsupported job is given.
-     */
-    public void convert(AbstractJob job) {
-        if (job instanceof CropVideoJob) {
-            convertCropVideo((CropVideoJob) job);
-        }
-        else if (job instanceof VideoJob) {
-            convertVideo((VideoJob) job);
-        }
-        else if (job instanceof AudioJob) {
-            convertAudio((AudioJob) job);
-        }
-        else {
-            throw new IllegalArgumentException("Unsupported job type: " + job.getClass().getName());
-        }
     }
 
 }

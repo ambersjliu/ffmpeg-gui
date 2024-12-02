@@ -1,7 +1,6 @@
 package data_access;
 
-import entity.AudioJob;
-import entity.VideoJob;
+import entity.AbstractJob;
 
 /**
  * Interface to convert both video and audio.
@@ -9,14 +8,8 @@ import entity.VideoJob;
 
 public interface ConvertInterface {
     /**
-     * Convert video.
-     * @param job video job that contains video attributes.
+     * Builds and executes the given job.
+     * @param job the job to be executed
      */
-    void convertVideo(VideoJob job);
-
-    /**
-     * Convert audio.
-     * @param job audio job that contains audio attributes.
-     */
-    void convertAudio(AudioJob job);
+    void convert(AbstractJob job);
 }

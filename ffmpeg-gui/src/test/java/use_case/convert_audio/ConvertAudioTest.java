@@ -46,8 +46,7 @@ public class ConvertAudioTest {
     @Test
     void executeHappyPath() {
         try (MockedStatic<Validator> mocked = mockStatic(Validator.class)) {
-            Mockito.doNothing().when(mockFFmpegService).convertAudio(any());
-//            Mockito.doReturn(new AudioJob()).when(convertAudioFileInteractor).createAudioJob(any());
+            Mockito.doNothing().when(mockFFmpegService).convert(any());
             convertAudioFileInteractor.execute(inputData);
             Mockito.verify(mockConvertAudioFileOutputBoundary).prepareSuccessView(any());
         }
@@ -66,8 +65,7 @@ public class ConvertAudioTest {
     @Test
     void executeWithIllegalArgumentExceptionShouldPrepareFailView() {
         try (MockedStatic<Validator> mocked = mockStatic(Validator.class)) {
-//            Mockito.doReturn(new AudioJob()).when(convertAudioFileInteractor).createAudioJob(any());
-            Mockito.doThrow(new IllegalArgumentException()).when(mockFFmpegService).convertAudio(any());
+            Mockito.doThrow(new IllegalArgumentException()).when(mockFFmpegService).convert(any());
             convertAudioFileInteractor.execute(convertAudioFileData);
             Mockito.verify(mockConvertAudioFileOutputBoundary).prepareFailView("Error occurred when processing: invalid argument");
         }
@@ -77,8 +75,7 @@ public class ConvertAudioTest {
     @Test
     void executeWithOtherExceptionShouldPrepareFailView() {
         try (MockedStatic<Validator> mocked = mockStatic(Validator.class)) {
-//            Mockito.doReturn(new AudioJob()).when(convertAudioFileInteractor).createAudioJob(any());
-            Mockito.doThrow(new RuntimeException()).when(mockFFmpegService).convertAudio(any());
+            Mockito.doThrow(new RuntimeException()).when(mockFFmpegService).convert(any());
             convertAudioFileInteractor.execute(convertAudioFileData);
             Mockito.verify(mockConvertAudioFileOutputBoundary).prepareFailView("Unexpected error occurred.");
         }

@@ -25,7 +25,7 @@ public class ConvertAudioFileInteractor implements ConvertAudioFileInputBoundary
         try {
             Validator.validateFilePath(convertAudioFileData.getInputFileName());
             final AudioJob job = createAudioJob(convertAudioFileData);
-            this.ffmpegService.convertAudio(job);
+            this.ffmpegService.convert(job);
             final String successMessage =
                     "Successfully converted with output: " + convertAudioFileData.getOutputFileName();
             final ConvertAudioFileOutputData outputData =
