@@ -2,7 +2,7 @@
 ## Principles of Universal Design
 ### Principle 1: Equitable Use
 
-1. Since all the text in the views are located in their respect view models, we can easily implement a translated version of the app.
+1. Since all the text in the views are located in their respective view models, we can easily implement a translated version of the app.
 2. The app runs on Windows, MacOS and Linux
 
 ### Principle 2: Flexibility in Use
