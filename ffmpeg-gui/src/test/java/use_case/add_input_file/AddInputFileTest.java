@@ -189,6 +189,36 @@ public class AddInputFileTest {
     }
 
     @Test
+    void fileWithNoValidStreamsShouldPrepareFailView() throws IOException {
+        AddInputFileOutputBoundary outputBoundary = new AddInputFileOutputBoundary() {
+            @Override
+            public void prepareVideoSuccessView(AddInputFileOutputVideoData outputData) {
+                Assertions.fail("Should not show video success view");
+            }
+
+            @Override
+            public void prepareAudioSuccessView(AddInputFileOutputAudioData outputData) {
+                Assertions.fail("Should not show audio success view");
+            }
+
+            @Override
+            public void prepareFailView(String errorMessage) {
+                Assertions.assertEquals("Invalid file", errorMessage);
+            }
+        };
+        FFmpegProbeResult result = new FFmpegProbeResult();
+        List<FFmpegStream> streams = new ArrayList<>();
+        FFmpegStream stream = new FFmpegStream();
+        stream.codec_type = FFmpegStream.CodecType.SUBTITLE;
+        streams.add(stream);
+        result.streams = streams;
+        Mockito.when(ffmpegService.probe(anyString())).thenReturn(result);
+        AddInputFileInputData inputData = new AddInputFileInputData("blah");
+        AddInputFileInputBoundary interactor = new AddInputFileInteractor(ffmpegService, outputBoundary);
+        interactor.execute(inputData);
+    }
+
+    @Test
     void ioExceptionShouldPrepareFailView() throws IOException {
         AddInputFileOutputBoundary outputBoundary = new AddInputFileOutputBoundary() {
             @Override
