@@ -1,5 +1,5 @@
 # Accessibility Report
-## Principle of Universal Design
+## Principles of Universal Design
 ### Principle 1: Equitable Use
 
 1. Since all the text in the views are located in their respect view models, we can easily implement a translated version of the app.
@@ -38,7 +38,7 @@ does not need to switch tabs while using the application.
 ### Principle 7: Size and Space for Approach and Use
 
 1. The app itself is only 10MB, which is comparatively small.
-2. The window size of the app is adequate.
+2. The window size of the app is adequate. We would like to make the application responsive to different display sizes in the future.
 
 ## Marketing Strategy
 
