@@ -1,7 +1,6 @@
 package use_case.convert_video;
 
-import data_access.FFmpegService;
-import entity.CropVideoJob;
+import data_access.ConvertInterface;
 import entity.VideoJob;
 import entity.VideoJobFactory;
 import exceptions.BadFileException;
@@ -16,7 +15,7 @@ import utils.Validator;
 public class ConvertVideoFileInteractor implements ConvertVideoFileInputBoundary {
 
     private final ConvertVideoFileOutputBoundary convertVideoFileOutputBoundary;
-    private final FFmpegService ffmpegService;
+    private final ConvertInterface ffmpegService;
 
     /**
      * Given input of videoFileData, containing a path to the file to be converted, path to save location

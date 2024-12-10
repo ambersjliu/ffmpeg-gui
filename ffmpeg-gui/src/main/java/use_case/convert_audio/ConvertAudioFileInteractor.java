@@ -1,6 +1,6 @@
 package use_case.convert_audio;
 
-import data_access.FFmpegService;
+import data_access.ConvertInterface;
 import entity.AudioJob;
 import entity.AudioJobFactory;
 import exceptions.BadFileException;
@@ -14,7 +14,7 @@ import utils.Validator;
 @AllArgsConstructor
 public class ConvertAudioFileInteractor implements ConvertAudioFileInputBoundary {
     private final ConvertAudioFileOutputBoundary convertAudioFileOutputBoundary;
-    private final FFmpegService ffmpegService;
+    private final ConvertInterface ffmpegService;
 
     /**
      * Given input of AudioFileData, containing a path to the file to be converted, path to save location

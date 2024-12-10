@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import attribute.AudioAttributes;
 import attribute.VideoAttributes;
-import data_access.FFmpegService;
+import data_access.GetMediaInfoInterface;
 import exceptions.BadFileException;
 import lombok.AllArgsConstructor;
 import net.bramp.ffmpeg.probe.FFmpegFormat;
@@ -19,7 +19,7 @@ import utils.Validator;
 
 @AllArgsConstructor
 public class AddInputFileInteractor implements AddInputFileInputBoundary {
-    private final FFmpegService ffmpegService;
+    private final GetMediaInfoInterface ffmpegService;
     private final AddInputFileOutputBoundary addInputFileOutputBoundary;
 
     @Override

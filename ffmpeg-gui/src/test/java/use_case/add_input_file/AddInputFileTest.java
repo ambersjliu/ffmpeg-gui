@@ -1,7 +1,6 @@
 package use_case.add_input_file;
 
-import data_access.FFmpegService;
-
+import data_access.GetMediaInfoInterface;
 import net.bramp.ffmpeg.probe.FFmpegFormat;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import net.bramp.ffmpeg.probe.FFmpegStream;
@@ -24,7 +23,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 public class AddInputFileTest {
 
     @Mock
-    private FFmpegService ffmpegService;
+    private GetMediaInfoInterface ffmpegService;
 
     FFmpegProbeResult result;
 

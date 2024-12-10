@@ -1,9 +1,9 @@
 package use_case.convert_video;
 
+import data_access.ConvertInterface;
 import data_access.FFmpegService;
 import attribute.AudioAttributes;
 import attribute.VideoAttributes;
-import entity.VideoJob;
 import exceptions.BadFileException;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import use_case.convert_audio.ConvertAudioFileData;
 import utils.Validator;
 
 import java.io.IOException;
@@ -25,7 +24,7 @@ import static org.mockito.Mockito.mockStatic;
 public class ConvertVideoTest {
 
     @Mock
-    FFmpegService mockFFmpegService;
+    ConvertInterface mockFFmpegService;
 
     @Mock
     ConvertVideoFileOutputBoundary mockConvertVideoFileOutputBoundary;

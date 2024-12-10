@@ -1,8 +1,7 @@
 package use_case.convert_audio;
 
 import attribute.AudioAttributes;
-import data_access.FFmpegService;
-import entity.AudioJob;
+import data_access.ConvertInterface;
 
 import exceptions.BadFileException;
 
@@ -21,7 +20,7 @@ import static org.mockito.Mockito.mockStatic;
 @ExtendWith(MockitoExtension.class)
 public class ConvertAudioTest {
     @Mock
-    FFmpegService mockFFmpegService;
+    ConvertInterface mockFFmpegService;
 
     @Mock
     ConvertAudioFileOutputBoundary mockConvertAudioFileOutputBoundary;
